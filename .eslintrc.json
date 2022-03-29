@@ -1,0 +1,52 @@
+{
+    "env": {
+        "browser": true,
+        "es2021": true
+    },
+    "extends": [
+        "plugin:react/recommended",
+        "airbnb",
+        "prettier/@typescript-eslint", 
+        "plugin:prettier/recommended"
+    ],
+    "parser": "@typescript-eslint/parser",
+    "parserOptions": {
+        "ecmaFeatures": {
+            "jsx": true
+        },
+        "ecmaVersion": 12,
+        "sourceType": "module"
+    },
+    "plugins": [
+        "react",
+        "@typescript-eslint",
+        "react-hooks",
+        "prettier"
+    ],
+    "rules": {
+        "prettier/prettier": "error",
+        "no-underscore-dangle": "off",
+        "class-methods-use-this": "off",
+        "import/no-unresolved": "off",
+        "import/prefer-default-export": "off",
+        "react/jsx-one-expression-per-line": "off",
+        "no-use-before-define": "off",
+        "react/jsx-filename-extension": "off",
+        "no-useless-constructor": "off",
+        "@typescript-eslint/explicit-module-boundary-types": "off",
+        "import/extensions":"off",
+        "react/prop-types":"off",
+        "import-helpers/order-imports": [
+            "error",
+            {
+              "newlinesBetween": "always",
+              "groups": ["module", "/^@shared/", ["parent", "sibling", "index"]],
+              "alphabetize": {
+                "order": "asc",
+                "ignoreCase": true
+              }
+            }
+          ]
+
+    }
+}
