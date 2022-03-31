@@ -27,6 +27,7 @@
     "rules": {
         "prettier/prettier": "error",
         "no-undef":"off",
+        "react/react-in-jsx-scope":"off",
         "react/style-prop-object":"off",
         "no-underscore-dangle": "off",
         "class-methods-use-this": "off",
@@ -40,10 +41,10 @@
         "import/extensions":"off",
         "react/prop-types":"off",
         "import-helpers/order-imports": [
-            "error",
+            "warn",
             {
               "newlinesBetween": "always",
-              "groups": ["module", "/^@shared/", ["parent", "sibling", "index"]],
+              "groups": ["module", "/^@\//", ["parent", "sibling", "index"]],
               "alphabetize": {
                 "order": "asc",
                 "ignoreCase": true
