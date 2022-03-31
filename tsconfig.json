@@ -4,10 +4,11 @@
     "strict": true,
     "jsx": "react",
       "rootDirs": ["src", "tests"],
-      "baseUrl": "src",
+      "baseUrl": "./",
       "paths": {
-        "@/*": ["*"],
-        "@/tests/*": ["../tests/*"]
+        "@/*": ["src/*"],
+        "@main/*": ["src/main/*"],
+        "@/tests/*": ["tests/*"]
       },
   },
 }
