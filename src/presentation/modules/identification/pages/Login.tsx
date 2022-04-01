@@ -1,14 +1,67 @@
-import React from 'react';
-import { View, Text } from 'react-native';
+import React, { useState } from 'react';
+import { View, Text, Image, ScrollView } from 'react-native';
 import { useTailwind } from 'tailwind-rn';
-// import { Container } from './styles';
+
+import logoImg from '@/presentation/shared/assets/logo.png';
+import Button from '@/presentation/shared/components/form/button';
+import Input from '@/presentation/shared/components/form/input';
+import ButtonLink from '@/presentation/shared/components/form/link';
 
 const pages: React.FC = () => {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+
+  const [registerEmail, setRegisterEmail] = useState('');
+  const [registerPassword, setRegisterPassword] = useState('');
+  const [phoneNumber, setPhoneNumber] = useState('');
   const tailwind = useTailwind();
+
+  function handleLogin() {
+    console.log('login');
+  }
+  function handleRegister() {
+    console.log('register');
+  }
   return (
-    <View style={tailwind('flex flex-1  justify-center items-center ')}>
-      <Text style={tailwind('text-yellow-400 text-lg')}>Hello world</Text>
-    </View>
+    <ScrollView style={tailwind('px-6')}>
+      <View style={tailwind('justify-center items-center mt-2.5')}>
+        <Image source={logoImg} style={tailwind('w-80')} resizeMode="contain" />
+      </View>
+      <Text style={tailwind('text-lg font-semibold')}>Acessar</Text>
+      <View>
+        <Input
+          placeholder="E-mail"
+          value={email}
+          onChangeText={(text) => setEmail(text)}
+        />
+        <Input
+          placeholder="Password"
+          value={password}
+          onChangeText={(text) => setPassword(text)}
+        />
+        <Button label="Entrar" onPress={handleLogin} />
+        <ButtonLink label="Esqueci minha senha" />
+
+        <View style={tailwind('border border-gray-300 my-6 ')} />
+        <Text style={tailwind('text-lg font-semibold')}>Crie sua conta</Text>
+        <Input
+          placeholder="E-mail"
+          value={registerEmail}
+          onChangeText={(text) => setRegisterEmail(text)}
+        />
+        <Input
+          placeholder="Password"
+          value={registerPassword}
+          onChangeText={(text) => setRegisterPassword(text)}
+        />
+        <Input
+          placeholder="Telefone"
+          value={phoneNumber}
+          onChangeText={(text) => setPhoneNumber(text)}
+        />
+        <Button label="Cadastrar" type="primary" onPress={handleRegister} />
+      </View>
+    </ScrollView>
   );
 };
 
