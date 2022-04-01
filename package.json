@@ -13,7 +13,9 @@
     "flint": "npm run format && npm run lint",
     "prepare": "husky install",
     "pre-commit": "lint-staged && npm test",
-    "test": "jest --passWithNoTests --no-cache --runInBand"
+    "test": "jest --passWithNoTests --no-cache --runInBand",
+    "build:tailwind": "tailwindcss --input src/presentation/shared/styles/input.css --output tailwind.css --no-autoprefixer && tailwind-rn -i src/presentation/shared/styles/tailwind.css -o src/presentation/shared/styles/tailwind.json",
+    "dev:tailwind": "concurrently \"tailwindcss --input src/presentation/shared/styles/input.css --output src/presentation/shared/styles/tailwind.css --no-autoprefixer --watch\" \"tailwind-rn -i src/presentation/shared/styles/tailwind.css -o src/presentation/shared/styles/tailwind.json  --watch\""
   },
   "dependencies": {
     "@react-navigation/native": "^6.0.8",
@@ -25,7 +27,8 @@
     "react-native": "0.64.3",
     "react-native-safe-area-context": "3.3.2",
     "react-native-screens": "~3.10.1",
-    "react-native-web": "0.17.1"
+    "react-native-web": "0.17.1",
+    "tailwind-rn": "^4.2.0"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",
@@ -37,6 +40,7 @@
     "@typescript-eslint/eslint-plugin": "^5.17.0",
     "@typescript-eslint/parser": "^5.17.0",
     "babel-plugin-module-resolver": "^4.1.0",
+    "concurrently": "^7.0.0",
     "eslint": "^7.14.0",
     "eslint-config-airbnb": "^18.2.1",
     "eslint-config-airbnb-typescript": "^12.0.0",
@@ -52,8 +56,10 @@
     "husky": "^7.0.4",
     "jest": "^27.5.1",
     "lint-staged": "^11.0.0",
+    "postcss": "^8.4.12",
     "prettier": "^2.3.1",
     "rimraf": "^3.0.2",
+    "tailwindcss": "^3.0.23",
     "ts-jest": "^27.1.4",
     "ts-node": "^10.7.0",
     "typescript": "~4.3.5"
