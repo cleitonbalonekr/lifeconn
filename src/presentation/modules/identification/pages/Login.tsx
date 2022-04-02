@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { View, Text, Image, ScrollView } from 'react-native';
 import { useTailwind } from 'tailwind-rn';
 
@@ -7,7 +7,12 @@ import Button from '@/presentation/shared/components/form/button';
 import Input from '@/presentation/shared/components/form/input';
 import ButtonLink from '@/presentation/shared/components/form/link';
 
+import ForgotPasswordModal, {
+  ForgotPasswordModalRefProps
+} from './components/ForgotPasswordModal';
+
 const pages: React.FC = () => {
+  const forgotPasswordRef = useRef<ForgotPasswordModalRefProps>(null);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
@@ -19,11 +24,15 @@ const pages: React.FC = () => {
   function handleLogin() {
     console.log('login');
   }
+  function handleResetPassword() {
+    forgotPasswordRef.current?.handleOpenModal();
+  }
   function handleRegister() {
     console.log('register');
   }
   return (
     <ScrollView style={tailwind('px-6')}>
+      <ForgotPasswordModal ref={forgotPasswordRef} />
       <View style={tailwind('justify-center items-center mt-2.5')}>
         <Image source={logoImg} style={tailwind('w-80')} resizeMode="contain" />
       </View>
@@ -40,7 +49,7 @@ const pages: React.FC = () => {
           onChangeText={(text) => setPassword(text)}
         />
         <Button label="Entrar" onPress={handleLogin} />
-        <ButtonLink label="Esqueci minha senha" />
+        <ButtonLink label="Esqueci minha senha" onPress={handleResetPassword} />
 
         <View style={tailwind('border border-gray-300 my-6 ')} />
         <Text style={tailwind('text-lg font-semibold')}>Crie sua conta</Text>
