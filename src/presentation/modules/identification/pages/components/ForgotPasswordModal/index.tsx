@@ -1,10 +1,12 @@
 /* eslint-disable no-unused-vars */
 import React, { forwardRef, useImperativeHandle, useState } from 'react';
-import { Modal, Text, TouchableOpacity, Pressable, View } from 'react-native';
+import { Modal, Text, Pressable, View } from 'react-native';
+import Toast from 'react-native-toast-message';
 import { useTailwind } from 'tailwind-rn';
 
 import Button from '@/presentation/shared/components/form/button';
 import Input from '@/presentation/shared/components/form/input';
+import useFeedbackMessage from '@/presentation/shared/hooks/useFeedbackMessage';
 
 export interface ForgotPasswordModalRefProps {
   handleOpenModal(): void;
@@ -15,6 +17,7 @@ const ForgotPasswordModal: React.ForwardRefRenderFunction<
   ForgotPasswordModalRefProps
 > = (_, ref) => {
   const tailwind = useTailwind();
+  const { showSuccess } = useFeedbackMessage();
   const [visible, setVisible] = useState(false);
   const [email, setEmail] = useState('');
 
@@ -33,7 +36,10 @@ const ForgotPasswordModal: React.ForwardRefRenderFunction<
   };
 
   function resetPassword() {
-    console.log('resetPassword', email);
+    showSuccess({
+      description: 'Email enviado!'
+    });
+    handleCloseModal();
   }
 
   return (
