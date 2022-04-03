@@ -45,18 +45,6 @@
   display: flex
 }
 
-.h-3\/5 {
-  height: 60%
-}
-
-.h-2\/5 {
-  height: 40%
-}
-
-.h-2\/4 {
-  height: 50%
-}
-
 .h-56 {
   height: 14rem
 }
@@ -142,10 +130,6 @@
 
 .p-6 {
   padding: 1.5rem
-}
-
-.p-12 {
-  padding: 3rem
 }
 
 .px-6 {

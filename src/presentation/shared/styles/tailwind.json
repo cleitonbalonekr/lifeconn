@@ -60,21 +60,6 @@
 			"display": "flex"
 		}
 	},
-	"h-3/5": {
-		"style": {
-			"height": "60%"
-		}
-	},
-	"h-2/5": {
-		"style": {
-			"height": "40%"
-		}
-	},
-	"h-2/4": {
-		"style": {
-			"height": "50%"
-		}
-	},
 	"h-56": {
 		"style": {
 			"height": 224
@@ -203,14 +188,6 @@
 			"paddingRight": 24,
 			"paddingBottom": 24,
 			"paddingLeft": 24
-		}
-	},
-	"p-12": {
-		"style": {
-			"paddingTop": 48,
-			"paddingRight": 48,
-			"paddingBottom": 48,
-			"paddingLeft": 48
 		}
 	},
 	"px-6": {
