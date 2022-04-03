@@ -1,3 +1,4 @@
+import Icon from '@expo/vector-icons/Feather';
 import React, { useRef, useState } from 'react';
 import { View, Text, Image, ScrollView } from 'react-native';
 import { useTailwind } from 'tailwind-rn';
@@ -48,7 +49,9 @@ const pages: React.FC = () => {
           value={password}
           onChangeText={(text) => setPassword(text)}
         />
-        <Button label="Entrar" onPress={handleLogin} />
+        <Button label="Entrar" onPress={handleLogin}>
+          <Icon name="log-in" size={20} color="white" />
+        </Button>
         <ButtonLink label="Esqueci minha senha" onPress={handleResetPassword} />
 
         <View style={tailwind('border border-gray-300 my-6 ')} />
@@ -68,7 +71,9 @@ const pages: React.FC = () => {
           value={phoneNumber}
           onChangeText={(text) => setPhoneNumber(text)}
         />
-        <Button label="Cadastrar" type="primary" onPress={handleRegister} />
+        <Button label="Cadastrar" type="primary" onPress={handleRegister}>
+          <Icon name="user-plus" size={20} color="white" />
+        </Button>
       </View>
     </ScrollView>
   );

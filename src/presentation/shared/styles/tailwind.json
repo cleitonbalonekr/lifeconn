@@ -113,6 +113,14 @@
 			"borderBottomLeftRadius": 6
 		}
 	},
+	"rounded-lg": {
+		"style": {
+			"borderTopLeftRadius": 8,
+			"borderTopRightRadius": 8,
+			"borderBottomRightRadius": 8,
+			"borderBottomLeftRadius": 8
+		}
+	},
 	"border": {
 		"style": {
 			"borderTopWidth": 1,
