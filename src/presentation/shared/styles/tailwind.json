@@ -55,36 +55,6 @@
 			"marginBottom": 12
 		}
 	},
-	"mt-20": {
-		"style": {
-			"marginTop": 80
-		}
-	},
-	"mt-16": {
-		"style": {
-			"marginTop": 64
-		}
-	},
-	"mt-6": {
-		"style": {
-			"marginTop": 24
-		}
-	},
-	"ml-8": {
-		"style": {
-			"marginLeft": 32
-		}
-	},
-	"mr-3.5": {
-		"style": {
-			"marginRight": 14
-		}
-	},
-	"mr-3": {
-		"style": {
-			"marginRight": 12
-		}
-	},
 	"flex": {
 		"style": {
 			"display": "flex"
@@ -95,16 +65,6 @@
 			"height": 224
 		}
 	},
-	"h-6": {
-		"style": {
-			"height": 24
-		}
-	},
-	"h-12": {
-		"style": {
-			"height": 48
-		}
-	},
 	"w-80": {
 		"style": {
 			"width": 320
@@ -113,16 +73,6 @@
 	"w-4/5": {
 		"style": {
 			"width": "80%"
-		}
-	},
-	"w-6": {
-		"style": {
-			"width": 24
-		}
-	},
-	"w-12": {
-		"style": {
-			"width": 48
 		}
 	},
 	"flex-1": {
@@ -147,16 +97,6 @@
 			"justifyContent": "center"
 		}
 	},
-	"justify-between": {
-		"style": {
-			"justifyContent": "space-between"
-		}
-	},
-	"justify-around": {
-		"style": {
-			"justifyContent": "space-around"
-		}
-	},
 	"rounded": {
 		"style": {
 			"borderTopLeftRadius": 4,
@@ -171,22 +111,6 @@
 			"borderTopRightRadius": 6,
 			"borderBottomRightRadius": 6,
 			"borderBottomLeftRadius": 6
-		}
-	},
-	"rounded-lg": {
-		"style": {
-			"borderTopLeftRadius": 8,
-			"borderTopRightRadius": 8,
-			"borderBottomRightRadius": 8,
-			"borderBottomLeftRadius": 8
-		}
-	},
-	"rounded-full": {
-		"style": {
-			"borderTopLeftRadius": 9999,
-			"borderTopRightRadius": 9999,
-			"borderBottomRightRadius": 9999,
-			"borderBottomLeftRadius": 9999
 		}
 	},
 	"border": {
@@ -240,24 +164,6 @@
 		"style": {
 			"--tw-bg-opacity": 1,
 			"backgroundColor": "rgb(255 255 255 / var(--tw-bg-opacity))"
-		}
-	},
-	"bg-green-800": {
-		"style": {
-			"--tw-bg-opacity": 1,
-			"backgroundColor": "rgb(22 101 52 / var(--tw-bg-opacity))"
-		}
-	},
-	"bg-green-400": {
-		"style": {
-			"--tw-bg-opacity": 1,
-			"backgroundColor": "rgb(74 222 128 / var(--tw-bg-opacity))"
-		}
-	},
-	"bg-green-600": {
-		"style": {
-			"--tw-bg-opacity": 1,
-			"backgroundColor": "rgb(22 163 74 / var(--tw-bg-opacity))"
 		}
 	},
 	"p-3": {
