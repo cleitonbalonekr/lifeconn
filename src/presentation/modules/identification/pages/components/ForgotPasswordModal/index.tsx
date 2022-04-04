@@ -4,22 +4,31 @@ import { Modal, Text, Pressable, View } from 'react-native';
 import Toast from 'react-native-toast-message';
 import { useTailwind } from 'tailwind-rn';
 
+import { Validation } from '@/presentation/protocols';
 import Button from '@/presentation/shared/components/form/button';
 import Input from '@/presentation/shared/components/form/input';
 import useFeedbackMessage from '@/presentation/shared/hooks/useFeedbackMessage';
+import useInputState from '@/presentation/shared/hooks/useInputState';
 
 export interface ForgotPasswordModalRefProps {
   handleOpenModal(): void;
   handleCloseModal(): void;
 }
 
+interface Props {
+  validation: Validation;
+}
+
 const ForgotPasswordModal: React.ForwardRefRenderFunction<
-  ForgotPasswordModalRefProps
-> = (_, ref) => {
+  ForgotPasswordModalRefProps,
+  Props
+> = ({ validation }, ref) => {
   const tailwind = useTailwind();
   const { showSuccess } = useFeedbackMessage();
   const [visible, setVisible] = useState(false);
-  const [email, setEmail] = useState('');
+  const email = useInputState({
+    name: 'email'
+  });
 
   useImperativeHandle(ref, () => {
     return {
@@ -35,11 +44,19 @@ const ForgotPasswordModal: React.ForwardRefRenderFunction<
     setVisible(true);
   };
 
-  function resetPassword() {
-    showSuccess({
-      description: 'Email enviado!'
+  async function resetPassword() {
+    const { valid, errors } = await validation.validateForm({
+      email: email.value
     });
-    handleCloseModal();
+
+    if (!valid && errors) {
+      email.setError(errors);
+    } else {
+      showSuccess({
+        description: 'Email enviado!'
+      });
+      handleCloseModal();
+    }
   }
 
   return (
@@ -50,7 +67,7 @@ const ForgotPasswordModal: React.ForwardRefRenderFunction<
       >
         <View
           style={tailwind(
-            'justify-center m-6 bg-white rounded-md p-6 w-4/5 h-56 '
+            'justify-center m-6 bg-white rounded-md p-6 w-4/5 h-64 '
           )}
         >
           <Text style={tailwind('font-bold text-lg mb-3 text-center')}>
@@ -61,8 +78,9 @@ const ForgotPasswordModal: React.ForwardRefRenderFunction<
           </Text>
           <Input
             placeholder="seuemail@example.com"
-            value={email}
-            onChangeText={(text) => setEmail(text)}
+            value={email.value}
+            onChangeText={email.set}
+            error={email.error}
           />
           <Button label="Recuperar senha" onPress={resetPassword} />
         </View>

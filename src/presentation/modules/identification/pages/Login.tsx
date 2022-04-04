@@ -70,7 +70,7 @@ const Login: React.FC<Props> = ({ validation }) => {
       style={tailwind('px-6 ')}
       contentContainerStyle={tailwind(' pb-6')}
     >
-      <ForgotPasswordModal ref={forgotPasswordRef} />
+      <ForgotPasswordModal ref={forgotPasswordRef} validation={validation} />
       <View style={tailwind('justify-center items-center mt-2.5')}>
         <Image source={logoImg} style={tailwind('w-80')} resizeMode="contain" />
       </View>

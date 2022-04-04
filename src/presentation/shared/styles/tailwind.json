@@ -76,6 +76,16 @@
 			"height": 224
 		}
 	},
+	"h-60": {
+		"style": {
+			"height": 240
+		}
+	},
+	"h-64": {
+		"style": {
+			"height": 256
+		}
+	},
 	"w-80": {
 		"style": {
 			"width": 320
