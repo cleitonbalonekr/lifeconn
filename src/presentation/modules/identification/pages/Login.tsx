@@ -8,6 +8,7 @@ import logoImg from '@/presentation/shared/assets/logo.png';
 import Button from '@/presentation/shared/components/form/button';
 import Input from '@/presentation/shared/components/form/input';
 import ButtonLink from '@/presentation/shared/components/form/link';
+import { useAuth } from '@/presentation/shared/context/auth';
 import useInputState from '@/presentation/shared/hooks/useInputState';
 
 import ForgotPasswordModal, {
@@ -19,6 +20,8 @@ type Props = {
 };
 
 const Login: React.FC<Props> = ({ validation }) => {
+  const tailwind = useTailwind();
+  const { signIn } = useAuth();
   const forgotPasswordRef = useRef<ForgotPasswordModalRefProps>(null);
   const email = useInputState({
     name: 'email'
@@ -36,8 +39,6 @@ const Login: React.FC<Props> = ({ validation }) => {
     name: 'phoneNumber'
   });
 
-  const tailwind = useTailwind();
-
   async function handleLogin() {
     const validate = await validation.validateForm({
       email: email.value,
@@ -47,6 +48,8 @@ const Login: React.FC<Props> = ({ validation }) => {
     if (!valid && errors) {
       email.setError(errors);
       password.setError(errors);
+    } else {
+      signIn();
     }
   }
   function handleResetPassword() {

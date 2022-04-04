@@ -1,8 +1,11 @@
 import React from 'react';
 
-// import { AppRoutes } from './App.routes';
+import { useAuth } from '@/presentation/shared/context/auth';
+
+import { AppRoutes } from './App.routes';
 import { AuthRoutes } from './Auth.routes';
 
 export default function Routes() {
-  return <AuthRoutes />;
+  const { signed } = useAuth();
+  return signed ? <AppRoutes /> : <AuthRoutes />;
 }
