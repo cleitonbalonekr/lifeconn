@@ -1,38 +1,75 @@
 import Icon from '@expo/vector-icons/Feather';
-import React, { useRef, useState } from 'react';
+import React, { useRef } from 'react';
 import { View, Text, Image, ScrollView } from 'react-native';
 import { useTailwind } from 'tailwind-rn';
 
+import { Validation } from '@/presentation/protocols';
 import logoImg from '@/presentation/shared/assets/logo.png';
 import Button from '@/presentation/shared/components/form/button';
 import Input from '@/presentation/shared/components/form/input';
 import ButtonLink from '@/presentation/shared/components/form/link';
+import useInputState from '@/presentation/shared/hooks/useInputState';
 
 import ForgotPasswordModal, {
   ForgotPasswordModalRefProps
 } from './components/ForgotPasswordModal';
 
-const pages: React.FC = () => {
-  const forgotPasswordRef = useRef<ForgotPasswordModalRefProps>(null);
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+type Props = {
+  validation: Validation;
+};
 
-  const [registerEmail, setRegisterEmail] = useState('');
-  const [registerPassword, setRegisterPassword] = useState('');
-  const [phoneNumber, setPhoneNumber] = useState('');
+const Login: React.FC<Props> = ({ validation }) => {
+  const forgotPasswordRef = useRef<ForgotPasswordModalRefProps>(null);
+  const email = useInputState({
+    name: 'email'
+  });
+  const password = useInputState({
+    name: 'password'
+  });
+  const registerEmail = useInputState({
+    name: 'email'
+  });
+  const registerPassword = useInputState({
+    name: 'password'
+  });
+  const phoneNumber = useInputState({
+    name: 'phoneNumber'
+  });
+
   const tailwind = useTailwind();
 
-  function handleLogin() {
-    console.log('login');
+  async function handleLogin() {
+    const validate = await validation.validateForm({
+      email: email.value,
+      password: password.value
+    });
+    const { valid, errors } = validate;
+    if (!valid && errors) {
+      email.setError(errors);
+      password.setError(errors);
+    }
   }
   function handleResetPassword() {
     forgotPasswordRef.current?.handleOpenModal();
   }
-  function handleRegister() {
-    console.log('register');
+  async function handleRegister() {
+    const validate = await validation.validateForm({
+      email: registerEmail.value,
+      password: registerPassword.value,
+      phoneNumber: phoneNumber.value
+    });
+    const { valid, errors } = validate;
+    if (!valid && errors) {
+      registerEmail.setError(errors);
+      registerPassword.setError(errors);
+      phoneNumber.setError(errors);
+    }
   }
   return (
-    <ScrollView style={tailwind('px-6')}>
+    <ScrollView
+      style={tailwind('px-6 ')}
+      contentContainerStyle={tailwind(' pb-6')}
+    >
       <ForgotPasswordModal ref={forgotPasswordRef} />
       <View style={tailwind('justify-center items-center mt-2.5')}>
         <Image source={logoImg} style={tailwind('w-80')} resizeMode="contain" />
@@ -41,13 +78,15 @@ const pages: React.FC = () => {
       <View>
         <Input
           placeholder="E-mail"
-          value={email}
-          onChangeText={(text) => setEmail(text)}
+          value={email.value}
+          onChangeText={email.set}
+          error={email.error}
         />
         <Input
-          placeholder="Password"
-          value={password}
-          onChangeText={(text) => setPassword(text)}
+          placeholder="Senha"
+          value={password.value}
+          onChangeText={password.set}
+          error={password.error}
         />
         <Button label="Entrar" onPress={handleLogin}>
           <Icon name="log-in" size={20} color="white" />
@@ -58,18 +97,21 @@ const pages: React.FC = () => {
         <Text style={tailwind('text-lg font-semibold')}>Crie sua conta</Text>
         <Input
           placeholder="E-mail"
-          value={registerEmail}
-          onChangeText={(text) => setRegisterEmail(text)}
+          value={registerEmail.value}
+          onChangeText={registerEmail.set}
+          error={registerEmail.error}
         />
         <Input
-          placeholder="Password"
-          value={registerPassword}
-          onChangeText={(text) => setRegisterPassword(text)}
+          placeholder="Senha"
+          value={registerPassword.value}
+          onChangeText={registerPassword.set}
+          error={registerPassword.error}
         />
         <Input
           placeholder="Telefone"
-          value={phoneNumber}
-          onChangeText={(text) => setPhoneNumber(text)}
+          value={phoneNumber.value}
+          onChangeText={phoneNumber.set}
+          error={phoneNumber.error}
         />
         <Button label="Cadastrar" type="primary" onPress={handleRegister}>
           <Icon name="user-plus" size={20} color="white" />
@@ -79,4 +121,4 @@ const pages: React.FC = () => {
   );
 };
 
-export default pages;
+export default Login;

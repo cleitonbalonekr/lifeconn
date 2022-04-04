@@ -38,7 +38,7 @@ const Button: React.FC<Props> = ({
   return (
     <TouchableOpacity
       style={tailwind(
-        `flex flex-row p-3 items-center justify-center ${getButtonColorByType()} rounded`
+        `flex flex-row p-3 py-4 items-center justify-center ${getButtonColorByType()} rounded-lg`
       )}
       {...rest}
     >
