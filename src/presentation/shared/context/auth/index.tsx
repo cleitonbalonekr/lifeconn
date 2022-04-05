@@ -8,7 +8,7 @@ export interface AuthContextData {
 const AuthContext = createContext<AuthContextData>({} as AuthContextData);
 
 export const AuthProvider: React.FC = ({ children }) => {
-  const [signed, setSigned] = useState(false);
+  const [signed, setSigned] = useState(true);
 
   async function signIn() {
     try {

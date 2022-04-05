@@ -11,7 +11,7 @@ import utilities from '@/presentation/shared/styles/tailwind.json';
 export default function App() {
   return (
     <>
-      <StatusBar />
+      <StatusBar translucent />
       <NavigationContainer>
         <TailwindProvider utilities={utilities}>
           <AuthProvider>
