@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-curly-newline */
 import { FontAwesome5 } from '@expo/vector-icons';
 import React from 'react';
 import { FlatList, Text, TouchableOpacity, View } from 'react-native';
@@ -17,7 +18,8 @@ const OPTIONS_LIST = [
     id: '2',
     icon: '',
     label: '',
-    navigateTo: ''
+    navigateTo: '',
+    hidden: true
   },
   {
     id: '3',
@@ -50,6 +52,7 @@ const Home: React.FC = () => {
   // const navigation = useNavigation();
   // eslint-disable-next-line no-unused-vars
   function handleNavigateTo(navigateTo: string) {
+    console.log('hehe boy');
     // navigation.navigate(navigateTo);
   }
   return (
@@ -69,7 +72,9 @@ const Home: React.FC = () => {
               style={tailwind(
                 'px-2 py-3 mx-2 w-24   items-center justify-center'
               )}
-              onPress={() => handleNavigateTo(item.navigateTo)}
+              onPress={() =>
+                !item.hidden ? handleNavigateTo(item.navigateTo) : {}
+              }
             >
               <FontAwesome5
                 name={item.icon}
@@ -81,7 +86,7 @@ const Home: React.FC = () => {
           )}
         />
         <Text style={tailwind(' font-semibold text-center text-lg')}>
-          V1.0-beta
+          v1.0-beta
         </Text>
       </View>
     </View>
