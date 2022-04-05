@@ -1,17 +1,88 @@
-import { Octicons } from '@expo/vector-icons';
+import { FontAwesome5 } from '@expo/vector-icons';
 import React from 'react';
-import { View } from 'react-native';
+import { FlatList, Text, TouchableOpacity, View } from 'react-native';
 import { useTailwind } from 'tailwind-rn';
 
 import Header from '../components/Header';
+import HelpButton from '../components/HelpButton';
+
+const OPTIONS_LIST = [
+  {
+    id: '1',
+    icon: 'cog',
+    label: 'Config',
+    navigateTo: 'Settings'
+  },
+  {
+    id: '2',
+    icon: '',
+    label: '',
+    navigateTo: ''
+  },
+  {
+    id: '3',
+    icon: 'bell',
+    label: 'Notificações',
+    navigateTo: 'Notifications'
+  },
+  {
+    id: '4',
+    icon: 'book-open',
+    label: 'Guia',
+    navigateTo: 'Guide'
+  },
+  {
+    id: '5',
+    icon: 'hand-holding-heart',
+    label: 'Nos ajude',
+    navigateTo: 'HelpUs'
+  },
+  {
+    id: '6',
+    icon: 'address-book',
+    label: 'Contatos',
+    navigateTo: 'Contacts'
+  }
+];
 
 const Home: React.FC = () => {
   const tailwind = useTailwind();
+  // const navigation = useNavigation();
+  // eslint-disable-next-line no-unused-vars
+  function handleNavigateTo(navigateTo: string) {
+    // navigation.navigate(navigateTo);
+  }
   return (
     <View style={tailwind('flex-1 p-6')}>
       <Header />
-      <View style={tailwind('mt-6 items-center justify-center')}>
-        <Octicons name="heart" size={250} style={tailwind('text-red-700 ')} />
+      <HelpButton />
+      <View style={tailwind('mt-2 flex-1')}>
+        <View style={tailwind('border border-gray-300 my-4 ')} />
+        <Text style={tailwind('font-bold text-center')}>Menu</Text>
+        <FlatList
+          numColumns={3}
+          contentContainerStyle={tailwind('justify-center ')}
+          data={OPTIONS_LIST}
+          keyExtractor={(item) => item.id}
+          renderItem={({ item }) => (
+            <TouchableOpacity
+              style={tailwind(
+                'px-2 py-3 mx-2 w-24   items-center justify-center'
+              )}
+              onPress={() => handleNavigateTo(item.navigateTo)}
+            >
+              <FontAwesome5
+                name={item.icon}
+                size={45}
+                style={tailwind('text-zinc-600')}
+              />
+              <Text style={tailwind('mt-1 text-center')}>{item.label}</Text>
+            </TouchableOpacity>
+          )}
+        />
+        <Text style={tailwind(' font-semibold text-center text-lg')}>
+          V1.0-beta
+        </Text>
       </View>
     </View>
   );
