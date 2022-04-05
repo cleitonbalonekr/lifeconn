@@ -1,12 +1,25 @@
 import { Ionicons } from '@expo/vector-icons';
+import { useNavigation } from '@react-navigation/native';
 import React from 'react';
 import { Text, View } from 'react-native';
 import { useTailwind } from 'tailwind-rn/dist';
 
 import HeaderIconNavigator from './HeaderIconNavigator';
 
-const Header: React.FC = () => {
+interface Props {
+  from?: 'home' | 'help';
+}
+
+const Header: React.FC<Props> = ({ from = 'home' }) => {
   const tailwind = useTailwind();
+  const navigation = useNavigation();
+
+  function handleNavigationToHome() {
+    navigation.navigate('Home');
+  }
+  function handleNavigationToHelpSomeoneElse() {
+    navigation.navigate('HelpSomeoneElse');
+  }
   return (
     <View style={tailwind('mt-12 mb-4 flex-row items-center justify-between ')}>
       <View style={tailwind('items-center justify-center')}>
@@ -25,8 +38,18 @@ const Header: React.FC = () => {
         </Text>
       </View>
       <View style={tailwind('flex-row ')}>
-        <HeaderIconNavigator label="Para mim" icon="heart" />
-        <HeaderIconNavigator label="Para outro" icon="pulse" active={false} />
+        <HeaderIconNavigator
+          label="Para mim"
+          icon="heart"
+          active={from === 'home'}
+          onPress={handleNavigationToHome}
+        />
+        <HeaderIconNavigator
+          label="Para outro"
+          icon="pulse"
+          active={from !== 'home'}
+          onPress={handleNavigationToHelpSomeoneElse}
+        />
       </View>
     </View>
   );
