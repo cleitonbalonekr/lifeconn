@@ -1,5 +1,6 @@
 /* eslint-disable react/jsx-curly-newline */
 import { FontAwesome5 } from '@expo/vector-icons';
+import { useNavigation } from '@react-navigation/native';
 import React from 'react';
 import { FlatList, Text, TouchableOpacity, View } from 'react-native';
 import { useTailwind } from 'tailwind-rn';
@@ -49,12 +50,13 @@ const OPTIONS_LIST = [
   }
 ];
 
+type Routes = 'Settings';
+
 const Home: React.FC = () => {
   const tailwind = useTailwind();
-  // const navigation = useNavigation();
-  // eslint-disable-next-line no-unused-vars
-  function handleNavigateTo(navigateTo: string) {
-    // navigation.navigate(navigateTo);
+  const navigation = useNavigation();
+  function handleNavigateTo(navigateTo: Routes) {
+    navigation.navigate(navigateTo);
   }
   return (
     <Container>
@@ -75,7 +77,7 @@ const Home: React.FC = () => {
                 'px-2 py-3 mx-2 w-24   items-center justify-center'
               )}
               onPress={() =>
-                !item.hidden ? handleNavigateTo(item.navigateTo) : {}
+                !item.hidden ? handleNavigateTo(item.navigateTo as Routes) : {}
               }
             >
               <FontAwesome5
