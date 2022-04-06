@@ -1,7 +1,12 @@
 /* eslint-disable no-unused-expressions */
 import { Ionicons } from '@expo/vector-icons';
 import React from 'react';
-import { TouchableOpacity, Text, TouchableOpacityProps } from 'react-native';
+import {
+  TouchableOpacity,
+  Text,
+  TouchableOpacityProps,
+  View
+} from 'react-native';
 import { useTailwind } from 'tailwind-rn';
 
 interface Props extends TouchableOpacityProps {
@@ -26,6 +31,9 @@ const HeaderIconNavigator: React.FC<Props> = ({
       {children}
       <Ionicons name={icon} size={56} style={tailwind(applyIconStyle())} />
       <Text style={tailwind('w-14 text-center text-xs')}>{label}</Text>
+      {active && (
+        <View style={tailwind('border w-full border-red-700 my-1.5 ')} />
+      )}
     </TouchableOpacity>
   );
 };
