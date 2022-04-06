@@ -70,7 +70,7 @@ const Login: React.FC<Props> = ({ validation }) => {
   }
   return (
     <ScrollView
-      style={tailwind('px-6 ')}
+      style={tailwind('px-6 bg-slate-100')}
       contentContainerStyle={tailwind(' pb-6')}
     >
       <ForgotPasswordModal ref={forgotPasswordRef} validation={validation} />

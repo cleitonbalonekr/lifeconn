@@ -3,6 +3,7 @@ import { Text, View } from 'react-native';
 import { useTailwind } from 'tailwind-rn/dist';
 
 import { Validation } from '@/presentation/protocols';
+import Container from '@/presentation/shared/components/Container';
 import Input from '@/presentation/shared/components/form/input';
 import useInputState from '@/presentation/shared/hooks/useInputState';
 
@@ -29,7 +30,7 @@ const HelpSomeoneElse: React.FC<Props> = () => {
     };
   }
   return (
-    <View style={tailwind('flex-1 p-6')}>
+    <Container>
       <Header from="help" />
       <View style={tailwind('flex-1 mt-3 ')}>
         <Text style={tailwind('mb-2 text-center text-lg text-yellow-700')}>
@@ -52,7 +53,7 @@ const HelpSomeoneElse: React.FC<Props> = () => {
         />
       </View>
       <HelpButton onPress={handleRequireHelp} />
-    </View>
+    </Container>
   );
 };
 

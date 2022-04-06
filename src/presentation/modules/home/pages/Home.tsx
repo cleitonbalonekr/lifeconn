@@ -4,6 +4,8 @@ import React from 'react';
 import { FlatList, Text, TouchableOpacity, View } from 'react-native';
 import { useTailwind } from 'tailwind-rn';
 
+import Container from '@/presentation/shared/components/Container';
+
 import Header from '../components/Header';
 import HelpButton from '../components/HelpButton';
 
@@ -52,11 +54,10 @@ const Home: React.FC = () => {
   // const navigation = useNavigation();
   // eslint-disable-next-line no-unused-vars
   function handleNavigateTo(navigateTo: string) {
-    console.log('hehe boy');
     // navigation.navigate(navigateTo);
   }
   return (
-    <View style={tailwind('flex-1 p-6')}>
+    <Container>
       <Header />
       <HelpButton />
       <View style={tailwind('mt-2 flex-1')}>
@@ -65,6 +66,7 @@ const Home: React.FC = () => {
         <FlatList
           numColumns={3}
           contentContainerStyle={tailwind('justify-center ')}
+          showsVerticalScrollIndicator={false}
           data={OPTIONS_LIST}
           keyExtractor={(item) => item.id}
           renderItem={({ item }) => (
@@ -89,7 +91,7 @@ const Home: React.FC = () => {
           v1.0-beta
         </Text>
       </View>
-    </View>
+    </Container>
   );
 };
 
