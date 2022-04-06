@@ -1,12 +1,15 @@
 /* eslint-disable no-unused-vars */
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import React from 'react';
+import { useTailwind } from 'tailwind-rn/dist';
 
 import { MakeHome, MakeHelpSomeoneElse } from '@/main/factories/pages/home';
+import { MakeSettings } from '@/main/factories/pages/settings';
 
-type AppStackParamList = {
+export type AppStackParamList = {
   Home: undefined;
   HelpSomeoneElse: undefined;
+  Settings: undefined;
 };
 
 declare global {
@@ -18,8 +21,13 @@ declare global {
 const Stack = createNativeStackNavigator<AppStackParamList>();
 
 export function AppRoutes() {
+  const tailwind = useTailwind();
   return (
-    <Stack.Navigator>
+    <Stack.Navigator
+      screenOptions={{
+        headerStyle: tailwind('bg-red-500')
+      }}
+    >
       <Stack.Screen
         options={{
           headerShown: false
@@ -33,6 +41,14 @@ export function AppRoutes() {
         }}
         name="HelpSomeoneElse"
         component={MakeHelpSomeoneElse}
+      />
+      <Stack.Screen
+        options={{
+          headerShown: true,
+          title: 'Configurações'
+        }}
+        name="Settings"
+        component={MakeSettings}
       />
     </Stack.Navigator>
   );
