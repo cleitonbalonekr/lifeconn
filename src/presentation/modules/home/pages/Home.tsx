@@ -89,9 +89,6 @@ const Home: React.FC = () => {
             </TouchableOpacity>
           )}
         />
-        <Text style={tailwind(' font-semibold text-center text-lg')}>
-          v1.0-beta
-        </Text>
       </View>
     </Container>
   );

@@ -1,6 +1,6 @@
 import { Ionicons } from '@expo/vector-icons';
 import React from 'react';
-import { ScrollView, Switch, Text, View } from 'react-native';
+import { Switch, Text, View } from 'react-native';
 import { useTailwind } from 'tailwind-rn/dist';
 
 import { Validation } from '@/presentation/protocols';
@@ -62,65 +62,68 @@ const Settings: React.FC<Props> = ({ validation }) => {
   }
 
   return (
-    <ScrollView>
-      <Container>
-        <View>
-          <Text style={tailwind('text-lg font-bold')}>Meus dados</Text>
-          <Input
-            placeholder="Seu nome completo"
-            label="Nome"
-            value={fullName.value}
-            onChangeText={fullName.set}
-            error={fullName.error}
+    <Container scroll>
+      <View>
+        <Text style={tailwind('text-lg font-bold')}>Meus dados</Text>
+        <Input
+          placeholder="Seu nome completo"
+          label="Nome"
+          value={fullName.value}
+          onChangeText={fullName.set}
+          error={fullName.error}
+        />
+        <Input
+          placeholder="example@gmail.com"
+          label="Email"
+          value={email.value}
+          onChangeText={email.set}
+          error={email.error}
+        />
+        <Input
+          placeholder="xxxxxxx"
+          label="Telefone"
+          value={phoneNumber.value}
+          onChangeText={phoneNumber.set}
+          error={phoneNumber.error}
+        />
+        <Input
+          placeholder="Seu token TotalVoice"
+          label="Token"
+          value={totalVoiceToken.value}
+          onChangeText={totalVoiceToken.set}
+          error={totalVoiceToken.error}
+        />
+        <View style={tailwind('flex-row justify-start items-center mb-2')}>
+          <Switch
+            value={activeByAccelerometer.value}
+            onValueChange={activeByAccelerometer.set}
+            style={tailwind(' mr-2')}
           />
-          <Input
-            placeholder="example@gmail.com"
-            label="Email"
-            value={email.value}
-            onChangeText={email.set}
-            error={email.error}
-          />
-          <Input
-            placeholder="xxxxxxx"
-            label="Telefone"
-            value={phoneNumber.value}
-            onChangeText={phoneNumber.set}
-            error={phoneNumber.error}
-          />
-          <Input
-            placeholder="Seu token TotalVoice"
-            label="Token"
-            value={totalVoiceToken.value}
-            onChangeText={totalVoiceToken.set}
-            error={totalVoiceToken.error}
-          />
-          <View style={tailwind('flex-row justify-start items-center mb-2')}>
-            <Switch
-              value={activeByAccelerometer.value}
-              onValueChange={activeByAccelerometer.set}
-              style={tailwind(' mr-2')}
-            />
-            <Text style={tailwind('text-lg')}>Ativação por impacto</Text>
-          </View>
-          <Button label="Salvar" onPress={updateUserData}>
-            <Ionicons
-              name="save-outline"
-              size={20}
-              style={tailwind('text-white')}
-            />
-          </Button>
+          <Text style={tailwind('text-lg')}>Ativação por impacto</Text>
         </View>
-        <View style={tailwind('mt-5 items-start')}>
-          <Button label="Sair" type="danger" onPress={signOut}>
-            <Ionicons
-              name="log-out-outline"
-              size={20}
-              style={tailwind('text-white')}
-            />
-          </Button>
-        </View>
-      </Container>
-    </ScrollView>
+        <Button label="Salvar" onPress={updateUserData}>
+          <Ionicons
+            name="save-outline"
+            size={20}
+            style={tailwind('text-white')}
+          />
+        </Button>
+      </View>
+      <View style={tailwind('mt-5 items-start')}>
+        <Button label="Sair" type="danger" onPress={signOut}>
+          <Ionicons
+            name="log-out-outline"
+            size={20}
+            style={tailwind('text-white')}
+          />
+        </Button>
+      </View>
+      <View style={tailwind('flex-1 justify-end ')}>
+        <Text style={tailwind(' font-semibold text-center text-lg')}>
+          v1.0-beta
+        </Text>
+      </View>
+    </Container>
   );
 };
 
