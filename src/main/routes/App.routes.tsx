@@ -25,7 +25,7 @@ export function AppRoutes() {
   return (
     <Stack.Navigator
       screenOptions={{
-        headerStyle: tailwind('bg-red-500')
+        headerStyle: tailwind('bg-red-400')
       }}
     >
       <Stack.Screen
