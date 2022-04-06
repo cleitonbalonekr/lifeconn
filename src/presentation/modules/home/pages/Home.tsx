@@ -50,7 +50,7 @@ const OPTIONS_LIST = [
   }
 ];
 
-type Routes = 'Settings';
+type Routes = 'Settings' | 'Notifications';
 
 const Home: React.FC = () => {
   const tailwind = useTailwind();
