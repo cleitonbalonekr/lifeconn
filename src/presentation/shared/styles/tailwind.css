@@ -210,14 +210,14 @@
   border-bottom-width: 1px
 }
 
-.border-red-700 {
-  --tw-border-opacity: 1;
-  border-color: rgb(185 28 28 / var(--tw-border-opacity))
-}
-
 .border-gray-300 {
   --tw-border-opacity: 1;
   border-color: rgb(209 213 219 / var(--tw-border-opacity))
+}
+
+.border-red-700 {
+  --tw-border-opacity: 1;
+  border-color: rgb(185 28 28 / var(--tw-border-opacity))
 }
 
 .bg-red-400 {
@@ -228,6 +228,11 @@
 .bg-slate-100 {
   --tw-bg-opacity: 1;
   background-color: rgb(241 245 249 / var(--tw-bg-opacity))
+}
+
+.bg-slate-300 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(203 213 225 / var(--tw-bg-opacity))
 }
 
 .bg-green-600 {
@@ -260,11 +265,6 @@
   background-color: rgb(229 231 235 / var(--tw-bg-opacity))
 }
 
-.bg-slate-300 {
-  --tw-bg-opacity: 1;
-  background-color: rgb(203 213 225 / var(--tw-bg-opacity))
-}
-
 .bg-white {
   --tw-bg-opacity: 1;
   background-color: rgb(255 255 255 / var(--tw-bg-opacity))
@@ -272,6 +272,10 @@
 
 .p-5 {
   padding: 1.25rem
+}
+
+.p-2 {
+  padding: 0.5rem
 }
 
 .p-4 {
@@ -282,12 +286,13 @@
   padding: 0.75rem
 }
 
-.p-2 {
-  padding: 0.5rem
-}
-
 .p-6 {
   padding: 1.5rem
+}
+
+.py-4 {
+  padding-top: 1rem;
+  padding-bottom: 1rem
 }
 
 .px-2 {
@@ -303,11 +308,6 @@
 .px-6 {
   padding-left: 1.5rem;
   padding-right: 1.5rem
-}
-
-.py-4 {
-  padding-top: 1rem;
-  padding-bottom: 1rem
 }
 
 .pb-2 {
@@ -330,14 +330,14 @@
   text-align: center
 }
 
-.text-xs {
-  font-size: 0.75rem;
-  line-height: 1rem
-}
-
 .text-lg {
   font-size: 1.125rem;
   line-height: 1.75rem
+}
+
+.text-xs {
+  font-size: 0.75rem;
+  line-height: 1rem
 }
 
 .text-sm {
@@ -356,6 +356,11 @@
 .text-white {
   --tw-text-opacity: 1;
   color: rgb(255 255 255 / var(--tw-text-opacity))
+}
+
+.text-blue-500 {
+  --tw-text-opacity: 1;
+  color: rgb(59 130 246 / var(--tw-text-opacity))
 }
 
 .text-red-700 {
@@ -386,11 +391,6 @@
 .text-red-500 {
   --tw-text-opacity: 1;
   color: rgb(239 68 68 / var(--tw-text-opacity))
-}
-
-.text-blue-500 {
-  --tw-text-opacity: 1;
-  color: rgb(59 130 246 / var(--tw-text-opacity))
 }
 
 .text-opacity-80 {
