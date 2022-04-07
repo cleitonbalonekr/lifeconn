@@ -6,7 +6,8 @@ import { useTailwind } from 'tailwind-rn/dist';
 import {
   MakeContacts,
   MakeCreateContacts,
-  MakeSharedContact
+  MakeSharedContact,
+  MakeDetailsContact
 } from '@/main/factories/pages/contacts';
 import { MakeHome, MakeHelpSomeoneElse } from '@/main/factories/pages/home';
 import { MakeNotifications } from '@/main/factories/pages/notification';
@@ -20,6 +21,7 @@ export type AppStackParamList = {
   Contacts: undefined;
   CreateContacts: undefined;
   SharedContact: undefined;
+  DetailsContact: undefined;
 };
 
 declare global {
@@ -91,6 +93,14 @@ export function AppRoutes() {
         }}
         name="SharedContact"
         component={MakeSharedContact}
+      />
+      <Stack.Screen
+        options={{
+          headerShown: true,
+          title: 'Detalhes'
+        }}
+        name="DetailsContact"
+        component={MakeDetailsContact}
       />
     </Stack.Navigator>
   );
