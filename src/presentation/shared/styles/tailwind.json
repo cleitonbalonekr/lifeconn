@@ -500,12 +500,12 @@
 			"textAlign": "center"
 		}
 	},
-	"text-justify": {
+	"<<<<<<< HEAD\n.text-justify": {
 		"style": {
 			"textAlign": "justify"
 		}
 	},
-	"text-lg": {
+	"=======\n>>>>>>> 002880aa9a0e4dfef89996ec1e32b988b9f4d3f6\n.text-lg": {
 		"style": {
 			"fontSize": 18,
 			"lineHeight": 28
