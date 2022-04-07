@@ -11,13 +11,13 @@ const Container: React.FC<Props> = ({ children, scroll = false, ...rest }) => {
   return scroll ? (
     <ScrollView
       style={tailwind('bg-slate-100')}
-      contentContainerStyle={tailwind('flex-1 p-6 bg-slate-100')}
+      contentContainerStyle={tailwind('flex-1 p-5 bg-slate-100')}
       {...rest}
     >
       {children}
     </ScrollView>
   ) : (
-    <View style={tailwind('flex-1 p-6 bg-slate-100')} {...rest}>
+    <View style={tailwind('flex-1 p-5 bg-slate-100')} {...rest}>
       {children}
     </View>
   );
