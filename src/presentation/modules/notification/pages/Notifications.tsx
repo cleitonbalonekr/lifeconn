@@ -66,7 +66,9 @@ const Notifications: React.FC = () => {
         data={fakeNotificationData}
         keyExtractor={(item) => String(item.id)}
         ListEmptyComponent={<NotificationEmpty />}
-        renderItem={({ item }) => <NotificationItem item={item} />}
+        renderItem={({ item }) => (
+          <NotificationItem item={{ ...item, router: 'DetailsNotification' }} />
+        )}
       />
     </Container>
   );

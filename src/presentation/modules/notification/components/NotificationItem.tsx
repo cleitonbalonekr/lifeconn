@@ -1,4 +1,5 @@
 import { Ionicons } from '@expo/vector-icons';
+import { useNavigation } from '@react-navigation/native';
 import React from 'react';
 import { Text, TouchableOpacity, View } from 'react-native';
 import { useTailwind } from 'tailwind-rn/dist';
@@ -8,6 +9,7 @@ import { commonStyle } from '@/presentation/shared/styles/commonStyle';
 type Item = {
   victimName: string;
   id: string;
+  router: string;
 };
 interface Props {
   item: Item;
@@ -15,11 +17,17 @@ interface Props {
 
 const NotificationItem: React.FC<Props> = ({ item }) => {
   const tailwind = useTailwind();
-  function handleNavigateToDetails() {}
+  const navigation = useNavigation();
+
+  function handleNavigation(router: any) {
+    navigation.navigate(router);
+  }
   return (
     <View style={tailwind('pb-1 overflow-hidden ')}>
       <TouchableOpacity
-        onPress={handleNavigateToDetails}
+        onPress={() => {
+          handleNavigation(item.router);
+        }}
         style={[
           tailwind(
             'flex-row items-center justify-between p-4 mx-1 mb-3 rounded-md bg-slate-100'

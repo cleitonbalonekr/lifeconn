@@ -10,7 +10,10 @@ import {
   MakeDetailsContact
 } from '@/main/factories/pages/contacts';
 import { MakeHome, MakeHelpSomeoneElse } from '@/main/factories/pages/home';
-import { MakeNotifications } from '@/main/factories/pages/notification';
+import {
+  MakeNotifications,
+  MakeDetailsNotification
+} from '@/main/factories/pages/notification';
 import { MakeSettings } from '@/main/factories/pages/settings';
 
 export type AppStackParamList = {
@@ -18,6 +21,7 @@ export type AppStackParamList = {
   HelpSomeoneElse: undefined;
   Settings: undefined;
   Notifications: undefined;
+  DetailsNotification: undefined;
   Contacts: undefined;
   CreateContacts: undefined;
   SharedContact: undefined;
@@ -69,6 +73,14 @@ export function AppRoutes() {
         }}
         name="Notifications"
         component={MakeNotifications}
+      />
+      <Stack.Screen
+        options={{
+          headerShown: true,
+          title: 'Detalhes'
+        }}
+        name="DetailsNotification"
+        component={MakeDetailsNotification}
       />
       <Stack.Screen
         options={{
