@@ -13,6 +13,9 @@ const Header: React.FC = () => {
   function handleNavigationToCreateContacts() {
     navigation.navigate('CreateContacts');
   }
+  function handleNavigationToSharedContact() {
+    navigation.navigate('SharedContact');
+  }
   return (
     <View style={tailwind('flex flex-row justify-center border-b pb-2')}>
       <View style={tailwind('mx-2')}>
@@ -25,7 +28,11 @@ const Header: React.FC = () => {
         </Button>
       </View>
       <View style={tailwind('mx-2')}>
-        <Button label="Compartilhar" type="primary" onPress={() => {}}>
+        <Button
+          label="Compartilhar"
+          type="primary"
+          onPress={handleNavigationToSharedContact}
+        >
           <Ionicons
             name="share-social-outline"
             size={20}

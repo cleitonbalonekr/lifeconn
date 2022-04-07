@@ -14,6 +14,7 @@ const CreateContacts: React.FC = () => {
   return (
     <Container>
       <Input placeholder="Token de usuário" label="Token de usuário" />
+      <ScanCode />
       <Button label="Salvar" onPress={() => {}}>
         <Ionicons
           name="save-outline"
@@ -21,7 +22,6 @@ const CreateContacts: React.FC = () => {
           style={tailwind('text-white')}
         />
       </Button>
-      <ScanCode />
     </Container>
   );
 };

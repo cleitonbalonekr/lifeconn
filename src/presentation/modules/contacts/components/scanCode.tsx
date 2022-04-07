@@ -25,7 +25,7 @@ const ScanCode: React.FC = () => {
   return (
     <BarCodeScanner
       onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
-      style={{ height: '80%', marginTop: 15 }}
+      style={{ height: '75%', marginTop: 5, marginBottom: 15 }}
     />
   );
 };
