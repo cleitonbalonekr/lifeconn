@@ -94,13 +94,21 @@ const DetailsNotification: React.FC = () => {
         <Text style={tailwind('text-lg')}>Informações médicas</Text>
         <FlatList
           data={fakeMedicalInfo}
-          style={tailwind('mt-4')}
+          style={tailwind('mt-4 ')}
+          contentContainerStyle={tailwind('flex-grow ')}
           keyExtractor={(item) => String(item.id)}
           horizontal
           renderItem={({ item }) => <MedicalInfo item={item} />}
+          ListEmptyComponent={() => (
+            <View style={tailwind('flex-1 items-center justify-center')}>
+              <Text style={tailwind('font-bold')}>
+                Nenhuma informação médica
+              </Text>
+            </View>
+          )}
         />
       </View>
-      <View style={tailwind('flex-1  justify-end')}>
+      <View style={tailwind('flex-1 justify-end')}>
         <Button label="Traçar rota" type="primary" onPress={handleOpenMaps}>
           <Ionicons
             name="navigate-outline"
