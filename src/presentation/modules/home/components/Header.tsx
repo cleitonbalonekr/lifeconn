@@ -1,8 +1,10 @@
 import { Ionicons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { Text, View } from 'react-native';
 import { useTailwind } from 'tailwind-rn/dist';
+
+import { commonStyle } from '@/presentation/shared/styles/commonStyle';
 
 import HeaderIconNavigator from './HeaderIconNavigator';
 
@@ -25,7 +27,7 @@ const Header: React.FC<Props> = ({ from = 'home' }) => {
       <View
         style={[
           tailwind(' flex-row items-center justify-between bg-slate-100 pb-2 '),
-          styles.shadow
+          commonStyle.shadow
         ]}
       >
         <View style={tailwind('items-center justify-center')}>
@@ -61,15 +63,5 @@ const Header: React.FC<Props> = ({ from = 'home' }) => {
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  shadow: {
-    shadowColor: '#000',
-    shadowOffset: { width: 1, height: 1 },
-    shadowOpacity: 0.4,
-    shadowRadius: 3,
-    elevation: 6
-  }
-});
 
 export default Header;
