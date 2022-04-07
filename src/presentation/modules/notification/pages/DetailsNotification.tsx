@@ -1,15 +1,68 @@
 import { Ionicons } from '@expo/vector-icons';
-import React from 'react';
-import { View, Text } from 'react-native';
-import MapView, { Marker } from 'react-native-maps';
+import * as Linking from 'expo-linking';
+import React, { useEffect } from 'react';
+import { View, Text, FlatList } from 'react-native';
 import { useTailwind } from 'tailwind-rn';
 
 import Container from '@/presentation/shared/components/Container';
 import Button from '@/presentation/shared/components/form/button';
 import Input from '@/presentation/shared/components/form/input';
+import useInputState from '@/presentation/shared/hooks/useInputState';
+
+import MedicalInfo from '../components/MedicalInfo';
+
+const fakeMedicalInfo = [
+  {
+    id: '1',
+    title: 'Tipo sanguíneo',
+    value: 'O+'
+  },
+  {
+    id: '2',
+    title: 'Intolerância',
+    value: 'Lactose'
+  },
+  {
+    id: '3',
+    title: 'Grande texto',
+    value:
+      'Lorem Ipsum is simply dummy text of the printing and typesetting industry. text of the printing and typesetting industry'
+  }
+];
 
 const DetailsNotification: React.FC = () => {
   const tailwind = useTailwind();
+  const email = useInputState({
+    name: 'email'
+  });
+  const fullName = useInputState({
+    name: 'fullName'
+  });
+  const phoneNumber = useInputState({
+    name: 'phoneNumber'
+  });
+  const lat = useInputState({
+    name: 'lat',
+    initialValue: '0as'
+  });
+  const lng = useInputState({
+    name: 'lng',
+    initialValue: '0'
+  });
+
+  function handleOpenMaps() {
+    const url = `https://www.google.com.br/maps/@${lat.value},${lng.value},15z`;
+
+    Linking.openURL(url);
+  }
+
+  useEffect(() => {
+    lat.set('-22.3493313');
+    lng.set('-42.3993805');
+    email.set('test@gm.com');
+    phoneNumber.set('22992725861');
+    fullName.set('Fulano');
+  }, []);
 
   return (
     <Container scroll>
@@ -21,43 +74,40 @@ const DetailsNotification: React.FC = () => {
         <View style={tailwind('rounded-full bg-slate-300 p-2')}>
           <Ionicons name="person-outline" size={20} />
         </View>
-        <Text style={tailwind('text-lg text-center px-2')}>Fulano</Text>
+        <Text style={tailwind('text-lg text-center px-2')}>
+          {fullName.value}
+        </Text>
       </View>
       <View style={tailwind('border-b border-gray-300')}>
-        <Input placeholder="Email" label="Email" />
-        <Input placeholder="Telefone" label="Telefone" />
+        <Input label="Email" editable value={email.value} />
+        <Input label="Telefone" editable value={phoneNumber.value} />
+        <View style={tailwind('flex-row flex-1 justify-around')}>
+          <View style={tailwind('flex-1  mr-1')}>
+            <Input editable label="Latitude" value={lat.value} />
+          </View>
+          <View style={tailwind('flex-1 ml-1')}>
+            <Input editable label="Longitude" value={lng.value} />
+          </View>
+        </View>
       </View>
-      <View style={tailwind('border-b border-gray-300 py-4 ')}>
+      <View style={tailwind('py-4')}>
         <Text style={tailwind('text-lg')}>Informações médicas</Text>
-        <Text style={tailwind('text-xs')}>*Tipo sanguineo: A+</Text>
+        <FlatList
+          data={fakeMedicalInfo}
+          style={tailwind('mt-4')}
+          keyExtractor={(item) => String(item.id)}
+          horizontal
+          renderItem={({ item }) => <MedicalInfo item={item} />}
+        />
       </View>
-      <Input placeholder="Localização" label="localização" />
-      <Button label="Traçar rota" type="primary" onPress={() => {}}>
-        <Ionicons
-          name="trash-bin-outline"
-          size={20}
-          style={tailwind('text-white')}
-        />
-      </Button>
-      <View style={tailwind('mt-2')}>
-        <MapView
-          style={{ height: 250, width: 300 }}
-          initialRegion={{
-            latitude: -22.347511,
-            longitude: -42.325261,
-            latitudeDelta: 0.0922,
-            longitudeDelta: 0.0421
-          }}
-        />
-        <Marker
-          key={1}
-          coordinate={{
-            latitude: -22.347511,
-            longitude: -42.325261
-          }}
-        >
-          <Text>A</Text>
-        </Marker>
+      <View style={tailwind('flex-1  justify-end')}>
+        <Button label="Traçar rota" type="primary" onPress={handleOpenMaps}>
+          <Ionicons
+            name="navigate-outline"
+            size={20}
+            style={tailwind('text-white')}
+          />
+        </Button>
       </View>
     </Container>
   );
