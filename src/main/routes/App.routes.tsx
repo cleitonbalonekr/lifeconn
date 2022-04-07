@@ -3,6 +3,10 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import React from 'react';
 import { useTailwind } from 'tailwind-rn/dist';
 
+import {
+  MakeContacts,
+  MakeCreateContacts
+} from '@/main/factories/pages/contacts';
 import { MakeHome, MakeHelpSomeoneElse } from '@/main/factories/pages/home';
 import { MakeNotifications } from '@/main/factories/pages/notification';
 import { MakeSettings } from '@/main/factories/pages/settings';
@@ -12,6 +16,8 @@ export type AppStackParamList = {
   HelpSomeoneElse: undefined;
   Settings: undefined;
   Notifications: undefined;
+  Contacts: undefined;
+  CreateContacts: undefined;
 };
 
 declare global {
@@ -59,6 +65,22 @@ export function AppRoutes() {
         }}
         name="Notifications"
         component={MakeNotifications}
+      />
+      <Stack.Screen
+        options={{
+          headerShown: true,
+          title: 'Contatos'
+        }}
+        name="Contacts"
+        component={MakeContacts}
+      />
+      <Stack.Screen
+        options={{
+          headerShown: true,
+          title: 'Adicionar contato'
+        }}
+        name="CreateContacts"
+        component={MakeCreateContacts}
       />
     </Stack.Navigator>
   );
