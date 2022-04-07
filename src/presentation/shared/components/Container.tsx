@@ -1,5 +1,5 @@
 import React from 'react';
-import { ScrollView, View, ViewProps } from 'react-native';
+import { SafeAreaView, ScrollView, View, ViewProps } from 'react-native';
 import { useTailwind } from 'tailwind-rn/dist';
 
 interface Props extends ViewProps {
@@ -9,13 +9,15 @@ interface Props extends ViewProps {
 const Container: React.FC<Props> = ({ children, scroll = false, ...rest }) => {
   const tailwind = useTailwind();
   return scroll ? (
-    <ScrollView
-      style={tailwind('bg-slate-100')}
-      contentContainerStyle={tailwind('flex-1 p-6 bg-slate-100')}
-      {...rest}
-    >
-      {children}
-    </ScrollView>
+    <SafeAreaView style={tailwind('flex-1 bg-slate-100')}>
+      <ScrollView
+        style={tailwind('bg-slate-100')}
+        contentContainerStyle={tailwind('p-6 bg-slate-100')}
+        {...rest}
+      >
+        {children}
+      </ScrollView>
+    </SafeAreaView>
   ) : (
     <View style={tailwind('flex-1 p-6 bg-slate-100')} {...rest}>
       {children}
