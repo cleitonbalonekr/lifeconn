@@ -261,15 +261,6 @@
 }
 
 .bg-slate-300 {
-<<<<<<< HEAD
-  --tw-bg-opacity: 1;
-  background-color: rgb(203 213 225 / var(--tw-bg-opacity))
-}
-
-.bg-white {
-  --tw-bg-opacity: 1;
-  background-color: rgb(255 255 255 / var(--tw-bg-opacity))
-=======
   --tw-bg-opacity: 1;
   background-color: rgb(203 213 225 / var(--tw-bg-opacity))
 }
@@ -281,7 +272,6 @@
 
 .p-5 {
   padding: 1.25rem
->>>>>>> 77b9b743a1655e067c05934e648f7a04630fdf45
 }
 
 .p-4 {
@@ -388,14 +378,11 @@
   color: rgb(82 82 91 / var(--tw-text-opacity))
 }
 
-<<<<<<< HEAD
-=======
 .text-yellow-600 {
   --tw-text-opacity: 1;
   color: rgb(202 138 4 / var(--tw-text-opacity))
 }
 
->>>>>>> 77b9b743a1655e067c05934e648f7a04630fdf45
 .text-red-500 {
   --tw-text-opacity: 1;
   color: rgb(239 68 68 / var(--tw-text-opacity))
