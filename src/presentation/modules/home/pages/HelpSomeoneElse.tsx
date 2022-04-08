@@ -55,8 +55,8 @@ const HelpSomeoneElse: React.FC<Props> = () => {
           onChangeText={phoneNumber.set}
           error={phoneNumber.error}
         />
+        <HelpButton onPress={handleRequireHelp} />
       </View>
-      <HelpButton onPress={handleRequireHelp} />
     </Container>
   );
 };
