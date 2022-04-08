@@ -23,7 +23,7 @@ const SharedContact: React.FC = () => {
     <Container>
       <View style={tailwind('flex-1  justify-around')}>
         <View style={tailwind('justify-center items-center')}>
-          <Text style={tailwind('text-lg text-center mb-4')}>
+          <Text style={tailwind('text-lg text-center mb-4 font-ubuntu')}>
             Escanei o QR code abaixo
           </Text>
           <QRCode value={token} size={QR_CODE_SIZE} />

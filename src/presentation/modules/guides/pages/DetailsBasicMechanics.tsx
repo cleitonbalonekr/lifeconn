@@ -1,17 +1,19 @@
 import React from 'react';
-import { View, Text } from 'react-native';
+import { View } from 'react-native';
 import { useTailwind } from 'tailwind-rn';
 
 import Container from '@/presentation/shared/components/Container';
 import Input from '@/presentation/shared/components/form/input';
 
+import Cap1 from '../components/GuideBasicMechanics/Cap1';
+
 const DetailsBasicMechanics: React.FC = () => {
   const tailwind = useTailwind();
   return (
-    <Container>
+    <Container scroll>
       <View style={tailwind('mt-8 justify-center')}>
         <Input placeholder="Buscar" label="Digite sua busca" />
-        <Text>Teste</Text>
+        <Cap1 />
       </View>
     </Container>
   );

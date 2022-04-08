@@ -29,7 +29,9 @@ const DetailsContact: React.FC = () => {
         <View style={tailwind('rounded-full bg-slate-300 p-4')}>
           <Ionicons name="person-outline" size={20} />
         </View>
-        <Text style={tailwind('text-lg text-center px-2')}>Fulano</Text>
+        <Text style={tailwind('text-lg text-center px-2 font-ubuntu')}>
+          Fulano
+        </Text>
       </View>
       <View style={tailwind('mt-8 justify-center')}>
         <Input placeholder="Token" label="Token" value={token.value} />

@@ -74,7 +74,7 @@ const DetailsNotification: React.FC = () => {
         <View style={tailwind('rounded-full bg-slate-300 p-3')}>
           <Ionicons name="person-outline" size={20} />
         </View>
-        <Text style={tailwind('text-lg text-center px-2')}>
+        <Text style={tailwind('text-lg text-center px-2 font-ubuntu')}>
           {fullName.value}
         </Text>
       </View>
@@ -91,7 +91,7 @@ const DetailsNotification: React.FC = () => {
         </View>
       </View>
       <View style={tailwind('flex-1 py-4')}>
-        <Text style={tailwind('text-lg')}>Informações médicas</Text>
+        <Text style={tailwind('text-lg font-ubuntu')}>Informações médicas</Text>
         <FlatList
           data={fakeMedicalInfo}
           style={tailwind('mt-4')}
@@ -101,7 +101,7 @@ const DetailsNotification: React.FC = () => {
           renderItem={({ item }) => <MedicalInfo item={item} />}
           ListEmptyComponent={() => (
             <View style={tailwind('flex-1 h-36 items-center justify-center')}>
-              <Text style={tailwind('font-bold')}>
+              <Text style={tailwind('font-ubuntu-bold')}>
                 Nenhuma informação médica
               </Text>
             </View>

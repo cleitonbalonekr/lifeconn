@@ -25,8 +25,13 @@ const MedicalInfo: React.FC<Props> = ({ item }) => {
           commonStyle.shadow
         ]}
       >
-        <Text style={tailwind('font-bold w-28 text-center')}>{item.title}</Text>
-        <Text numberOfLines={3} style={tailwind('font-semibold text-justify')}>
+        <Text style={tailwind('w-28 text-center font-ubuntu-bold')}>
+          {item.title}
+        </Text>
+        <Text
+          numberOfLines={3}
+          style={tailwind(' text-justify font-ubuntu-medium')}
+        >
           {item.value}
         </Text>
       </View>
