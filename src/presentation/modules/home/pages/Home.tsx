@@ -34,7 +34,7 @@ const OPTIONS_LIST = [
     id: '4',
     icon: 'book-open',
     label: 'Guia',
-    navigateTo: 'Guide'
+    navigateTo: 'Guides'
   },
   {
     id: '5',
