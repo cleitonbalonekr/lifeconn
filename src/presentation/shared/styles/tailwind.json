@@ -145,6 +145,16 @@
 			"marginLeft": 8
 		}
 	},
+	"mt-10": {
+		"style": {
+			"marginTop": 40
+		}
+	},
+	"mt-8": {
+		"style": {
+			"marginTop": 32
+		}
+	},
 	"flex": {
 		"style": {
 			"display": "flex"
