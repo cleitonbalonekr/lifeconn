@@ -3,9 +3,8 @@ import { FlatList } from 'react-native';
 import { useTailwind } from 'tailwind-rn/dist';
 
 import Container from '@/presentation/shared/components/Container';
-
-import NotificationEmpty from '../components/NotificationEmpty';
-import NotificationItem from '../components/NotificationItem';
+import ListEmpty from '@/presentation/shared/components/form/listEmpty';
+import Option from '@/presentation/shared/components/form/option';
 
 const fakeNotificationData = [
   {
@@ -65,9 +64,9 @@ const Notifications: React.FC = () => {
         showsVerticalScrollIndicator={false}
         data={fakeNotificationData}
         keyExtractor={(item) => String(item.id)}
-        ListEmptyComponent={<NotificationEmpty />}
+        ListEmptyComponent={<ListEmpty />}
         renderItem={({ item }) => (
-          <NotificationItem item={{ ...item, router: 'DetailsNotification' }} />
+          <Option item={{ ...item, router: 'DetailsNotification' }} />
         )}
       />
     </Container>
