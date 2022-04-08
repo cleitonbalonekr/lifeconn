@@ -9,6 +9,11 @@ import {
   MakeSharedContact,
   MakeDetailsContact
 } from '@/main/factories/pages/contacts';
+import {
+  MakeGuides,
+  MakeDetailsFirstAid,
+  MakeDetailsBasicMechanics
+} from '@/main/factories/pages/guides';
 import { MakeHome, MakeHelpSomeoneElse } from '@/main/factories/pages/home';
 import {
   MakeNotifications,
@@ -26,6 +31,9 @@ export type AppStackParamList = {
   CreateContacts: undefined;
   SharedContact: undefined;
   DetailsContact: undefined;
+  Guides: undefined;
+  DetailsFirstAid: undefined;
+  DetailsBasicMechanics: undefined;
 };
 
 declare global {
@@ -114,6 +122,30 @@ export function AppRoutes() {
         }}
         name="DetailsContact"
         component={MakeDetailsContact}
+      />
+      <Stack.Screen
+        options={{
+          headerShown: true,
+          title: 'Guia'
+        }}
+        name="Guides"
+        component={MakeGuides}
+      />
+      <Stack.Screen
+        options={{
+          headerShown: true,
+          title: 'Primeiros socorros'
+        }}
+        name="DetailsFirstAid"
+        component={MakeDetailsFirstAid}
+      />
+      <Stack.Screen
+        options={{
+          headerShown: true,
+          title: 'Mecânica Básica'
+        }}
+        name="DetailsBasicMechanics"
+        component={MakeDetailsBasicMechanics}
       />
     </Stack.Navigator>
   );
