@@ -10,7 +10,7 @@ const ButtonLink: React.FC<Props> = ({ label, ...rest }) => {
   const tailwind = useTailwind();
   return (
     <TouchableOpacity style={tailwind('mt-1')} {...rest}>
-      <Text style={tailwind('text-blue-500')}>{label}</Text>
+      <Text style={tailwind('text-blue-500 text-lg')}>{label}</Text>
     </TouchableOpacity>
   );
 };

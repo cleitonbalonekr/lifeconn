@@ -9,6 +9,7 @@ import {
   MakeSharedContact,
   MakeDetailsContact
 } from '@/main/factories/pages/contacts';
+import { MakeDonate } from '@/main/factories/pages/donate';
 import {
   MakeGuides,
   MakeDetailsFirstAid,
@@ -31,6 +32,7 @@ export type AppStackParamList = {
   CreateContacts: undefined;
   SharedContact: undefined;
   DetailsContact: undefined;
+  Donate: undefined;
   Guides: undefined;
   DetailsFirstAid: undefined;
   DetailsBasicMechanics: undefined;
@@ -123,6 +125,15 @@ export function AppRoutes() {
         name="DetailsContact"
         component={MakeDetailsContact}
       />
+      <Stack.Screen
+        options={{
+          headerShown: true,
+          title: 'Doação'
+        }}
+        name="Donate"
+        component={MakeDonate}
+      />
+
       <Stack.Screen
         options={{
           headerShown: true,
