@@ -71,14 +71,14 @@ const DetailsNotification: React.FC = () => {
           'flex flex-row border-b border-gray-300 items-center py-4 '
         )}
       >
-        <View style={tailwind('rounded-full bg-slate-300 p-2')}>
+        <View style={tailwind('rounded-full bg-slate-300 p-3')}>
           <Ionicons name="person-outline" size={20} />
         </View>
         <Text style={tailwind('text-lg text-center px-2')}>
           {fullName.value}
         </Text>
       </View>
-      <View style={tailwind('border-b border-gray-300')}>
+      <View style={tailwind('flex-1 border-b border-gray-300')}>
         <Input label="Email" editable value={email.value} />
         <Input label="Telefone" editable value={phoneNumber.value} />
         <View style={tailwind('flex-row flex-1 justify-around')}>
@@ -90,17 +90,17 @@ const DetailsNotification: React.FC = () => {
           </View>
         </View>
       </View>
-      <View style={tailwind('py-4')}>
+      <View style={tailwind('flex-1 py-4')}>
         <Text style={tailwind('text-lg')}>Informações médicas</Text>
         <FlatList
           data={fakeMedicalInfo}
-          style={tailwind('mt-4 ')}
-          contentContainerStyle={tailwind('flex-grow ')}
+          style={tailwind('mt-4')}
+          contentContainerStyle={tailwind('flex-grow')}
           keyExtractor={(item) => String(item.id)}
           horizontal
           renderItem={({ item }) => <MedicalInfo item={item} />}
           ListEmptyComponent={() => (
-            <View style={tailwind('flex-1 items-center justify-center')}>
+            <View style={tailwind('flex-1 h-36 items-center justify-center')}>
               <Text style={tailwind('font-bold')}>
                 Nenhuma informação médica
               </Text>
