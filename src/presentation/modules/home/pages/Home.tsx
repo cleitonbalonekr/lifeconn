@@ -67,14 +67,14 @@ const Home: React.FC = () => {
         <Text style={tailwind('font-bold text-center')}>Menu</Text>
         <FlatList
           numColumns={3}
-          contentContainerStyle={tailwind('justify-center ')}
+          contentContainerStyle={tailwind('justify-center items-center ')}
           showsVerticalScrollIndicator={false}
           data={OPTIONS_LIST}
           keyExtractor={(item) => item.id}
           renderItem={({ item }) => (
             <TouchableOpacity
               style={tailwind(
-                'px-2 py-3 mx-2 w-24   items-center justify-center'
+                'px-2 py-3 mx-2 w-28 items-center justify-center'
               )}
               onPress={() =>
                 !item.hidden ? handleNavigateTo(item.navigateTo as Routes) : {}
