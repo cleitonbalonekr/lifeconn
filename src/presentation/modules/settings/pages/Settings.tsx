@@ -63,7 +63,7 @@ const Settings: React.FC<Props> = ({ validation }) => {
 
   return (
     <Container scroll>
-      <View>
+      <View style={tailwind('flex-1')}>
         <Text style={tailwind('text-lg font-bold')}>Meus dados</Text>
         <Input
           placeholder="Seu nome completo"
@@ -93,7 +93,9 @@ const Settings: React.FC<Props> = ({ validation }) => {
           onChangeText={totalVoiceToken.set}
           error={totalVoiceToken.error}
         />
-        <View style={tailwind('flex-row justify-start items-center mb-2')}>
+        <View
+          style={tailwind('flex-1 flex-row justify-start items-center mb-2')}
+        >
           <Switch
             value={activeByAccelerometer.value}
             onValueChange={activeByAccelerometer.set}
