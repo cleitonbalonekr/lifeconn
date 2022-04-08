@@ -40,7 +40,7 @@ const OPTIONS_LIST = [
     id: '5',
     icon: 'hand-holding-heart',
     label: 'Nos ajude',
-    navigateTo: 'HelpUs'
+    navigateTo: 'Donate'
   },
   {
     id: '6',
@@ -50,7 +50,7 @@ const OPTIONS_LIST = [
   }
 ];
 
-type Routes = 'Settings' | 'Notifications';
+type Routes = 'Settings' | 'Notifications' | 'Donate' | 'Contacts';
 
 const Home: React.FC = () => {
   const tailwind = useTailwind();
