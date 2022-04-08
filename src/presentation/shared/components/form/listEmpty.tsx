@@ -8,7 +8,7 @@ const ListEmpty: React.FC = () => {
   return (
     <View style={tailwind('flex-1  items-center justify-center ')}>
       <FontAwesome5 name="bell-slash" size={60} />
-      <Text style={tailwind('text-lg mt-3')}>
+      <Text style={tailwind('text-lg mt-3 font-ubuntu')}>
         Nenhuma notificação/ocorrência
       </Text>
     </View>

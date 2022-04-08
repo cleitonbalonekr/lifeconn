@@ -64,7 +64,7 @@ const Home: React.FC = () => {
       <HelpButton />
       <View style={tailwind('mt-2 flex-1')}>
         <View style={tailwind('border border-gray-300 my-4 ')} />
-        <Text style={tailwind('font-bold text-center')}>Menu</Text>
+        <Text style={tailwind('text-center font-ubuntu-bold')}>Menu</Text>
         <FlatList
           numColumns={3}
           contentContainerStyle={tailwind('justify-center items-center ')}
@@ -85,7 +85,9 @@ const Home: React.FC = () => {
                 size={45}
                 style={tailwind('text-zinc-600')}
               />
-              <Text style={tailwind('mt-1 text-center')}>{item.label}</Text>
+              <Text style={tailwind('mt-1 text-center font-ubuntu')}>
+                {item.label}
+              </Text>
             </TouchableOpacity>
           )}
         />

@@ -20,7 +20,7 @@ const HelpButton: React.FC<Props> = ({ ...rest }) => {
         resizeMode="contain"
         style={tailwind('w-full h-5/6')}
       />
-      <Text style={tailwind('font-bold')}>Pedir ajuda</Text>
+      <Text style={tailwind('font-ubuntu-bold')}>Pedir ajuda</Text>
     </TouchableOpacity>
   );
 };

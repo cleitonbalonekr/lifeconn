@@ -40,7 +40,7 @@ const Header: React.FC<Props> = ({ from = 'home' }) => {
           </View>
           <Text
             numberOfLines={2}
-            style={tailwind('text-xs mt-2 w-20 text-center')}
+            style={tailwind('text-xs mt-2 w-20 text-center font-ubuntu')}
           >
             Cleiton Baloneker
           </Text>

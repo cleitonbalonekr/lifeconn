@@ -101,7 +101,9 @@ const Settings: React.FC<Props> = ({ validation }) => {
             onValueChange={activeByAccelerometer.set}
             style={tailwind(' mr-2')}
           />
-          <Text style={tailwind('text-lg')}>Ativação por impacto</Text>
+          <Text style={tailwind('text-lg font-ubuntu')}>
+            Ativação por impacto
+          </Text>
         </View>
         <Button label="Salvar" onPress={updateUserData}>
           <Ionicons
@@ -121,7 +123,11 @@ const Settings: React.FC<Props> = ({ validation }) => {
         </Button>
       </View>
       <View style={tailwind('flex-1 justify-end ')}>
-        <Text style={tailwind(' font-semibold text-center text-lg')}>
+        <Text
+          style={tailwind(
+            ' font-semibold text-center text-lg font-ubuntu-medium'
+          )}
+        >
           v1.0-beta
         </Text>
       </View>

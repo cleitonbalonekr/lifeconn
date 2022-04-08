@@ -30,7 +30,9 @@ const HeaderIconNavigator: React.FC<Props> = ({
     <TouchableOpacity style={tailwind('mr-6 items-center')} {...rest}>
       {children}
       <Ionicons name={icon} size={56} style={tailwind(applyIconStyle())} />
-      <Text style={tailwind('w-14 text-center text-xs')}>{label}</Text>
+      <Text style={tailwind('w-16 text-center text-xs font-ubuntu-light')}>
+        {label}
+      </Text>
       {active && (
         <View style={tailwind('border w-full border-red-700 my-1.5 ')} />
       )}

@@ -33,7 +33,11 @@ const HelpSomeoneElse: React.FC<Props> = () => {
     <Container>
       <Header from="help" />
       <View style={tailwind('flex-1 mt-3 ')}>
-        <Text style={tailwind('mb-2 text-center text-lg text-yellow-700')}>
+        <Text
+          style={tailwind(
+            'mb-2 text-center text-lg text-yellow-700 font-ubuntu'
+          )}
+        >
           Preencha o formulário com os dados da vítima se possível. Caso não
           seja possível deixe-o em branco.
         </Text>

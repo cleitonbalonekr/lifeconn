@@ -46,7 +46,11 @@ const Button: React.FC<Props> = ({
     >
       <View>{children}</View>
       {label && (
-        <Text style={tailwind(`${hasPadding} text-white font-semibold`)}>
+        <Text
+          style={tailwind(
+            `${hasPadding} text-white font-semibold font-ubuntu-medium`
+          )}
+        >
           {label}
         </Text>
       )}

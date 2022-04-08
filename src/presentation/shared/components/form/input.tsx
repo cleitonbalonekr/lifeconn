@@ -12,9 +12,14 @@ const Input: React.FC<Props> = ({ label, error, ...rest }: Props) => {
   const showError = error !== undefined && error !== '';
   return (
     <View style={tailwind('my-2.5 ')}>
-      {label && <Text style={tailwind('mb-1.5')}>{label}</Text>}
-      <TextInput style={tailwind('bg-gray-200 p-3 rounded')} {...rest} />
-      {showError && <Text style={tailwind('text-red-500 my-1')}>{error}</Text>}
+      {label && <Text style={tailwind('mb-1.5 font-ubuntu')}>{label}</Text>}
+      <TextInput
+        style={tailwind('bg-gray-200 p-3 rounded font-ubuntu')}
+        {...rest}
+      />
+      {showError && (
+        <Text style={tailwind('text-red-500 my-1 font-ubuntu')}>{error}</Text>
+      )}
     </View>
   );
 };

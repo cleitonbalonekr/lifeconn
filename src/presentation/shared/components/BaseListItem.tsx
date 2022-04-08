@@ -30,7 +30,7 @@ const BaseListItem: React.FC<Props> = ({ itemName, children, ...rest }) => {
       >
         <View style={tailwind('flex-row items-center')}>
           {children}
-          <Text style={tailwind('text-lg ml-5')}>{itemName}</Text>
+          <Text style={tailwind('text-lg ml-5 font-ubuntu')}>{itemName}</Text>
         </View>
         <Ionicons name="chevron-forward-outline" color="black" size={24} />
       </TouchableOpacity>
