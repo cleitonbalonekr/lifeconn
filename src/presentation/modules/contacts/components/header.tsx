@@ -17,17 +17,13 @@ const Header: React.FC = () => {
     navigation.navigate('SharedContact');
   }
   return (
-    <View style={tailwind('flex flex-row justify-center border-b pb-2')}>
-      <View style={tailwind('mx-2')}>
-        <Button
-          label="Novo"
-          type="primary"
-          onPress={handleNavigationToCreateContacts}
-        >
+    <View style={tailwind('flex-row justify-center border-b py-3')}>
+      <View style={tailwind('w-32 mr-2')}>
+        <Button type="primary" onPress={handleNavigationToCreateContacts}>
           <Ionicons name="add" size={20} style={tailwind('text-white')} />
         </Button>
       </View>
-      <View style={tailwind('mx-2')}>
+      <View style={tailwind('flex-1 ml-2')}>
         <Button
           label="Compartilhar"
           type="primary"

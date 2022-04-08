@@ -110,6 +110,10 @@
   margin-bottom: 0.25rem
 }
 
+.ml-2 {
+  margin-left: 0.5rem
+}
+
 .flex {
   display: flex
 }
@@ -172,6 +176,10 @@
 
 .w-4\/5 {
   width: 80%
+}
+
+.w-32 {
+  width: 8rem
 }
 
 .flex-1 {
@@ -363,6 +371,10 @@
   padding-right: 0.5rem
 }
 
+.pl-2 {
+  padding-left: 0.5rem
+}
+
 .text-center {
   text-align: center
 }
@@ -432,6 +444,11 @@
 .text-red-500 {
   --tw-text-opacity: 1;
   color: rgb(239 68 68 / var(--tw-text-opacity))
+}
+
+.text-gray-600 {
+  --tw-text-opacity: 1;
+  color: rgb(75 85 99 / var(--tw-text-opacity))
 }
 
 .text-opacity-80 {
