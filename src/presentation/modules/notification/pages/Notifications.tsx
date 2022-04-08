@@ -1,10 +1,13 @@
+import { Ionicons } from '@expo/vector-icons';
+import { useNavigation } from '@react-navigation/native';
 import React from 'react';
 import { FlatList } from 'react-native';
 import { useTailwind } from 'tailwind-rn/dist';
 
+import BaseListItem from '@/presentation/shared/components/BaseListItem';
 import Container from '@/presentation/shared/components/Container';
-import ListEmpty from '@/presentation/shared/components/form/listEmpty';
-import Option from '@/presentation/shared/components/form/option';
+
+import NotificationEmpty from '../components/NotificationEmpty';
 
 const fakeNotificationData = [
   {
@@ -56,6 +59,11 @@ const fakeNotificationData = [
 
 const Notifications: React.FC = () => {
   const tailwind = useTailwind();
+  const navigation = useNavigation();
+
+  function handleNavigationToDetails() {
+    navigation.navigate('DetailsNotification');
+  }
   return (
     <Container>
       <FlatList
@@ -64,9 +72,18 @@ const Notifications: React.FC = () => {
         showsVerticalScrollIndicator={false}
         data={fakeNotificationData}
         keyExtractor={(item) => String(item.id)}
-        ListEmptyComponent={<ListEmpty />}
+        ListEmptyComponent={<NotificationEmpty />}
         renderItem={({ item }) => (
-          <Option item={{ ...item, router: 'DetailsNotification' }} />
+          <BaseListItem
+            itemName={item.victimName}
+            onPress={handleNavigationToDetails}
+          >
+            <Ionicons
+              name="alert-circle-outline"
+              style={tailwind('text-yellow-600')}
+              size={32}
+            />
+          </BaseListItem>
         )}
       />
     </Container>

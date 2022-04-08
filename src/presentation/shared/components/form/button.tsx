@@ -35,6 +35,8 @@ const Button: React.FC<Props> = ({
     }
   };
 
+  const hasPadding = children && label ? 'pl-2' : '';
+
   return (
     <TouchableOpacity
       style={tailwind(
@@ -42,9 +44,11 @@ const Button: React.FC<Props> = ({
       )}
       {...rest}
     >
-      <View style={tailwind('pr-2')}>{children}</View>
+      <View>{children}</View>
       {label && (
-        <Text style={tailwind('text-white font-semibold')}>{label}</Text>
+        <Text style={tailwind(`${hasPadding} text-white font-semibold`)}>
+          {label}
+        </Text>
       )}
     </TouchableOpacity>
   );
