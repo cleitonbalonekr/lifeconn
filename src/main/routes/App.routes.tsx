@@ -10,11 +10,7 @@ import {
   MakeDetailsContact
 } from '@/main/factories/pages/contacts';
 import { MakeDonate } from '@/main/factories/pages/donate';
-import {
-  MakeGuides,
-  MakeDetailsFirstAid,
-  MakeDetailsBasicMechanics
-} from '@/main/factories/pages/guides';
+import { MakeGuides } from '@/main/factories/pages/guides';
 import { MakeHome, MakeHelpSomeoneElse } from '@/main/factories/pages/home';
 import {
   MakeNotifications,
@@ -141,22 +137,6 @@ export function AppRoutes() {
         }}
         name="Guides"
         component={MakeGuides}
-      />
-      <Stack.Screen
-        options={{
-          headerShown: true,
-          title: 'Primeiros socorros'
-        }}
-        name="DetailsFirstAid"
-        component={MakeDetailsFirstAid}
-      />
-      <Stack.Screen
-        options={{
-          headerShown: true,
-          title: 'Mecânica Básica'
-        }}
-        name="DetailsBasicMechanics"
-        component={MakeDetailsBasicMechanics}
       />
     </Stack.Navigator>
   );
