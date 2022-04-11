@@ -190,6 +190,11 @@
 			"width": 128
 		}
 	},
+	"w-full": {
+		"style": {
+			"width": "100%"
+		}
+	},
 	"w-12": {
 		"style": {
 			"width": 48
@@ -203,11 +208,6 @@
 	"w-16": {
 		"style": {
 			"width": 64
-		}
-	},
-	"w-full": {
-		"style": {
-			"width": "100%"
 		}
 	},
 	"w-28": {
@@ -410,18 +410,6 @@
 			"backgroundColor": "rgb(255 255 255 / var(--tw-bg-opacity))"
 		}
 	},
-	"bg-red-500": {
-		"style": {
-			"--tw-bg-opacity": 1,
-			"backgroundColor": "rgb(239 68 68 / var(--tw-bg-opacity))"
-		}
-	},
-	"bg-green-500": {
-		"style": {
-			"--tw-bg-opacity": 1,
-			"backgroundColor": "rgb(34 197 94 / var(--tw-bg-opacity))"
-		}
-	},
 	"p-4": {
 		"style": {
 			"paddingTop": 16,
@@ -578,6 +566,18 @@
 			"color": "rgb(22 163 74 / var(--tw-text-opacity))"
 		}
 	},
+	"text-red-600": {
+		"style": {
+			"--tw-text-opacity": 1,
+			"color": "rgb(220 38 38 / var(--tw-text-opacity))"
+		}
+	},
+	"text-zinc-500": {
+		"style": {
+			"--tw-text-opacity": 1,
+			"color": "rgb(113 113 122 / var(--tw-text-opacity))"
+		}
+	},
 	"text-red-700": {
 		"style": {
 			"--tw-text-opacity": 1,
@@ -618,18 +618,6 @@
 		"style": {
 			"--tw-text-opacity": 1,
 			"color": "rgb(59 130 246 / var(--tw-text-opacity))"
-		}
-	},
-	"text-red-600": {
-		"style": {
-			"--tw-text-opacity": 1,
-			"color": "rgb(220 38 38 / var(--tw-text-opacity))"
-		}
-	},
-	"text-zinc-500": {
-		"style": {
-			"--tw-text-opacity": 1,
-			"color": "rgb(113 113 122 / var(--tw-text-opacity))"
 		}
 	},
 	"text-opacity-80": {
