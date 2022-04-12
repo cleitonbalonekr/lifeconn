@@ -13,18 +13,27 @@ import {
   IMG7
 } from '@/presentation/shared/assets/imgFirstAid/index';
 
-const Cap1: React.FC = () => {
+import Mark from '../mark';
+
+interface Props {
+  toSearch: string;
+}
+
+// <Mark toText="" toMark={toSearch} />
+
+const Cap1: React.FC<Props> = ({ toSearch }) => {
   const tailwind = useTailwind();
   return (
     <View style={tailwind('mt-8 justify-center')}>
       <Text style={tailwind('text-lg font-bold mt-2')}>
-        Etapas Básicas de Primeiros Socorros
+        <Mark toText="Etapas Básicas de Primeiros Socorros" toMark={toSearch} />
       </Text>
       <Text style={tailwind('font-bold mt-2')}>
-        1. Avaliação do Local do Acidente
+        <Mark toText="1. Avaliação do Local do Acidente" toMark={toSearch} />
       </Text>
       <Text style={tailwind('text-justify')}>
-        Esta é a primeira etapa básica na prestação de primeiros socorros. Ao
+        <Mark
+          toText="Esta é a primeira etapa básica na prestação de primeiros socorros. Ao
         chegar no local de um acidente, ou onde se encontra um acidentado,
         deve-se assumir o controle da situação e proceder a uma rápida e segura
         avaliação da ocorrência. Deve-se tentar obter o máximo de informações
@@ -32,15 +41,20 @@ const Cap1: React.FC = () => {
         acidente, é importante também: a - evitar o pânico e procurar a
         colaboração de outras pessoas, dando ordens breves, claras, objetivas e
         concisas; b - manter afastados os curiosos, para evitar confusão e para
-        ter espaço em que se possa trabalhar da melhor maneira possível.
+        ter espaço em que se possa trabalhar da melhor maneira possível."
+          toMark={toSearch}
+        />
       </Text>
-      <Text style={tailwind('font-bold mt-2')}>2. Proteção do Acidentado</Text>
+      <Text style={tailwind('font-bold mt-2')}>
+        <Mark toText="2. Proteção do Acidentado" toMark={toSearch} />
+      </Text>
       <Text style={tailwind('text-justify')}>
-        Avaliação e Exame do Estado Geral do acidentado A avaliação e exame do
+        <Mark
+          toText="Avaliação e Exame do Estado Geral do acidentado A avaliação e exame do
         estado geral de um acidentado de emergência clínica ou traumática é a
         segunda etapa básica na prestação dos primeiros socorros. Ela deve ser
-        realizada simultaneamente ou imediatamente à "avaliação do acidente e
-        proteção do acidentado". O exame deve ser rápido e sistemático,
+        realizada simultaneamente ou imediatamente à 'avaliação do acidente e
+        proteção do acidentado'. O exame deve ser rápido e sistemático,
         observando as seguintes prioridades: ·Estado de consciência: avaliação
         de respostas lógicas (nome, idade, etc). ·Respiração: movimentos
         torácicos e abdominais com entrada e saída de ar normalmente pelas
@@ -113,20 +127,25 @@ const Cap1: React.FC = () => {
         do miocárdio; e ­ queimaduras em grandes áreas do corpo. 3.Toda lesão ou
         emergência clínica ocorrida dentro do âmbito da Instituição deve ser
         comunicada ao NUST - Núcleo de Saúde do trabalhador / DIREH, através de
-        uma ficha de registro específica e anotada no "livro de registro de
-        acidentes". 4.É importante ter sempre disponível os números dos
+        uma ficha de registro específica e anotada no 'livro de registro de
+        acidentes'. 4.É importante ter sempre disponível os números dos
         telefones e os endereços de hospitais e de centros de atendimento de
         emergência; socorro especializado para emergências cardíacas; plantão da
         Comissão Nacional de Energia Nuclear; locais de aplicação de soros
         antiveneno de cobra e de outros animais peçonhentos e centro de
-        informações tóxico- farmacológicas.
+        informações tóxico- farmacológicas."
+          toMark={toSearch}
+        />
       </Text>
       <Text style={tailwind('text-lg font-bold mt-2')}>
-        Funções, Sinais Vitais e de Apoio
+        <Mark toText="Funções, Sinais Vitais e de Apoio" toMark={toSearch} />
       </Text>
-      <Text style={tailwind('font-bold mt-2')}>Funções Vitais</Text>
+      <Text style={tailwind('font-bold mt-2')}>
+        <Mark toText="Funções Vitais" toMark={toSearch} />
+      </Text>
       <Text style={tailwind('text-justify')}>
-        Algumas funções são vitais para que o ser humano permaneça vivo. São
+        <Mark
+          toText="        Algumas funções são vitais para que o ser humano permaneça vivo. São
         vitais as funções exercidas pelo cérebro e pelo coração. Mas para
         exercerem suas funções, estes órgãos executam trabalhos físicos e
         químicos, transformando a própria vida em uma macro-representação das
@@ -169,46 +188,60 @@ const Cap1: React.FC = () => {
         perceba que: Para poder determinar em nível de primeiro socorro, como
         leigo, o funcionamento satisfatório dos controles centrais dos
         mecanismos da vida, é necessário compreender os sinais indicadores
-        chamados de sinais vitais.
+        chamados de sinais vitais."
+          toMark={toSearch}
+        />
       </Text>
-      <Text style={tailwind('font-bold mt-2')}>Sinais Vitais</Text>
+      <Text style={tailwind('font-bold mt-2')}>
+        <Mark toText="Sinais Vitais" toMark={toSearch} />
+      </Text>
       <Text style={tailwind('text-justify')}>
-        Sinais vitais são aqueles que indicam a existência de vida. São reflexos
+        <Mark
+          toText="Sinais vitais são aqueles que indicam a existência de vida. São reflexos
         ou indícios que permitem concluir sobre o estado geral de uma pessoa. Os
         sinais sobre o funcionamento do corpo humano que devem ser compreendidos
         e conhecidos são: · Temperatura, · Pulso, · Respiração, · Pressão
         arterial. Os sinais vitais são sinais que podem ser facilmente
         percebidos, deduzindo-se assim, que na ausência deles, existem
-        alterações nas funções vitais do corpo.
+        alterações nas funções vitais do corpo."
+          toMark={toSearch}
+        />
       </Text>
-      <Text style={tailwind('mt-2 underline')}>Temperatura Corporal</Text>
+      <Text style={tailwind('mt-2 underline')}>
+        <Mark toText="Temperatura Corporal" toMark={toSearch} />
+      </Text>
       <Text style={tailwind('text-justify')}>
-        A temperatura resulta do equilíbrio térmico mantido entre o ganho e a
-        perda de calor pelo organismo. A temperatura é um importante indicador
-        da atividade metabólica, já que o calor obtido nas reações metabólicas
-        se propaga pelos tecidos e pelo sangue circulante. A temperatura do
-        corpo humano está sujeita a variações individuais e a flutuações devido
-        a fatores fisiológicos como: exercícios, digestão, temperatura ambiente
-        e estado emocional (Quadro I). A avaliação diária da temperatura de uma
-        pessoa em perfeito estado de saúde nunca é maior que um grau Celsius,
-        sendo mais baixa pela manhã e um pouco elevada no final da tarde. Existe
-        pequena elevação de temperatura nas mulheres após a ovulação, no período
-        menstrual e no primeiro trimestre da gravidez. Nosso corpo tem uma
-        temperatura média normal que varia de 35,9 a 37,2ºC. A avaliação da
-        temperatura é uma das maneiras de identificar o estado de uma pessoa,
-        pois em algumas emergências a temperatura muda muito. O sistema
-        termorregulador trabalha estimulando a perda de calor em ambientes de
-        calor excessivo e acelerando os fenômenos metabólicos no frio para
-        compensar a perda de calor. Graças a isto, o homem é um ser homeotérmico
-        que, ao contrário de outros animais, mantêm a temperatura do corpo
-        constante a despeito de fatores externos.
+        <Mark
+          toText="A temperatura resulta do equilíbrio
+        térmico mantido entre o ganho e a perda de calor pelo organismo. A
+        temperatura é um importante indicador da atividade metabólica, já que o
+        calor obtido nas reações metabólicas se propaga pelos tecidos e pelo
+        sangue circulante. A temperatura do corpo humano está sujeita a
+        variações individuais e a flutuações devido a fatores fisiológicos como:
+        exercícios, digestão, temperatura ambiente e estado emocional (Quadro
+        I). A avaliação diária da temperatura de uma pessoa em perfeito estado
+        de saúde nunca é maior que um grau Celsius, sendo mais baixa pela manhã
+        e um pouco elevada no final da tarde. Existe pequena elevação de
+        temperatura nas mulheres após a ovulação, no período menstrual e no
+        primeiro trimestre da gravidez. Nosso corpo tem uma temperatura média
+        normal que varia de 35,9 a 37,2ºC. A avaliação da temperatura é uma das
+        maneiras de identificar o estado de uma pessoa, pois em algumas
+        emergências a temperatura muda muito. O sistema termorregulador trabalha
+        estimulando a perda de calor em ambientes de calor excessivo e
+        acelerando os fenômenos metabólicos no frio para compensar a perda de
+        calor. Graças a isto, o homem é um ser homeotérmico que, ao contrário de
+        outros animais, mantêm a temperatura do corpo constante a despeito de
+        fatores externos."
+          toMark={toSearch}
+        />
       </Text>
       <Image source={IMG1} style={tailwind('w-full')} resizeMode="contain" />
       <Text style={tailwind('mt-2 underline')}>
-        Primeiros Socorros para Febre
+        <Mark toText="Primeiros Socorros para Febre" toMark={toSearch} />
       </Text>
       <Text style={tailwind('text-justify')}>
-        Aplicar compressas úmidas na testa, cabeça, pescoço, axilas e virilhas
+        <Mark
+          toText="Aplicar compressas úmidas na testa, cabeça, pescoço, axilas e virilhas
         (que são as áreas por onde passam os grandes vasos sanguíneos). Quando o
         acidentado for um adulto, submetê-la a um banho frio ou cobri-la com
         coberta fria. Podem ser usadas compressas frias aplicadas sobre grandes
@@ -223,77 +256,92 @@ const Cap1: React.FC = () => {
         só devem ser feitos em temperaturas muito altas (acima de 400C), por
         dois motivos já vistos: ­ a febre é defesa orgânica (é o organismo se
         defendendo de alguma causa) e ­ o tratamento da febre deve ser de suas
-        causas.
+        causas."
+          toMark={toSearch}
+        />
       </Text>
-      <Text style={tailwind('mt-2 underline')}>Pulso</Text>
+      <Text style={tailwind('mt-2 underline')}>
+        <Mark toText="Pulso" toMark={toSearch} />
+      </Text>
       <Text style={tailwind('text-justify')}>
-        O pulso é a onda de distensão de uma artéria transmitida pela pressão
-        que o coração exerce sobre o sangue. Esta onda é perceptível pela
-        palpação de uma artéria e se repete com regularidade, segundo as batidas
-        do coração. Existe uma relação direta entre a temperatura do corpo e a
-        freqüência do pulso. Em geral, exceto em algumas febres, para cada grau
-        de aumento de temperatura existe um aumento no número de pulsações por
-        minuto (cerca de 10 pulsações). O pulso pode ser apresentado variando de
-        acordo com sua freqüência, regularidade, tensão e volume. a-
-        Regularidade (alteração de ritmo) Pulso rítmico: normal Pulso arrítmico:
-        anormal; b- Tensão; c- Freqüência - Existe uma variação média de acordo
-        com a idade como pode ser visto no Quadro II abaixo. d- Volume - Pulso
-        cheio: normal Pulso filiforme (fraco): anormal
+        <Mark
+          toText="O pulso é a onda de distensão de uma
+        artéria transmitida pela pressão que o coração exerce sobre o sangue.
+        Esta onda é perceptível pela palpação de uma artéria e se repete com
+        regularidade, segundo as batidas do coração. Existe uma relação direta
+        entre a temperatura do corpo e a freqüência do pulso. Em geral, exceto
+        em algumas febres, para cada grau de aumento de temperatura existe um
+        aumento no número de pulsações por minuto (cerca de 10 pulsações). O
+        pulso pode ser apresentado variando de acordo com sua freqüência,
+        regularidade, tensão e volume. a- Regularidade (alteração de ritmo)
+        Pulso rítmico: normal Pulso arrítmico: anormal; b- Tensão; c- Freqüência
+        - Existe uma variação média de acordo com a idade como pode ser visto no
+        Quadro II abaixo. d- Volume - Pulso cheio: normal Pulso filiforme
+        (fraco): anormal"
+          toMark={toSearch}
+        />
       </Text>
       <Image source={IMG2} style={tailwind('w-full')} resizeMode="contain" />
       <Text style={tailwind('text-justify')}>
-        A alteração na freqüência do pulso denuncia alteração na quantidade de
-        fluxo sanguíneo. As causas fisiológicas que aumentam os batimentos do
-        pulso são: digestão, exercícios físicos, banho frio, estado de excitação
-        emocional e qualquer estado de reatividade do organismo. No desmaio /
-        síncope as pulsações diminuem. Através do pulso ou das pulsações do
-        sangue dentro do corpo, é possível avaliar se a circulação e o
-        funcionamento do coração estão normais ou não. Pode-se sentir o pulso
-        com facilidade: · Procurar acomodar o braço do acidentado em posição
-        relaxada. · Usar o dedo indicador, médio e anular sobre a artéria
-        escolhida para sentir o pulso, fazendo uma leve pressão sobre qualquer
-        um dos pontos onde se pode verificar mais facilmente o pulso de uma
-        pessoa. · Não usar o polegar para não correr o risco de sentir suas
-        próprias pulsações. · Contar no relógio as pulsações num período de 60
-        segundos. Neste período deve-se procurar observar a regularidade, a
-        tensão, o volume e a freqüência do pulso. Existem no corpo vários locais
-        onde se podem sentir os pulsos da corrente sanguínea. O pulso radial
-        pode ser sentido na parte da frente do punho. Usar as pontas de 2 a 3
-        dedos levemente sobre o pulso da pessoa do lado correspondente ao
-        polegar, conforme a figura abaixo.
+        <Mark
+          toText="A alteração na freqüência do pulso
+        denuncia alteração na quantidade de fluxo sanguíneo. As causas
+        fisiológicas que aumentam os batimentos do pulso são: digestão,
+        exercícios físicos, banho frio, estado de excitação emocional e qualquer
+        estado de reatividade do organismo. No desmaio / síncope as pulsações
+        diminuem. Através do pulso ou das pulsações do sangue dentro do corpo, é
+        possível avaliar se a circulação e o funcionamento do coração estão
+        normais ou não. Pode-se sentir o pulso com facilidade: · Procurar
+        acomodar o braço do acidentado em posição relaxada. · Usar o dedo
+        indicador, médio e anular sobre a artéria escolhida para sentir o pulso,
+        fazendo uma leve pressão sobre qualquer um dos pontos onde se pode
+        verificar mais facilmente o pulso de uma pessoa. · Não usar o polegar
+        para não correr o risco de sentir suas próprias pulsações. · Contar no
+        relógio as pulsações num período de 60 segundos. Neste período deve-se
+        procurar observar a regularidade, a tensão, o volume e a freqüência do
+        pulso. Existem no corpo vários locais onde se podem sentir os pulsos da
+        corrente sanguínea. O pulso radial pode ser sentido na parte da frente
+        do punho. Usar as pontas de 2 a 3 dedos levemente sobre o pulso da
+        pessoa do lado correspondente ao polegar, conforme a figura abaixo."
+          toMark={toSearch}
+        />
       </Text>
       <Image source={IMG3} style={tailwind('w-full')} resizeMode="contain" />
-      <Text style={tailwind('mt-2 underline')}>Respiração</Text>
+      <Text style={tailwind('mt-2 underline')}>
+        <Mark toText="Respiração" toMark={toSearch} />
+      </Text>
       <Text style={tailwind('text-justify')}>
-        A respiração é uma das funções essenciais à vida. É através dela que o
-        corpo promove permanentemente o suprimento de oxigênio necessário ao
-        organismo, vital para a manutenção da vida. A respiração é comandada
-        pelo Sistema Nervoso Central. Seu funcionamento processa-se de maneira
-        involuntária e automática. É a respiração que permite a ventilação e a
-        oxigenação do organismo e isto só ocorre através das vias aéreas
-        desimpedidas. A observação e identificação do estado da respiração de um
-        acidentado de qualquer tipo de afecção é conduta básica no atendimento
-        de primeiros socorros. Muitas doenças, problemas clínicos e acidentes de
-        maior ou menor proporção alteram parcialmente ou completamente o
-        processo respiratório. Fatores diversos como secreções, vômito, corpo
-        estranho, edema e até mesmo a própria língua podem ocasionar a obstrução
-        das vias aéreas. A obstrução produz asfixia que, se prolongada, resulta
-        em parada cardío-respiratória. O processo respiratório manifesta-se
-        fisicamente através dos movimentos ritmados de inspiração e expiração.
-        Na inspiração existe a contração dos músculos que participam do processo
-        respiratório, e na expiração estes músculos relaxam-se espontaneamente.
-        Quimicamente existe uma troca de gazes entre os meios externos e
-        internos do corpo. O organismo recebe oxigênio atmosférico e elimina
-        dióxido de carbono. Esta troca é a hematose, que é a transformação, no
-        pulmão, do sangue venoso em sangue arterial. Deve-se saber identificar
-        se a pessoa está respirando e como está respirando. A respiração pode
-        ser basicamente classificada por tipo e freqüência. O Quadro III
-        apresenta a classificação da respiração quanto ao tipo. A freqüência da
-        respiração é contada pela quantidade de vezes que uma pessoa realiza os
-        movimentos combinados de inspiração e expiração em um minuto. Para se
-        verificar a freqüência da respiração, conta-se o número de vezes que uma
-        pessoa realiza os movimentos respiratórios: 01 inspiração + 01 expiração
-        = 01 movimento respiratório. A contagem pode ser feita observando-se a
+        <Mark
+          toText="A respiração é uma das funções
+        essenciais à vida. É através dela que o corpo promove permanentemente o
+        suprimento de oxigênio necessário ao organismo, vital para a manutenção
+        da vida. A respiração é comandada pelo Sistema Nervoso Central. Seu
+        funcionamento processa-se de maneira involuntária e automática. É a
+        respiração que permite a ventilação e a oxigenação do organismo e isto
+        só ocorre através das vias aéreas desimpedidas. A observação e
+        identificação do estado da respiração de um acidentado de qualquer tipo
+        de afecção é conduta básica no atendimento de primeiros socorros. Muitas
+        doenças, problemas clínicos e acidentes de maior ou menor proporção
+        alteram parcialmente ou completamente o processo respiratório. Fatores
+        diversos como secreções, vômito, corpo estranho, edema e até mesmo a
+        própria língua podem ocasionar a obstrução das vias aéreas. A obstrução
+        produz asfixia que, se prolongada, resulta em parada
+        cardío-respiratória. O processo respiratório manifesta-se fisicamente
+        através dos movimentos ritmados de inspiração e expiração. Na inspiração
+        existe a contração dos músculos que participam do processo respiratório,
+        e na expiração estes músculos relaxam-se espontaneamente. Quimicamente
+        existe uma troca de gazes entre os meios externos e internos do corpo. O
+        organismo recebe oxigênio atmosférico e elimina dióxido de carbono. Esta
+        troca é a hematose, que é a transformação, no pulmão, do sangue venoso
+        em sangue arterial. Deve-se saber identificar se a pessoa está
+        respirando e como está respirando. A respiração pode ser basicamente
+        classificada por tipo e freqüência. O Quadro III apresenta a
+        classificação da respiração quanto ao tipo. A freqüência da respiração é
+        contada pela quantidade de vezes que uma pessoa realiza os movimentos
+        combinados de inspiração e expiração em um minuto. Para se verificar a
+        freqüência da respiração, conta-se o número de vezes que uma pessoa
+        realiza os movimentos respiratórios: 01 inspiração + 01 expiração = 01
+        movimento respiratório. A contagem pode ser feita observando-se a
         elevação do tórax se o acidentado for mulher ou do abdome se for homem
         ou criança. Pode ser feita ainda contando-se as saídas de ar quente
         pelas narinas. A freqüência média por minuto dos movimentos
@@ -301,12 +349,17 @@ const Cap1: React.FC = () => {
         em estado normal de saúde. Por exemplo: um adulto possui um valor médio
         respiratório de 14 - 20 respirações por minuto (no homem), 16 - 22
         respirações por minuto (na mulher), enquanto uma criança nos primeiros
-        meses de vida 40 - 50 respirações por minuto.
+        meses de vida 40 - 50 respirações por minuto."
+          toMark={toSearch}
+        />
       </Text>
       <Image source={IMG4} style={tailwind('w-full')} resizeMode="contain" />
-      <Text style={tailwind('font-bold mt-2')}>Sinais de Apoio</Text>
+      <Text style={tailwind('font-bold mt-2')}>
+        <Mark toText="Sinais de Apoio" toMark={toSearch} />
+      </Text>
       <Text style={tailwind('text-justify')}>
-        Além dos sinais vitais do funcionamento do corpo humano, existem outros
+        <Mark
+          toText="Além dos sinais vitais do funcionamento do corpo humano, existem outros
         que devem ser observados para obtenção de mais informações sobre o
         estado de saúde de uma pessoa. São os sinais de apoio; sinais que o
         corpo emite em função do estado de funcionamento dos órgãos vitais. Os
@@ -315,41 +368,56 @@ const Cap1: React.FC = () => {
         tornam-se cada vez mais evidentes com o agravamento do estado do
         acidentado. Os principais sinais de apoio são: · Dilatação e reatividade
         das pupilas · Cor e umidade da pele · Estado de consciência · Motilidade
-        e sensibilidade do corpo
+        e sensibilidade do corpo"
+          toMark={toSearch}
+        />
       </Text>
       <Text style={tailwind('mt-2 underline')}>
-        Dilatação e Reatividade das Pupilas
+        <Mark toText="Dilatação e Reatividade das Pupilas" toMark={toSearch} />
       </Text>
       <Text style={tailwind('text-justify')}>
-        A pupila é uma abertura no centro da íris - a parte colorida do olho - e
-        sua função principal é controlar a entrada de luz no olho para a
-        formação das imagens que vemos. A pupila exposta à luz se contrai.
-        Quando há pouca ou quase nenhuma luz a pupila se dilata, fica aberta.
-        Quando a pupila está totalmente dilatada, é sinal de que o cérebro não
-        está recebendo oxigênio, exceto no uso de colírios midriáticos ou certos
-        envenenamentos. A dilatação e reatividade das pupilas são um sinal de
-        apoio importante. Muitas alterações do organismo provocam reações nas
-        pupilas (Quadro V). Certas condições de "stress", tensão, medo e estados
-        de pré-choque também provocam consideráveis alterações nas pupilas.
-        Devemos observar as pupilas de uma pessoa contra a luz de uma fonte
-        lateral, de preferência com o ambiente escurecido. Se não for possível
-        deve-se olhar as pupilas contra a luz ambiente.
+        <Mark
+          toText="A pupila é uma abertura no centro da
+        íris - a parte colorida do olho - e sua função principal é controlar a
+        entrada de luz no olho para a formação das imagens que vemos. A pupila
+        exposta à luz se contrai. Quando há pouca ou quase nenhuma luz a pupila
+        se dilata, fica aberta. Quando a pupila está totalmente dilatada, é
+        sinal de que o cérebro não está recebendo oxigênio, exceto no uso de
+        colírios midriáticos ou certos envenenamentos. A dilatação e reatividade
+        das pupilas são um sinal de apoio importante. Muitas alterações do
+        organismo provocam reações nas pupilas (Quadro V). Certas condições de
+        'stress', tensão, medo e estados de pré-choque também provocam
+        consideráveis alterações nas pupilas. Devemos observar as pupilas de uma
+        pessoa contra a luz de uma fonte lateral, de preferência com o ambiente
+        escurecido. Se não for possível deve-se olhar as pupilas contra a luz
+        ambiente."
+          toMark={toSearch}
+        />
       </Text>
       <Image source={IMG5} style={tailwind('w-full')} resizeMode="contain" />
-      <Text style={tailwind('mt-2 underline')}>Cor e Umidade da Pele</Text>
+      <Text style={tailwind('mt-2 underline')}>
+        <Mark toText="Cor e Umidade da Pele" toMark={toSearch} />
+      </Text>
       <Text style={tailwind('text-justify')}>
-        A cor e a umidade da pele são também sinais de apoio muito útil no
-        reconhecimento do estado geral de um acidentado. Uma pessoa pode
-        apresentar a pele pálida, cianosada ou hiperemiada (avermelhada e
-        quente). A cor e a umidade da pele devem ser observadas na face e nas
-        extremidades dos membros, onde as alterações se manifestam primeiro
-        (Quadro VI). A pele pode também ficar úmida e pegajosa. Pode-se observar
-        estas alterações melhor no antebraço e na barriga.
+        <Mark
+          toText="A cor e a umidade da pele são também
+        sinais de apoio muito útil no reconhecimento do estado geral de um
+        acidentado. Uma pessoa pode apresentar a pele pálida, cianosada ou
+        hiperemiada (avermelhada e quente). A cor e a umidade da pele devem ser
+        observadas na face e nas extremidades dos membros, onde as alterações se
+        manifestam primeiro (Quadro VI). A pele pode também ficar úmida e
+        pegajosa. Pode-se observar estas alterações melhor no antebraço e na
+        barriga."
+          toMark={toSearch}
+        />
       </Text>
       <Image source={IMG6} style={tailwind('w-full')} resizeMode="contain" />
-      <Text style={tailwind('mt-2 underline')}>Estado de Consciência</Text>
+      <Text style={tailwind('mt-2 underline')}>
+        <Mark toText="Estado de Consciência" toMark={toSearch} />
+      </Text>
       <Text style={tailwind('text-justify')}>
-        Este é outro sinal de apoio importante. A consciência plena é o estado
+        <Mark
+          toText="Este é outro sinal de apoio importante. A consciência plena é o estado
         em que uma pessoa mantém o nível de lucidez que lhe permite perceber
         normalmente o ambiente que a cerca, com todos os sentidos saudáveis
         respondendo aos estímulos sensoriais. Quando se encontra um acidentado
@@ -364,13 +432,16 @@ const Cap1: React.FC = () => {
         súbita e breve perda de consciência e diminuição do tônus muscular. Já o
         estado de coma é caracterizado por uma perda de consciência mais
         prolongada e profunda, podendo o acidentado deixar de apresentar
-        gradativamente reação aos estímulos dolorosos e perda dos reflexos.
+        gradativamente reação aos estímulos dolorosos e perda dos reflexos."
+          toMark={toSearch}
+        />
       </Text>
       <Text style={tailwind('mt-2 underline')}>
-        Motilidade e Sensibilidade do Corpo
+        <Mark toText="Motilidade e Sensibilidade do Corpo" toMark={toSearch} />
       </Text>
       <Text style={tailwind('text-justify')}>
-        Qualquer pessoa consciente que apresente dificuldade ou incapacidade de
+        <Mark
+          toText="Qualquer pessoa consciente que apresente dificuldade ou incapacidade de
         sentir ou movimentar determinadas partes do corpo, está obviamente fora
         de seu estado normal de saúde. A capacidade de mover e sentir partes do
         corpo são um sinal que pode nos dar muitas informações. Quando há
@@ -390,12 +461,19 @@ const Cap1: React.FC = () => {
         tomar muito cuidado com o manuseio e transporte do acidentado para
         evitar o agravamento da lesão. Convém ainda lembrar que o acidentado de
         histeria, alcoolismo agudo ou intoxicação por drogas, mesmo que sofra
-        acidente traumático, pode não sentir dor por várias horas.
+        acidente traumático, pode não sentir dor por várias horas."
+          toMark={toSearch}
+        />
       </Text>
-      <Text style={tailwind('text-lg font-bold mt-2')}>Asfixia</Text>
-      <Text style={tailwind('mt-2 underline')}>Principais Causas</Text>
+      <Text style={tailwind('text-lg font-bold mt-2')}>
+        <Mark toText="Asfixia" toMark={toSearch} />
+      </Text>
+      <Text style={tailwind('mt-2 underline')}>
+        <Mark toText="Principais Causas" toMark={toSearch} />
+      </Text>
       <Text style={tailwind('text-justify')}>
-        A. Bloqueio da passagem de ar. Pode acontecer nos casos de afogamento,
+        <Mark
+          toText="A. Bloqueio da passagem de ar. Pode acontecer nos casos de afogamento,
         secreções e espasmos da laringe, estrangulamento, soterramento e
         bloqueio do ar causado por ossos, alimentos ou qualquer corpo estranho
         na garganta. B. Insuficiência de oxigênio no ar. Pode ocorrer em
@@ -408,19 +486,25 @@ const Cap1: React.FC = () => {
         respiratório, por ingestão de grande quantidade de álcool, ou de
         substâncias anestésicas, psicotrópicos e tranqüilizantes. E. Compressão
         do corpo. Pode ser causado por forte pressão externa (por exemplo,
-        traumatismo torácico), nos músculos respiratórios.
+        traumatismo torácico), nos músculos respiratórios."
+          toMark={toSearch}
+        />
       </Text>
-      <Text style={tailwind('mt-2 underline')}>Primeiros Socorros</Text>
+      <Text style={tailwind('mt-2 underline')}>
+        <Mark toText="Primeiros Socorros" toMark={toSearch} />
+      </Text>
       <Text style={tailwind('text-justify')}>
-        · A primeira conduta é favorecer a passagem do ar através da boca e das
-        narinas · Afastar a causa. · Verificar se o acidentado está consciente ·
-        Desapertar as roupas do acidentado, principalmente em volta do pescoço,
-        peito e cintura. · Retirar qualquer objeto da boca ou da garganta do
-        acidentado, para abrir e manter desobstruída a passagem de ar. · Para
-        assegurar que o acidentado inconsciente continue respirando, coloque-a
-        na posição lateral de segurança. · Iniciar a respiração de socorro
-        (conforme relatado a frente), tão logo tenha sido o acidentado colocado
-        na posição correta. Lembrar que cada segundo é importante para a vida do
+        <Mark
+          toText="· A primeira conduta é favorecer a
+        passagem do ar através da boca e das narinas · Afastar a causa. ·
+        Verificar se o acidentado está consciente · Desapertar as roupas do
+        acidentado, principalmente em volta do pescoço, peito e cintura. ·
+        Retirar qualquer objeto da boca ou da garganta do acidentado, para abrir
+        e manter desobstruída a passagem de ar. · Para assegurar que o
+        acidentado inconsciente continue respirando, coloque-a na posição
+        lateral de segurança. · Iniciar a respiração de socorro (conforme
+        relatado a frente), tão logo tenha sido o acidentado colocado na posição
+        correta. Lembrar que cada segundo é importante para a vida do
         acidentado. · Repetir a respiração de socorro tantas vezes quanto
         necessário, até que o acidentado de entrada em local onde possa receber
         assistência adequada. · Manter o acidentado aquecido, para prevenir o
@@ -432,28 +516,34 @@ const Cap1: React.FC = () => {
         a respiração cesse novamente. · Não deslocar o acidentado até que sua
         respiração volte ao nor- mal. · Remover o acidentado, somente deitado,
         mas só em caso de ex- trema necessidade. · Solicitar socorro
-        especializado mesmo que o acidentado esteja recuperado.
+        especializado mesmo que o acidentado esteja recuperado."
+          toMark={toSearch}
+        />
       </Text>
       <Text style={tailwind('text-lg font-bold mt-2')}>
-        Ressuscitação cardío-respiratória
+        <Mark toText="Ressuscitação cardío-respiratória" toMark={toSearch} />
       </Text>
-      <Text style={tailwind('mt-2 underline')}>Principais Causas</Text>
+      <Text style={tailwind('mt-2 underline')}>
+        <Mark toText="Principais Causas" toMark={toSearch} />
+      </Text>
       <Text style={tailwind('text-justify')}>
-        A parada cardíaca e a parada respiratória podem ocorrer por diversos
-        fatores, atuando de modo isolado ou associado. Em determinadas
-        circunstâncias, não é possível estabelecer com segurança qual ou quais
-        os agentes que as produziram. Podem ser divididas em dois grupos, e a
-        importância desta classificação é que a conduta de quem está socorrendo
-        varia de acordo com a causa. · Primárias A parada cardíaca se deve a um
-        problema do próprio coração, causando uma arritmia cardíaca, geralmente
-        a fibrilação ventricular. A causa principal é a isquemia cardíaca
-        (chegada de quantidade insuficiente de sangue oxigenado ao coração). São
-        as principais causas de paradas cardíacas em adultos que não foram
-        vítimas de traumatismos. · Secundárias A disfunção do coração é causada
-        por problema respiratório ou por uma causa externa. São as principais
-        causas de parada cardío-respiratória em vítimas de traumatismos. a -
-        Oxigenação deficiente: obstrução de vias aéreas e doenças pulmonares. b
-        - Transporte inadequado de oxigênio: hemorragia grave, estado de choque,
+        <Mark
+          toText="A parada cardíaca e a parada
+        respiratória podem ocorrer por diversos fatores, atuando de modo isolado
+        ou associado. Em determinadas circunstâncias, não é possível estabelecer
+        com segurança qual ou quais os agentes que as produziram. Podem ser
+        divididas em dois grupos, e a importância desta classificação é que a
+        conduta de quem está socorrendo varia de acordo com a causa. · Primárias
+        A parada cardíaca se deve a um problema do próprio coração, causando uma
+        arritmia cardíaca, geralmente a fibrilação ventricular. A causa
+        principal é a isquemia cardíaca (chegada de quantidade insuficiente de
+        sangue oxigenado ao coração). São as principais causas de paradas
+        cardíacas em adultos que não foram vítimas de traumatismos. ·
+        Secundárias A disfunção do coração é causada por problema respiratório
+        ou por uma causa externa. São as principais causas de parada
+        cardío-respiratória em vítimas de traumatismos. a - Oxigenação
+        deficiente: obstrução de vias aéreas e doenças pulmonares. b -
+        Transporte inadequado de oxigênio: hemorragia grave, estado de choque,
         intoxicação por monóxido de carbono. c - Ação de fatores externos sobre
         o coração: drogas e descargas elétricas. No ambiente de trabalho deve-se
         dedicar especial atenção a trabalhos com substâncias químicas, tais como
@@ -468,61 +558,80 @@ const Cap1: React.FC = () => {
         coração para primeiro, as complicações serão maiores, pois a chegada de
         oxigênio ao cérebro estará instantaneamente comprometida: os músculos
         respiratórios perdem rapidamente a eficiência funcional; ocorre imediata
-        parada respiratória podendo ocorrer lesão cerebral irreversível e morte.
+        parada respiratória podendo ocorrer lesão cerebral irreversível e morte."
+          toMark={toSearch}
+        />
       </Text>
       <Image source={IMG7} style={tailwind('w-full')} resizeMode="contain" />
       <Text style={tailwind('mt-2 underline')}>
-        Limitações da Ressuscitação cardío-respiratória
+        <Mark
+          toText="Limitações da Ressuscitação cardío-respiratória"
+          toMark={toSearch}
+        />
       </Text>
       <Text style={tailwind('text-justify')}>
-        A ressuscitação cardío-respiratória não é capaz de evitar a lesão ce-
-        rebral por períodos prolongados. Com o tempo (minutos) a circulação
-        cerebral obtida com as compressões torácicas vai diminuindo
-        progressivamente até se tornar ineficaz. Durante a ressuscitação cardío-
-        respiratória a pressão sistólica atinge de 60 a 80 mmHg, mas a pressão
-        diastólica é muito baixa, diminuindo a perfusão de vários órgãos entre
-        os quais o coração. As paradas por fibrilação ventricular só podem ser
-        revertidas pela desfibrilação. O suporte básico da vida sem
-        desfibrilação não é capaz de manter a vida por períodos prolongados. A
-        reversão da parada cardío-respiratória na maioria dos casos também não é
-        obtida, deste modo é necessário se solicitar apoio ao atendimento
-        especializado com desfibrilação e recursos de suporte avançado.
+        <Mark
+          toText="A ressuscitação cardío-respiratória
+        não é capaz de evitar a lesão ce- rebral por períodos prolongados. Com o
+        tempo (minutos) a circulação cerebral obtida com as compressões
+        torácicas vai diminuindo progressivamente até se tornar ineficaz.
+        Durante a ressuscitação cardío- respiratória a pressão sistólica atinge
+        de 60 a 80 mmHg, mas a pressão diastólica é muito baixa, diminuindo a
+        perfusão de vários órgãos entre os quais o coração. As paradas por
+        fibrilação ventricular só podem ser revertidas pela desfibrilação. O
+        suporte básico da vida sem desfibrilação não é capaz de manter a vida
+        por períodos prolongados. A reversão da parada cardío-respiratória na
+        maioria dos casos também não é obtida, deste modo é necessário se
+        solicitar apoio ao atendimento especializado com desfibrilação e
+        recursos de suporte avançado."
+          toMark={toSearch}
+        />
       </Text>
       <Text style={tailwind('mt-2 underline')}>
-        Posicionamento para a Ressuscitação cardío-respiratória
+        <Mark
+          toText="Posicionamento para a Ressuscitação cardío-respiratória"
+          toMark={toSearch}
+        />
       </Text>
       <Text style={tailwind('text-justify')}>
-        a - Do acidentado: · Posicionar o acidentado em superfície plana e
-        firme. · Mantê-lo em decúbito dorsal, pois as manobras para permitir a
-        abertura da via aérea e as manobras da respiração artificial são mais
-        bem executadas nesta posição. · A cabeça não deve ficar mais alta que os
-        pés, para não prejudicar o fluxo sangüíneo cerebral. · Caso o acidentado
-        esteja sobre uma cama ou outra superfície macia ele deve ser colocado no
-        chão ou então deve ser colocada uma tábua sob seu tronco. · A técnica
-        correta de posicionamento do acidentado deve ser obedecida utilizando-se
-        as manobras de rolamento. b - Da pessoa que esta socorrendo: · Este deve
-        ajoelhar-se ao lado do acidentado, de modo que seus ombros fiquem
-        diretamente sobre o esterno do acidentado.
+        <Mark
+          toText="a - Do acidentado: · Posicionar o
+        acidentado em superfície plana e firme. · Mantê-lo em decúbito dorsal,
+        pois as manobras para permitir a abertura da via aérea e as manobras da
+        respiração artificial são mais bem executadas nesta posição. · A cabeça
+        não deve ficar mais alta que os pés, para não prejudicar o fluxo
+        sangüíneo cerebral. · Caso o acidentado esteja sobre uma cama ou outra
+        superfície macia ele deve ser colocado no chão ou então deve ser
+        colocada uma tábua sob seu tronco. · A técnica correta de posicionamento
+        do acidentado deve ser obedecida utilizando-se as manobras de rolamento.
+        b - Da pessoa que esta socorrendo: · Este deve ajoelhar-se ao lado do
+        acidentado, de modo que seus ombros fiquem diretamente sobre o esterno
+        do acidentado."
+          toMark={toSearch}
+        />
       </Text>
-      <Text style={tailwind('mt-2 underline')}>Primeiros Socorros</Text>
+      <Text style={tailwind('mt-2 underline')}>
+        <Mark toText="Primeiros Socorros" toMark={toSearch} />
+      </Text>
       <Text style={tailwind('text-justify')}>
-        A conduta de quem socorre é vital para o salvamento do acidentado. Uma
-        rápida avaliação do estado geral do acidentado é que vai determinar
-        quais etapas a serem executadas, por ordem de prioridades. A primeira
-        providência a ser tomada é estabelecer o suporte básico da vida, para
-        tal o acidentado deverá estar posicionado adequadamente de modo a
-        permitir a realização de manobras para suporte básico da vida. Adotar
-        medidas de autoproteção colocando luvas e máscaras. O suporte básico da
-        vida consiste na administração de ventilação das vias aéreas e de
-        compressão torácica externa. Estas manobras de apoio vital básico
-        constituem-se de três etapas principais que devem ser seguidas: ·
-        desobstrução das vias aéreas; · suporte respiratório e · suporte
-        circulatório. O reconhecimento da existência de obstrução das vias
-        aéreas pode ser feito pela incapacidade de ouvir ou perceber qualquer
-        fluxo de ar pela boca ou nariz da vítima e observando a retração
-        respiratória das áreas supraclaviculares, supra-esternal e intercostal,
-        quando existem movimentos espontâneos. A obstrução poderá ser
-        reconhecida pela incapacidade de insuflar os pulmões quando se tenta
+        <Mark
+          toText="A conduta de quem socorre é vital
+        para o salvamento do acidentado. Uma rápida avaliação do estado geral do
+        acidentado é que vai determinar quais etapas a serem executadas, por
+        ordem de prioridades. A primeira providência a ser tomada é estabelecer
+        o suporte básico da vida, para tal o acidentado deverá estar posicionado
+        adequadamente de modo a permitir a realização de manobras para suporte
+        básico da vida. Adotar medidas de autoproteção colocando luvas e
+        máscaras. O suporte básico da vida consiste na administração de
+        ventilação das vias aéreas e de compressão torácica externa. Estas
+        manobras de apoio vital básico constituem-se de três etapas principais
+        que devem ser seguidas: · desobstrução das vias aéreas; · suporte
+        respiratório e · suporte circulatório. O reconhecimento da existência de
+        obstrução das vias aéreas pode ser feito pela incapacidade de ouvir ou
+        perceber qualquer fluxo de ar pela boca ou nariz da vítima e observando
+        a retração respiratória das áreas supraclaviculares, supra-esternal e
+        intercostal, quando existem movimentos espontâneos. A obstrução poderá
+        ser reconhecida pela incapacidade de insuflar os pulmões quando se tenta
         ventilar a vítima. A ventilação e a circulação artificiais constituem o
         atendimento imediato para as vítimas de PCR. A ventilação artificial é a
         primeira medida a ser tomada na RCR. Para que essa ventilação seja
@@ -551,7 +660,9 @@ const Cap1: React.FC = () => {
         verificar se o acidentado recuperou a respiração. Em caso afirmativo,
         coloque o acidentado na posição lateral de segurança. Em outras pessoas,
         o palato mole se comporta como uma válvula, provocando a obstrução nasal
-        expiratória, o que exige a abertura da boca.
+        expiratória, o que exige a abertura da boca."
+          toMark={toSearch}
+        />
       </Text>
       <Text style={tailwind('text-blue-500')}>
         Parei na página 40 para tomar um ar kkkkkkkkkkk

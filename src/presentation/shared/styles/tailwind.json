@@ -368,6 +368,12 @@
 			"backgroundColor": "rgb(203 213 225 / var(--tw-bg-opacity))"
 		}
 	},
+	"bg-orange-400": {
+		"style": {
+			"--tw-bg-opacity": 1,
+			"backgroundColor": "rgb(251 146 60 / var(--tw-bg-opacity))"
+		}
+	},
 	"bg-green-600": {
 		"style": {
 			"--tw-bg-opacity": 1,
