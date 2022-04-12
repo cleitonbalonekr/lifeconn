@@ -27,3 +27,7 @@ const DetailsFirstAid: React.FC = () => {
 };
 
 export default DetailsFirstAid;
+
+/* ref={(ref) => {
+  ref?.scrollTo({ y: 300, x: 0, animated: true });
+}} */

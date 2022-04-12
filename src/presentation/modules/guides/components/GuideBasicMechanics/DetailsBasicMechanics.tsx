@@ -15,7 +15,7 @@ const DetailsBasicMechanics: React.FC = () => {
   return (
     <ScrollView
       ref={(ref) => {
-        ref?.scrollTo({ y: 3 * 2500 });
+        ref?.scrollTo({ y: 1 });
       }}
     >
       <View style={tailwind('mt-3 justify-center')}>
