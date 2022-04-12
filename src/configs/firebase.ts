@@ -1,10 +1,18 @@
+import Constants from 'expo-constants';
+// import { getAnalytics } from 'firebase/analytics';
 import { initializeApp } from 'firebase/app';
 
-initializeApp({
-  apiKey: 'AIzaSyChjMdA7xLTWb3CeUIbk_1dXNIDyE28C7M',
-  authDomain: 'lifeconn-4d4ff.firebaseapp.com',
-  projectId: 'lifeconn-4d4ff',
-  storageBucket: 'lifeconn-4d4ff.appspot.com',
-  messagingSenderId: '668458212425',
-  appId: '1:668458212425:android:68365b9c41363ff35c3398'
-});
+const firebaseConfig = {
+  apiKey: Constants.manifest?.extra?.firebaseApiKey,
+  authDomain: Constants.manifest?.extra?.firebaseAuthDomain,
+  projectId: Constants.manifest?.extra?.firebaseProjectId,
+  storageBucket: Constants.manifest?.extra?.firebaseStorageBucket,
+  messagingSenderId: Constants.manifest?.extra?.firebaseMessagingSenderId,
+  appId: Constants.manifest?.extra?.firebaseAppId,
+  measurementId: Constants.manifest?.extra?.firebaseMeasureId
+};
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+// const analytics = getAnalytics(app);
+export default app;
