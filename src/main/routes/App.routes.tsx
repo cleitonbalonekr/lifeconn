@@ -10,6 +10,7 @@ import {
   MakeDetailsContact
 } from '@/main/factories/pages/contacts';
 import { MakeDonate } from '@/main/factories/pages/donate';
+import { MakeEvent } from '@/main/factories/pages/event';
 import { MakeGuides } from '@/main/factories/pages/guides';
 import { MakeHome, MakeHelpSomeoneElse } from '@/main/factories/pages/home';
 import {
@@ -32,6 +33,7 @@ export type AppStackParamList = {
   Guides: undefined;
   DetailsFirstAid: undefined;
   DetailsBasicMechanics: undefined;
+  Event: undefined;
 };
 
 declare global {
@@ -129,7 +131,6 @@ export function AppRoutes() {
         name="Donate"
         component={MakeDonate}
       />
-
       <Stack.Screen
         options={{
           headerShown: true,
@@ -137,6 +138,14 @@ export function AppRoutes() {
         }}
         name="Guides"
         component={MakeGuides}
+      />
+      <Stack.Screen
+        options={{
+          headerShown: true,
+          title: 'Solicitar ajuda'
+        }}
+        name="Event"
+        component={MakeEvent}
       />
     </Stack.Navigator>
   );
