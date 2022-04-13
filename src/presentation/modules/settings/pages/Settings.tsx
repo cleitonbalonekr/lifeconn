@@ -1,4 +1,5 @@
 import { Ionicons } from '@expo/vector-icons';
+import * as Linking from 'expo-linking';
 import React from 'react';
 import { Switch, Text, View } from 'react-native';
 import { useTailwind } from 'tailwind-rn/dist';
@@ -61,6 +62,12 @@ const Settings: React.FC<Props> = ({ validation }) => {
     }
   }
 
+  function handleOpenTotalVoice() {
+    const url = `https://voice-app.zenvia.com/painel/login.php`;
+
+    Linking.openURL(url);
+  }
+
   return (
     <Container scroll>
       <View style={tailwind('flex-1')}>
@@ -93,6 +100,13 @@ const Settings: React.FC<Props> = ({ validation }) => {
           onChangeText={totalVoiceToken.set}
           error={totalVoiceToken.error}
         />
+        <Button
+          label="Plataforma TotalVoice"
+          type="warning"
+          onPress={handleOpenTotalVoice}
+        >
+          <Ionicons name="link" size={20} style={tailwind('text-white')} />
+        </Button>
         <View
           style={tailwind('flex-1 flex-row justify-start items-center mb-2')}
         >
