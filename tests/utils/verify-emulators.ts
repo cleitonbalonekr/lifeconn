@@ -19,12 +19,12 @@ async function testEmulatorIsRunning() {
       return 'emulator is not running';
     }
     const response = await testEmulatorRequest();
-    console.log('response', response.status);
     if (response.status === 200) {
+      console.log('Emulator is  running');
       return 'emulator is  running';
     }
   } catch (error) {
-    console.log('error');
+    console.log('error: ', 'Emulator is not running');
     setTimeout(() => {
       testEmulatorIsRunning();
     }, 6000);

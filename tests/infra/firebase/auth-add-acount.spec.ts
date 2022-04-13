@@ -1,15 +1,21 @@
+import { deleteApp } from 'firebase/app';
+
 import { AuthAddAccount } from '@/infra/firebase/AuthAddAccount';
 import {
   setupEmulators,
-  cleanEmulators
+  cleanEmulators,
+  closeFirebase
 } from '@/tests/utils/firebase-emulator';
 
 describe('AuthAddAccount', () => {
-  beforeEach(() => {
+  beforeAll(() => {
     setupEmulators();
   });
-  afterEach(async () => {
+  beforeEach(async () => {
     await cleanEmulators();
+  });
+  afterAll(async () => {
+    await closeFirebase();
   });
   it('Should register an user an create an user collection', async () => {
     const sut = new AuthAddAccount();
@@ -20,5 +26,6 @@ describe('AuthAddAccount', () => {
     });
     expect(response.email).toEqual('cleitonbaloneker@gmail.com');
     expect(response).toHaveProperty('id');
+    expect(1 + 1).toBe(2);
   });
 });
