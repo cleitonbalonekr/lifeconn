@@ -6,5 +6,8 @@ export interface CheckAccountPhoneNumberRepository {
 }
 
 export namespace CheckAccountPhoneNumberRepository {
-  export type Result = boolean;
+  export type Result = {
+    phoneNumberInUse: boolean;
+    userId: string;
+  };
 }

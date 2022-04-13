@@ -6,5 +6,8 @@ export interface CheckAccountByEmailRepository {
 }
 
 export namespace CheckAccountByEmailRepository {
-  export type Result = boolean;
+  export type Result = {
+    emailInUse: boolean;
+    userId: string;
+  };
 }

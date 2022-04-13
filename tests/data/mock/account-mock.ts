@@ -1,9 +1,12 @@
 /* eslint-disable max-classes-per-file */
 import faker from '@faker-js/faker';
 
-import { AddAccountRepository } from '../protocols/AddAccountRepository';
-import { CheckAccountByEmailRepository } from '../protocols/CheckAccountByEmailRepository';
-import { CheckAccountPhoneNumberRepository } from '../protocols/CheckAccountPhoneNumberRepository';
+import {
+  AddAccountRepository,
+  AddAccountToExistenteUserRepository,
+  CheckAccountByEmailRepository,
+  CheckAccountPhoneNumberRepository
+} from '@/data/protocols/account';
 
 export const fakeUseRegisterData = () => ({
   email: faker.internet.email(),
@@ -15,10 +18,10 @@ export class AddAccountRepositorySpy implements AddAccountRepository {
   public callCount = 0;
 
   public fakeResponse = {
-    id: 'fake_id',
-    authId: 'fake_id',
-    email: 'fake_email',
-    phoneNumber: 'fake_phone_number'
+    id: faker.random.alphaNumeric(8),
+    authId: faker.random.alphaNumeric(8),
+    email: faker.internet.email(),
+    phoneNumber: faker.phone.phoneNumber()
   };
 
   async register(
@@ -28,13 +31,41 @@ export class AddAccountRepositorySpy implements AddAccountRepository {
     return this.fakeResponse;
   }
 }
+export class AddAccountToExistenteUserRepositorySpy
+  implements AddAccountToExistenteUserRepository
+{
+  public callCount = 0;
+
+  public fakeResponse = {
+    id: faker.random.alphaNumeric(8),
+    authId: faker.random.alphaNumeric(8),
+    email: faker.internet.email(),
+    phoneNumber: faker.phone.phoneNumber()
+  };
+
+  async registerExistentUser(
+    params: AddAccountRepository.Params,
+    userId: string
+  ): Promise<AddAccountRepository.Result> {
+    this.callCount += 1;
+    return {
+      ...this.fakeResponse,
+      id: userId
+    };
+  }
+}
 export class CheckAccountByEmailRepositorySpy
   implements CheckAccountByEmailRepository
 {
   public isInUse = false;
 
+  public userId = '';
+
   async checkByEmail(email: string) {
-    return this.isInUse;
+    return {
+      emailInUse: this.isInUse,
+      userId: this.userId
+    };
   }
 }
 export class CheckAccountPhoneNumberRepositorySpy
@@ -42,7 +73,12 @@ export class CheckAccountPhoneNumberRepositorySpy
 {
   public isInUse = false;
 
+  public userId = '';
+
   async checkPhoneNumber(phoneNumber: string) {
-    return this.isInUse;
+    return {
+      phoneNumberInUse: this.isInUse,
+      userId: this.userId
+    };
   }
 }

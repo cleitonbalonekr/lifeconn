@@ -2,7 +2,7 @@ import * as auth from 'firebase/auth';
 import * as firestore from 'firebase/firestore';
 
 import { AuthInstance, FirestoreInstance } from '@/configs/firebase';
-import { AddAccountRepository } from '@/data/protocols/AddAccountRepository';
+import { AddAccountRepository } from '@/data/protocols/account';
 
 export class FirebaseAddAccountRepository implements AddAccountRepository {
   async register(
