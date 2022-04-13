@@ -1,6 +1,5 @@
 import * as auth from 'firebase/auth';
 import * as firestore from 'firebase/firestore';
-import { v4 as uuidv4 } from 'uuid';
 
 import { AuthInstance, FirestoreInstance } from '@/configs/firebase';
 import { AddAccountRepository } from '@/data/protocols/AddAccountRepository';
