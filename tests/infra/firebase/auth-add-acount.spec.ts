@@ -1,11 +1,17 @@
-import { deleteApp } from 'firebase/app';
+import { FirebaseError } from 'firebase/app';
 
-import { AuthAddAccount } from '@/infra/firebase/AuthAddAccount';
+import { FirebaseAddAccountRepository } from '@/infra/firebase/FirebaseAddAccountRepository';
 import {
   setupEmulators,
   cleanEmulators,
   closeFirebase
 } from '@/tests/utils/firebase-emulator';
+
+import { fakeUseRegisterData } from '../mock';
+
+const makeSut = () => {
+  return new FirebaseAddAccountRepository();
+};
 
 describe('AuthAddAccount', () => {
   beforeAll(() => {
@@ -17,15 +23,22 @@ describe('AuthAddAccount', () => {
   afterAll(async () => {
     await closeFirebase();
   });
+  it('Should not register an user with the same email', async () => {
+    const sut = makeSut();
+    const fakeData = fakeUseRegisterData();
+    await sut.register(fakeData);
+    const promise = sut.register(fakeData);
+
+    await expect(promise).rejects.toThrow(
+      new FirebaseError('000', 'Firebase: Error (auth/email-already-in-use).')
+    );
+  });
   it('Should register an user an create an user collection', async () => {
-    const sut = new AuthAddAccount();
-    const response = await sut.register({
-      email: 'cleitonbaloneker@gmail.com',
-      password: 'cleitonbaloneker',
-      phoneNumber: '22992725861'
-    });
-    expect(response.email).toEqual('cleitonbaloneker@gmail.com');
+    const sut = makeSut();
+    const fakeData = fakeUseRegisterData();
+    const response = await sut.register(fakeData);
+    expect(response.email).toEqual(fakeData.email);
+    expect(response.phoneNumber).toEqual(fakeData.phoneNumber);
     expect(response).toHaveProperty('id');
-    expect(1 + 1).toBe(2);
   });
 });
