@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { ScrollView, View } from 'react-native';
 import { useTailwind } from 'tailwind-rn';
 
@@ -13,11 +13,7 @@ const DetailsBasicMechanics: React.FC = () => {
     name: 'searchBasicMechanics'
   });
   return (
-    <ScrollView
-      ref={(ref) => {
-        ref?.scrollTo({ y: 1 });
-      }}
-    >
+    <ScrollView>
       <View style={tailwind('mt-3 justify-center')}>
         <Input
           placeholder="Buscar"
