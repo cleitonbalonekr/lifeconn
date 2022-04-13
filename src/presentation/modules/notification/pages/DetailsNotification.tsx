@@ -51,7 +51,7 @@ const DetailsNotification: React.FC = () => {
   });
 
   function handleOpenMaps() {
-    const url = `https://www.google.com.br/maps/@${lat.value},${lng.value},15z`;
+    const url = `https://www.google.pt/maps?q=${lat.value},${lng.value}`;
 
     Linking.openURL(url);
   }
