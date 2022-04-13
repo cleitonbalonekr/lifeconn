@@ -1,8 +1,11 @@
+import faker from '@faker-js/faker';
+
 import { RemoteAddAccount } from '@/data/usecases/RemoteAddAccount';
 import { EmailInUseError } from '@/domain/errors';
 
 import {
   AddAccountRepositorySpy,
+  AddAccountToExistenteUserRepositorySpy,
   CheckAccountByEmailRepositorySpy,
   CheckAccountPhoneNumberRepositorySpy,
   fakeUseRegisterData
@@ -10,6 +13,8 @@ import {
 
 const makeSut = () => {
   const addAccountRepositorySpy = new AddAccountRepositorySpy();
+  const addAccountToExistenteUserRepositorySpy =
+    new AddAccountToExistenteUserRepositorySpy();
   const checkAccountPhoneNumberRepositorySpy =
     new CheckAccountPhoneNumberRepositorySpy();
   const checkAccountByEmailRepositorySpy =
@@ -17,12 +22,15 @@ const makeSut = () => {
   const remoteAddAccount = new RemoteAddAccount(
     addAccountRepositorySpy,
     checkAccountByEmailRepositorySpy,
-    checkAccountPhoneNumberRepositorySpy
+    checkAccountPhoneNumberRepositorySpy,
+    addAccountToExistenteUserRepositorySpy
   );
   return {
     remoteAddAccount,
     addAccountRepositorySpy,
-    checkAccountByEmailRepositorySpy
+    checkAccountByEmailRepositorySpy,
+    checkAccountPhoneNumberRepositorySpy,
+    addAccountToExistenteUserRepositorySpy
   };
 };
 
@@ -33,6 +41,23 @@ describe('RemoteAddAccount', () => {
     const fakeRegisterData = fakeUseRegisterData();
     const promise = remoteAddAccount.add(fakeRegisterData);
     await expect(promise).rejects.toThrow(new EmailInUseError());
+  });
+  it('should call addAccountToExistenteUserRepository when phone number is in use ', async () => {
+    const {
+      remoteAddAccount,
+      checkAccountPhoneNumberRepositorySpy,
+      addAccountToExistenteUserRepositorySpy
+    } = makeSut();
+    checkAccountPhoneNumberRepositorySpy.isInUse = true;
+    const fakeRegisterData = fakeUseRegisterData();
+    checkAccountPhoneNumberRepositorySpy.userId = faker.random.alphaNumeric(8);
+    const response = await remoteAddAccount.add(fakeRegisterData);
+    expect(addAccountToExistenteUserRepositorySpy.callCount).toBe(1);
+    expect(response).toHaveProperty('id');
+    expect(response).toEqual({
+      ...addAccountToExistenteUserRepositorySpy.fakeResponse,
+      id: checkAccountPhoneNumberRepositorySpy.userId
+    });
   });
   it('should call AddAccountRepository and return authUser', async () => {
     const { remoteAddAccount, addAccountRepositorySpy } = makeSut();
