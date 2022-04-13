@@ -28,6 +28,7 @@
         "prettier/prettier": "error",
         "no-undef":"off",
         "no-empty-function":"off",
+        "no-redeclare":"off",
         "no-unused-vars":"off",
         "react/jsx-no-bind":"off",
         "react/require-default-props":"off",
