@@ -15,6 +15,7 @@ export namespace AddAccountRepository {
   };
 
   export type Result = {
+    authId: string;
     id: string;
     email: string;
     phoneNumber: string;

@@ -50,6 +50,7 @@
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",
+    "@faker-js/faker": "^6.1.2",
     "@firebase/rules-unit-testing": "^2.0.2",
     "@swc/core": "^1.2.161",
     "@swc/jest": "^0.2.20",
