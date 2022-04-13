@@ -1,5 +1,6 @@
 import * as auth from 'firebase/auth';
 import * as firestore from 'firebase/firestore';
+import { v4 as uuidv4 } from 'uuid';
 
 import { AuthInstance, FirestoreInstance } from '@/configs/firebase';
 import { AddAccountRepository } from '@/data/protocols/AddAccountRepository';
@@ -15,16 +16,17 @@ export class FirebaseAddAccountRepository implements AddAccountRepository {
       email,
       password
     );
-
     const userCollection = firestore.collection(FirestoreInstance, 'users');
-    const userDoc = firestore.doc(userCollection, user.uid);
+    const userDoc = firestore.doc(userCollection);
     await firestore.setDoc(userDoc, {
+      authId: user.uid,
       phoneNumber,
       email
     });
 
     return {
-      id: user.uid,
+      authId: user.uid,
+      id: userDoc.id,
       email,
       phoneNumber
     };

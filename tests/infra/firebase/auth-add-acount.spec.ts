@@ -40,5 +40,6 @@ describe('AuthAddAccount', () => {
     expect(response.email).toEqual(fakeData.email);
     expect(response.phoneNumber).toEqual(fakeData.phoneNumber);
     expect(response).toHaveProperty('id');
+    expect(response).toHaveProperty('authId');
   });
 });
