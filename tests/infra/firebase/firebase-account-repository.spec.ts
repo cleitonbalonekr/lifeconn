@@ -73,4 +73,25 @@ describe('FirebaseAccountRepository', () => {
       expect(response.userId).toBe('');
     });
   });
+  describe('CheckByPhoneNumber', () => {
+    it('Should return true and the userId of an phoneNumber that is in use', async () => {
+      const sut = makeSut();
+      const { phoneNumber } = fakeUseRegisterData();
+      const userDoc = getUserDoc();
+      await firestore.setDoc(userDoc, {
+        phoneNumber
+      });
+      const response = await sut.checkPhoneNumber(phoneNumber);
+      expect(response.phoneNumberInUse).toBe(true);
+      expect(response.userId).toBe(userDoc.id);
+    });
+    it('Should return false and empty userId if phoneNumber is not in use', async () => {
+      const sut = makeSut();
+      const { phoneNumber } = fakeUseRegisterData();
+
+      const response = await sut.checkPhoneNumber(phoneNumber);
+      expect(response.phoneNumberInUse).toBe(false);
+      expect(response.userId).toBe('');
+    });
+  });
 });

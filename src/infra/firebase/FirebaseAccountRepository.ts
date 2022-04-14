@@ -9,7 +9,10 @@ import {
 } from '@/data/protocols/account';
 
 export class FirebaseAccountRepository
-  implements AddAccountRepository, CheckAccountByEmailRepository
+  implements
+    AddAccountRepository,
+    CheckAccountByEmailRepository,
+    CheckAccountPhoneNumberRepository
 {
   private userCollection: firestore.CollectionReference;
 
@@ -48,12 +51,36 @@ export class FirebaseAccountRepository
       this.userCollection,
       firestore.where('email', '==', email)
     );
+    const { userId, inUse } = await this.formatCheckUser(query);
+
+    return {
+      emailInUse: inUse,
+      userId
+    };
+  }
+
+  async checkPhoneNumber(phoneNumber: string) {
+    const query = firestore.query(
+      this.userCollection,
+      firestore.where('phoneNumber', '==', phoneNumber)
+    );
+    const { userId, inUse } = await this.formatCheckUser(query);
+
+    return {
+      phoneNumberInUse: inUse,
+      userId
+    };
+  }
+
+  private async formatCheckUser(
+    query: firestore.Query<firestore.DocumentData>
+  ) {
     const snapshot = await firestore.getDocs(query);
     const user = snapshot.docs[0];
     const userId = snapshot.empty ? '' : user.id;
 
     return {
-      emailInUse: !snapshot.empty,
+      inUse: !snapshot.empty,
       userId
     };
   }
