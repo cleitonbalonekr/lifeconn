@@ -112,6 +112,31 @@ describe('FirebaseAccountRepository', () => {
       expect(response).toHaveProperty('authId');
     });
   });
+  describe('GetUserByAuthId', () => {
+    it('Should return AuthUser info when find user', async () => {
+      const sut = makeSut();
+      const { email, phoneNumber } = fakeUseRegisterData();
+      const userId = fakeId;
+      const authId = `${fakeId}authId`;
+
+      const userDoc = getUserDoc(userId);
+      await firestore.setDoc(userDoc, {
+        email,
+        phoneNumber,
+        authId
+      });
+      const response = await sut.getUserByAuthId(authId);
+      expect(response).toHaveProperty('id', userId);
+      expect(response).toHaveProperty('authId', authId);
+      expect(response).toHaveProperty('phoneNumber', phoneNumber);
+      expect(response).toHaveProperty('email', email);
+    });
+    it('Should return null when does not find user', async () => {
+      const sut = makeSut();
+      const response = await sut.getUserByAuthId(fakeId);
+      expect(response).toBe(null);
+    });
+  });
   describe('CheckByEmail', () => {
     it('Should return true and the userId of an email that is in use', async () => {
       const sut = makeSut();

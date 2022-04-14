@@ -8,8 +8,10 @@ import {
   CheckAccountByEmailRepository,
   CheckAccountPhoneNumberRepository,
   AddAccountToExistenteUserRepository,
-  SignInWithEmailAndPasswordRepository
+  SignInWithEmailAndPasswordRepository,
+  GetUserInfoByAuthRepository
 } from '@/data/protocols/account';
+import { AuthUser } from '@/domain/models';
 
 export class FirebaseAccountRepository
   implements
@@ -17,12 +19,32 @@ export class FirebaseAccountRepository
     CheckAccountByEmailRepository,
     CheckAccountPhoneNumberRepository,
     AddAccountToExistenteUserRepository,
-    SignInWithEmailAndPasswordRepository
+    SignInWithEmailAndPasswordRepository,
+    GetUserInfoByAuthRepository
 {
   private userCollection: firestore.CollectionReference;
 
   constructor() {
     this.userCollection = firestore.collection(FirestoreInstance, 'users');
+  }
+
+  async getUserByAuthId(
+    authId: string
+  ): Promise<GetUserInfoByAuthRepository.Result> {
+    const query = firestore.query(
+      this.userCollection,
+      firestore.where('authId', '==', authId)
+    );
+    const snapshot = await firestore.getDocs(query);
+    const user = snapshot.docs[0];
+
+    const response = snapshot.empty
+      ? null
+      : ({
+          id: user.id,
+          ...user.data()
+        } as AuthUser);
+    return response;
   }
 
   async signIn(
