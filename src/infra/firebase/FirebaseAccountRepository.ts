@@ -1,3 +1,4 @@
+import { FirebaseError } from 'firebase/app';
 import * as auth from 'firebase/auth';
 import * as firestore from 'firebase/firestore';
 
@@ -6,7 +7,8 @@ import {
   AddAccountRepository,
   CheckAccountByEmailRepository,
   CheckAccountPhoneNumberRepository,
-  AddAccountToExistenteUserRepository
+  AddAccountToExistenteUserRepository,
+  SignInWithEmailAndPasswordRepository
 } from '@/data/protocols/account';
 
 export class FirebaseAccountRepository
@@ -14,12 +16,36 @@ export class FirebaseAccountRepository
     AddAccountRepository,
     CheckAccountByEmailRepository,
     CheckAccountPhoneNumberRepository,
-    AddAccountToExistenteUserRepository
+    AddAccountToExistenteUserRepository,
+    SignInWithEmailAndPasswordRepository
 {
   private userCollection: firestore.CollectionReference;
 
   constructor() {
     this.userCollection = firestore.collection(FirestoreInstance, 'users');
+  }
+
+  async signIn(
+    params: SignInWithEmailAndPasswordRepository.Params
+  ): Promise<SignInWithEmailAndPasswordRepository.Result> {
+    try {
+      const { email, password } = params;
+
+      const { user } = await auth.signInWithEmailAndPassword(
+        AuthInstance,
+        email,
+        password
+      );
+      return {
+        authId: user.uid
+      };
+    } catch (error: any) {
+      if (error instanceof FirebaseError) {
+        if (error.code === auth.AuthErrorCodes.USER_DELETED) return null;
+        if (error.code === auth.AuthErrorCodes.INVALID_PASSWORD) return null;
+      }
+      throw error;
+    }
   }
 
   async register(

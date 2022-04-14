@@ -1,7 +1,8 @@
 import { FirebaseError } from 'firebase/app';
+import * as auth from 'firebase/auth';
 import * as firestore from 'firebase/firestore';
 
-import { FirestoreInstance } from '@/configs/firebase';
+import { AuthInstance, FirestoreInstance } from '@/configs/firebase';
 import { FirebaseAccountRepository } from '@/infra/firebase/FirebaseAccountRepository';
 import {
   setupEmulators,
@@ -50,6 +51,38 @@ describe('FirebaseAccountRepository', () => {
       expect(response.phoneNumber).toEqual(fakeData.phoneNumber);
       expect(response).toHaveProperty('id');
       expect(response).toHaveProperty('authId');
+    });
+  });
+  describe('SignIn', () => {
+    it('Should not signIn with inexistent user', async () => {
+      const sut = makeSut();
+      const { email, password } = fakeUseRegisterData();
+      const response = await sut.signIn({ email, password });
+      expect(response).toBeNull();
+    });
+    it('Should not signIn with invalid credentials', async () => {
+      const sut = makeSut();
+      const { email, password } = fakeUseRegisterData();
+      await auth.createUserWithEmailAndPassword(AuthInstance, email, password);
+      const response = await sut.signIn({
+        email,
+        password: fakeUseRegisterData().password
+      });
+      expect(response).toBeNull();
+    });
+    it('Should not signIn with valid credentials', async () => {
+      const sut = makeSut();
+      const { email, password } = fakeUseRegisterData();
+      const { user } = await auth.createUserWithEmailAndPassword(
+        AuthInstance,
+        email,
+        password
+      );
+      const response = await sut.signIn({
+        email,
+        password
+      });
+      expect(response).toHaveProperty('authId', user.uid);
     });
   });
   describe('RegisterExistentUser', () => {
