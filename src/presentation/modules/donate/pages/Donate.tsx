@@ -1,4 +1,5 @@
 import { Ionicons } from '@expo/vector-icons';
+import * as Linking from 'expo-linking';
 import React from 'react';
 import { Text, View } from 'react-native';
 import { useTailwind } from 'tailwind-rn';
@@ -9,6 +10,13 @@ import ButtonLink from '@/presentation/shared/components/form/link';
 
 const Donate: React.FC = () => {
   const tailwind = useTailwind();
+
+  function handleOpenYoutube() {
+    const url = `https://www.youtube.com/watch?v=8NU3qpD1ChE`;
+
+    Linking.openURL(url);
+  }
+
   return (
     <Container scroll>
       <View style={tailwind('flex-1 justify-center mt-10')}>
@@ -24,7 +32,6 @@ const Donate: React.FC = () => {
           você tem seu próprio Token, o que nos permite usá-lo para fazer
           chamadas em sua conta.
         </Text>
-        <ButtonLink label="Assista o video para mais detalhes" />
         <View style={tailwind('flex-1 mt-10')}>
           <Text style={tailwind('text-lg text-center font-ubuntu')}>
             Quantidade de ligações disponíveis:{'\n'}
@@ -42,6 +49,11 @@ const Donate: React.FC = () => {
             />
           </Button>
         </View>
+        <ButtonLink
+          label="Assista o video de criar token privado"
+          onPress={handleOpenYoutube}
+        />
+        <ButtonLink label="Assista o video para mais detalhes" />
       </View>
     </Container>
   );
