@@ -5,3 +5,4 @@ export const fakeUseRegisterData = () => ({
   password: faker.internet.password(),
   phoneNumber: faker.phone.phoneNumber()
 });
+export const fakeId = faker.datatype.uuid();

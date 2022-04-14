@@ -1,7 +1,7 @@
 import faker from '@faker-js/faker';
 
 import { RemoteAddAccount } from '@/data/usecases/RemoteAddAccount';
-import { EmailInUseError } from '@/domain/errors';
+import { EmailInUseError, UnexpectedError } from '@/domain/errors';
 
 import {
   AddAccountRepositorySpy,
@@ -10,6 +10,7 @@ import {
   CheckAccountPhoneNumberRepositorySpy,
   fakeUseRegisterData
 } from '../mock';
+import { throwError } from '../mock/auth-mock';
 
 const makeSut = () => {
   const addAccountRepositorySpy = new AddAccountRepositorySpy();
@@ -58,6 +59,17 @@ describe('RemoteAddAccount', () => {
       ...addAccountToExistenteUserRepositorySpy.fakeResponse,
       id: checkAccountPhoneNumberRepositorySpy.userId
     });
+  });
+  it('should throw UnexpectedError when a error that is not expect happen', async () => {
+    const { remoteAddAccount, addAccountRepositorySpy } = makeSut();
+    jest
+      .spyOn(addAccountRepositorySpy, 'register')
+      .mockImplementationOnce(throwError);
+
+    const fakeRegisterData = fakeUseRegisterData();
+    const promise = remoteAddAccount.add(fakeRegisterData);
+
+    await expect(promise).rejects.toThrow(new UnexpectedError());
   });
   it('should call AddAccountRepository and return authUser', async () => {
     const { remoteAddAccount, addAccountRepositorySpy } = makeSut();
