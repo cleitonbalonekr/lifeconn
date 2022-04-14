@@ -1,4 +1,5 @@
 import { Ionicons } from '@expo/vector-icons';
+import { useNavigation } from '@react-navigation/native';
 import * as Linking from 'expo-linking';
 import React from 'react';
 import { Switch, Text, View } from 'react-native';
@@ -7,6 +8,7 @@ import { useTailwind } from 'tailwind-rn/dist';
 import { Validation } from '@/presentation/protocols';
 import Container from '@/presentation/shared/components/Container';
 import Button from '@/presentation/shared/components/form/button';
+import ButtonOutline from '@/presentation/shared/components/form/buttonOutline';
 import Input from '@/presentation/shared/components/form/input';
 import { useAuth } from '@/presentation/shared/context/auth';
 import useFeedbackMessage from '@/presentation/shared/hooks/useFeedbackMessage';
@@ -19,6 +21,7 @@ interface Props {
 const Settings: React.FC<Props> = ({ validation }) => {
   const { signOut } = useAuth();
   const { showSuccess } = useFeedbackMessage();
+  const navigation = useNavigation();
   const email = useInputState({
     name: 'email'
   });
@@ -67,6 +70,9 @@ const Settings: React.FC<Props> = ({ validation }) => {
 
     Linking.openURL(url);
   }
+  function handleNavigateToMedicalInfo() {
+    navigation.navigate('MedicalInfo');
+  }
 
   return (
     <Container scroll>
@@ -100,13 +106,26 @@ const Settings: React.FC<Props> = ({ validation }) => {
           onChangeText={totalVoiceToken.set}
           error={totalVoiceToken.error}
         />
-        <Button
+        <ButtonOutline
           label="Plataforma TotalVoice"
           type="warning"
           onPress={handleOpenTotalVoice}
         >
-          <Ionicons name="link" size={20} style={tailwind('text-white')} />
-        </Button>
+          <Ionicons name="link" size={20} style={tailwind('text-yellow-600')} />
+        </ButtonOutline>
+        <View style={tailwind('mt-2')}>
+          <ButtonOutline
+            label="Informações médicas"
+            type="primary"
+            onPress={handleNavigateToMedicalInfo}
+          >
+            <Ionicons
+              name="heart-outline"
+              size={20}
+              style={tailwind('text-blue-600')}
+            />
+          </ButtonOutline>
+        </View>
         <View
           style={tailwind('flex-1 flex-row justify-start items-center mb-2')}
         >

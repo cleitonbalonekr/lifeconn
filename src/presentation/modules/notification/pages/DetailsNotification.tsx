@@ -9,7 +9,7 @@ import Button from '@/presentation/shared/components/form/button';
 import Input from '@/presentation/shared/components/form/input';
 import useInputState from '@/presentation/shared/hooks/useInputState';
 
-import MedicalInfo from '../components/MedicalInfo';
+import MedicalInfoElse from '../components/MedicalInfoElse';
 
 const fakeMedicalInfo = [
   {
@@ -98,7 +98,7 @@ const DetailsNotification: React.FC = () => {
           contentContainerStyle={tailwind('flex-grow')}
           keyExtractor={(item) => String(item.id)}
           horizontal
-          renderItem={({ item }) => <MedicalInfo item={item} />}
+          renderItem={({ item }) => <MedicalInfoElse item={item} />}
           ListEmptyComponent={() => (
             <View style={tailwind('flex-1 h-36 items-center justify-center')}>
               <Text style={tailwind('font-ubuntu-bold')}>

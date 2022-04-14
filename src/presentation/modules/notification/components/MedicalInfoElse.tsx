@@ -12,7 +12,7 @@ interface Props {
   };
 }
 
-const MedicalInfo: React.FC<Props> = ({ item }) => {
+const MedicalInfoElse: React.FC<Props> = ({ item }) => {
   const tailwind = useTailwind();
 
   return (
@@ -39,4 +39,4 @@ const MedicalInfo: React.FC<Props> = ({ item }) => {
   );
 };
 
-export default MedicalInfo;
+export default MedicalInfoElse;

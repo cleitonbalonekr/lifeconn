@@ -50,7 +50,7 @@ const Event: React.FC = () => {
           LIFECONN INFORMA
         </Text>
         <Text style={tailwind('mb-2 text-center font-bold')}>
-          Vocês está prestes a acionar o corpo de bombeiros e notificar amigos e
+          Vocês está prestes a acionar o corpo de bombeiros e notificar
           familiares! Para continuar clique no botão "CONFIRMAR"!
         </Text>
         <Text style={tailwind('mb-2 text-red-500')}>
