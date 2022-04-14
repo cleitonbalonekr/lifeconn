@@ -58,6 +58,8 @@ const Home: React.FC = () => {
   function handleNavigateTo(navigateTo: Routes) {
     navigation.navigate(navigateTo);
   }
+
+  navigation.navigate('Term');
   return (
     <Container>
       <Header />

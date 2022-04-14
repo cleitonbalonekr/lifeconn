@@ -12,17 +12,23 @@ import {
 import { MakeDonate } from '@/main/factories/pages/donate';
 import { MakeEvent } from '@/main/factories/pages/event';
 import { MakeGuides } from '@/main/factories/pages/guides';
-import { MakeHome, MakeHelpSomeoneElse } from '@/main/factories/pages/home';
+import {
+  MakeHome,
+  MakeHelpSomeoneElse,
+  MakeTerm
+} from '@/main/factories/pages/home';
 import {
   MakeNotifications,
   MakeDetailsNotification
 } from '@/main/factories/pages/notification';
-import { MakeSettings } from '@/main/factories/pages/settings';
+import { MakeSettings, MakeMedicalInfo } from '@/main/factories/pages/settings';
 
 export type AppStackParamList = {
   Home: undefined;
   HelpSomeoneElse: undefined;
+  Term: undefined;
   Settings: undefined;
+  MedicalInfo: undefined;
   Notifications: undefined;
   DetailsNotification: undefined;
   Contacts: undefined;
@@ -69,11 +75,26 @@ export function AppRoutes() {
       />
       <Stack.Screen
         options={{
+          headerShown: false
+        }}
+        name="Term"
+        component={MakeTerm}
+      />
+      <Stack.Screen
+        options={{
           headerShown: true,
           title: 'Configurações'
         }}
         name="Settings"
         component={MakeSettings}
+      />
+      <Stack.Screen
+        options={{
+          headerShown: true,
+          title: 'Informações médicas'
+        }}
+        name="MedicalInfo"
+        component={MakeMedicalInfo}
       />
       <Stack.Screen
         options={{
