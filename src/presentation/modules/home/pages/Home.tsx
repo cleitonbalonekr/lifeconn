@@ -50,7 +50,7 @@ const OPTIONS_LIST = [
   }
 ];
 
-type Routes = 'Settings' | 'Notifications' | 'Donate' | 'Contacts';
+type Routes = 'Settings' | 'Notifications' | 'Donate' | 'Contacts' | 'Event';
 
 const Home: React.FC = () => {
   const tailwind = useTailwind();
@@ -61,7 +61,11 @@ const Home: React.FC = () => {
   return (
     <Container>
       <Header />
-      <HelpButton />
+      <HelpButton
+        onPress={() => {
+          handleNavigateTo('Event' as Routes);
+        }}
+      />
       <View style={tailwind('mt-2 flex-1')}>
         <View style={tailwind('border border-gray-300 my-4 ')} />
         <Text style={tailwind('text-center font-ubuntu-bold')}>Menu</Text>
