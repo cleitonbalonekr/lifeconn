@@ -52,6 +52,33 @@ describe('FirebaseAccountRepository', () => {
       expect(response).toHaveProperty('authId');
     });
   });
+  describe('RegisterExistentUser', () => {
+    it('Should not register an user with the same email', async () => {
+      const sut = makeSut();
+      const fakeData = fakeUseRegisterData();
+
+      await sut.register(fakeData);
+      const promise = sut.registerExistentUser(fakeData, fakeId);
+
+      await expect(promise).rejects.toThrow(
+        new FirebaseError('000', 'Firebase: Error (auth/email-already-in-use).')
+      );
+    });
+    it('Should register an authentication to an existent user', async () => {
+      const sut = makeSut();
+      const fakeData = fakeUseRegisterData();
+      const userId = fakeId;
+      const userDoc = getUserDoc(userId);
+      await firestore.setDoc(userDoc, {
+        phoneNumber: fakeData.phoneNumber
+      });
+      const response = await sut.registerExistentUser(fakeData, userId);
+      expect(response.email).toEqual(fakeData.email);
+      expect(response.phoneNumber).toEqual(fakeData.phoneNumber);
+      expect(response.id).toEqual(userId);
+      expect(response).toHaveProperty('authId');
+    });
+  });
   describe('CheckByEmail', () => {
     it('Should return true and the userId of an email that is in use', async () => {
       const sut = makeSut();

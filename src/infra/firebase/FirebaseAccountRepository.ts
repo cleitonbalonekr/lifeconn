@@ -5,14 +5,16 @@ import { AuthInstance, FirestoreInstance } from '@/configs/firebase';
 import {
   AddAccountRepository,
   CheckAccountByEmailRepository,
-  CheckAccountPhoneNumberRepository
+  CheckAccountPhoneNumberRepository,
+  AddAccountToExistenteUserRepository
 } from '@/data/protocols/account';
 
 export class FirebaseAccountRepository
   implements
     AddAccountRepository,
     CheckAccountByEmailRepository,
-    CheckAccountPhoneNumberRepository
+    CheckAccountPhoneNumberRepository,
+    AddAccountToExistenteUserRepository
 {
   private userCollection: firestore.CollectionReference;
 
@@ -41,6 +43,31 @@ export class FirebaseAccountRepository
     return {
       authId: user.uid,
       id: userDoc.id,
+      email,
+      phoneNumber
+    };
+  }
+
+  async registerExistentUser(
+    params: AddAccountToExistenteUserRepository.Params,
+    userId: string
+  ): Promise<AddAccountToExistenteUserRepository.Result> {
+    const { email, password, phoneNumber } = params;
+
+    const { user } = await auth.createUserWithEmailAndPassword(
+      AuthInstance,
+      email,
+      password
+    );
+    const doc = firestore.doc(this.userCollection, userId);
+    await firestore.setDoc(doc, {
+      authId: user.uid,
+      email
+    });
+
+    return {
+      authId: user.uid,
+      id: doc.id,
       email,
       phoneNumber
     };
