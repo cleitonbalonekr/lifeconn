@@ -1,4 +1,5 @@
 import { EmailInUseError } from '@/domain/errors';
+import { catchErrorVerification } from '@/domain/errors/utils/catchErrorVerification';
 import { AddAccount } from '@/domain/usecases';
 
 import {
@@ -17,22 +18,26 @@ export class RemoteAddAccount implements AddAccount {
   ) {}
 
   async add(params: AddAccount.Params): Promise<AddAccount.Model> {
-    const { emailInUse } =
-      await this.checkAccountByEmailRepository.checkByEmail(params.email);
-    if (emailInUse) {
-      throw new EmailInUseError();
-    }
-    const { phoneNumberInUse, userId } =
-      await this.checkAccountPhoneNumber.checkPhoneNumber(params.phoneNumber);
-    if (phoneNumberInUse) {
-      const response =
-        await this.addAccountToExistenteUser.registerExistentUser(
-          params,
-          userId
-        );
+    try {
+      const { emailInUse } =
+        await this.checkAccountByEmailRepository.checkByEmail(params.email);
+      if (emailInUse) {
+        throw new EmailInUseError();
+      }
+      const { phoneNumberInUse, userId } =
+        await this.checkAccountPhoneNumber.checkPhoneNumber(params.phoneNumber);
+      if (phoneNumberInUse) {
+        const response =
+          await this.addAccountToExistenteUser.registerExistentUser(
+            params,
+            userId
+          );
+        return response;
+      }
+      const response = await this.addAccountRepository.register(params);
       return response;
+    } catch (error) {
+      return catchErrorVerification(error);
     }
-    const response = await this.addAccountRepository.register(params);
-    return response;
   }
 }
