@@ -1,5 +1,5 @@
 import { RemoteResetPassword } from '@/data/usecases';
-import { UnexpectedError } from '@/domain/errors';
+import { UnexpectedError, UserNotFoundError } from '@/domain/errors';
 
 import {
   getFakeCredentials,
@@ -22,10 +22,10 @@ describe('RemoteResetPassword ', () => {
   it('should call SendEmailToRecoveryPassword ', async () => {
     const { remoteResetPassword, sendEmailToRecoveryPasswordSpy } = makeSut();
     const { email } = getFakeCredentials();
-    const response = await remoteResetPassword.recovery(email);
+    await remoteResetPassword.recovery(email);
     expect(sendEmailToRecoveryPasswordSpy.callCount).toBe(1);
   });
-  it('should throw unexpectedErro is some erro happen ', async () => {
+  it('should throw unexpectedError is some erro happen ', async () => {
     const { remoteResetPassword, sendEmailToRecoveryPasswordSpy } = makeSut();
     const { email } = getFakeCredentials();
     jest
@@ -33,5 +33,12 @@ describe('RemoteResetPassword ', () => {
       .mockImplementationOnce(throwError);
     const promise = remoteResetPassword.recovery(email);
     await expect(promise).rejects.toThrow(new UnexpectedError());
+  });
+  it('should throw UserNotFoundError if user not exist ', async () => {
+    const { remoteResetPassword, sendEmailToRecoveryPasswordSpy } = makeSut();
+    const { email } = getFakeCredentials();
+    sendEmailToRecoveryPasswordSpy.response = false;
+    const promise = remoteResetPassword.recovery(email);
+    await expect(promise).rejects.toThrow(new UserNotFoundError());
   });
 });
