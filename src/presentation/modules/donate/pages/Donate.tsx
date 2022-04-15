@@ -32,6 +32,10 @@ const Donate: React.FC = () => {
           você tem seu próprio Token, o que nos permite usá-lo para fazer
           chamadas em sua conta.
         </Text>
+        <ButtonLink
+          label="Assista o video de criar token privado"
+          onPress={handleOpenYoutube}
+        />
         <View style={tailwind('flex-1 mt-10')}>
           <Text style={tailwind('text-lg text-center font-ubuntu')}>
             Quantidade de ligações disponíveis:{'\n'}
@@ -49,11 +53,6 @@ const Donate: React.FC = () => {
             />
           </Button>
         </View>
-        <ButtonLink
-          label="Assista o video de criar token privado"
-          onPress={handleOpenYoutube}
-        />
-        <ButtonLink label="Assista o video para mais detalhes" />
       </View>
     </Container>
   );
