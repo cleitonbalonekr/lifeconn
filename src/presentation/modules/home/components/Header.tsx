@@ -4,6 +4,7 @@ import React from 'react';
 import { Text, View } from 'react-native';
 import { useTailwind } from 'tailwind-rn/dist';
 
+import { useAuth } from '@/presentation/shared/context/auth';
 import { commonStyle } from '@/presentation/shared/styles/commonStyle';
 
 import HeaderIconNavigator from './HeaderIconNavigator';
@@ -15,6 +16,7 @@ interface Props {
 const Header: React.FC<Props> = ({ from = 'home' }) => {
   const tailwind = useTailwind();
   const navigation = useNavigation();
+  const { authUser } = useAuth();
 
   function handleNavigationToHome() {
     navigation.navigate('Home');
@@ -42,7 +44,7 @@ const Header: React.FC<Props> = ({ from = 'home' }) => {
             numberOfLines={2}
             style={tailwind('text-xs mt-2 w-20 text-center font-ubuntu')}
           >
-            Cleiton Baloneker
+            {authUser.fullName || 'Bem vindo(a)'}
           </Text>
         </View>
         <View style={tailwind('flex-row ')}>

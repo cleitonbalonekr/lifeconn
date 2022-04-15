@@ -155,11 +155,6 @@
 			"marginBottom": 4
 		}
 	},
-	"mb-6": {
-		"style": {
-			"marginBottom": 24
-		}
-	},
 	"flex": {
 		"style": {
 			"display": "flex"
