@@ -3,7 +3,8 @@ import faker from '@faker-js/faker';
 
 import {
   GetUserInfoByAuthRepository,
-  SignInWithEmailAndPasswordRepository
+  SignInWithEmailAndPasswordRepository,
+  SendEmailToRecoveryPassword
 } from '../protocols/account';
 
 export const getFakeCredentials = () => ({
@@ -21,6 +22,20 @@ export const getFakeAuthUser = () => ({
   photo: faker.internet.avatar()
 });
 
+export class SendEmailToRecoveryPasswordSpy
+  implements SendEmailToRecoveryPassword
+{
+  public response = true;
+
+  public callCount = 0;
+
+  async sendEmail(
+    params: SendEmailToRecoveryPassword.Params
+  ): Promise<SendEmailToRecoveryPassword.Result> {
+    this.callCount += 1;
+    return this.response;
+  }
+}
 export class SignInWithEmailAndPasswordRepositorySpy
   implements SignInWithEmailAndPasswordRepository
 {
