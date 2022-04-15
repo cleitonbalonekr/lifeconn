@@ -4,6 +4,7 @@ import { Modal, Text, Pressable, View } from 'react-native';
 import Toast from 'react-native-toast-message';
 import { useTailwind } from 'tailwind-rn';
 
+import { ResetPassword } from '@/domain/usecases';
 import { Validation } from '@/presentation/protocols';
 import Button from '@/presentation/shared/components/form/button';
 import Input from '@/presentation/shared/components/form/input';
@@ -17,14 +18,15 @@ export interface ForgotPasswordModalRefProps {
 
 interface Props {
   validation: Validation;
+  resetPassword: ResetPassword;
 }
 
 const ForgotPasswordModal: React.ForwardRefRenderFunction<
   ForgotPasswordModalRefProps,
   Props
-> = ({ validation }, ref) => {
+> = ({ validation, resetPassword }, ref) => {
   const tailwind = useTailwind();
-  const { showSuccess } = useFeedbackMessage();
+  const { showSuccess, showError } = useFeedbackMessage();
   const [visible, setVisible] = useState(false);
   const email = useInputState({
     name: 'email'
@@ -44,18 +46,23 @@ const ForgotPasswordModal: React.ForwardRefRenderFunction<
     setVisible(true);
   };
 
-  async function resetPassword() {
-    const { valid, errors } = await validation.validateForm({
-      email: email.value
-    });
+  async function handleResetPassword() {
+    try {
+      const { valid, errors } = await validation.validateForm({
+        email: email.value
+      });
 
-    if (!valid && errors) {
-      email.setError(errors);
-    } else {
+      if (!valid && errors) {
+        email.setError(errors);
+        return;
+      }
+      await resetPassword.recovery(email.value);
       showSuccess({
         description: 'Email enviado!'
       });
       handleCloseModal();
+    } catch (error: any) {
+      showError(error);
     }
   }
 
@@ -82,7 +89,7 @@ const ForgotPasswordModal: React.ForwardRefRenderFunction<
             onChangeText={email.set}
             error={email.error}
           />
-          <Button label="Recuperar senha" onPress={resetPassword} />
+          <Button label="Recuperar senha" onPress={handleResetPassword} />
         </View>
       </Pressable>
     </Modal>
