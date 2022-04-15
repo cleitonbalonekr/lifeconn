@@ -9,7 +9,8 @@ import {
   CheckAccountPhoneNumberRepository,
   AddAccountToExistenteUserRepository,
   SignInWithEmailAndPasswordRepository,
-  GetUserInfoByAuthRepository
+  GetUserInfoByAuthRepository,
+  SendEmailToRecoveryPassword
 } from '@/data/protocols/account';
 import { AuthUser } from '@/domain/models';
 
@@ -20,12 +21,25 @@ export class FirebaseAccountRepository
     CheckAccountPhoneNumberRepository,
     AddAccountToExistenteUserRepository,
     SignInWithEmailAndPasswordRepository,
-    GetUserInfoByAuthRepository
+    GetUserInfoByAuthRepository,
+    SendEmailToRecoveryPassword
 {
   private userCollection: firestore.CollectionReference;
 
   constructor() {
     this.userCollection = firestore.collection(FirestoreInstance, 'users');
+  }
+
+  async sendEmail(email: string) {
+    try {
+      await auth.sendPasswordResetEmail(AuthInstance, email);
+      return true;
+    } catch (error) {
+      if (error instanceof FirebaseError) {
+        if (error.code === auth.AuthErrorCodes.USER_DELETED) return false;
+      }
+      throw error;
+    }
   }
 
   async getUserByAuthId(

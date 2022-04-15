@@ -20,6 +20,15 @@ const getUserDoc = (userId = fakeId) => {
   const userDoc = firestore.doc(userCollection, userId);
   return userDoc;
 };
+const registerUserWithEmailAndPassword = async () => {
+  const { email, password } = fakeUseRegisterData();
+  const { user } = await auth.createUserWithEmailAndPassword(
+    AuthInstance,
+    email,
+    password
+  );
+  return { email, password, user };
+};
 
 describe('FirebaseAccountRepository', () => {
   beforeAll(() => {
@@ -70,14 +79,10 @@ describe('FirebaseAccountRepository', () => {
       });
       expect(response).toBeNull();
     });
-    it('Should not signIn with valid credentials', async () => {
+    it('Should signIn with valid credentials', async () => {
       const sut = makeSut();
-      const { email, password } = fakeUseRegisterData();
-      const { user } = await auth.createUserWithEmailAndPassword(
-        AuthInstance,
-        email,
-        password
-      );
+      const { user, email, password } =
+        await registerUserWithEmailAndPassword();
       const response = await sut.signIn({
         email,
         password
@@ -177,6 +182,21 @@ describe('FirebaseAccountRepository', () => {
       const response = await sut.checkPhoneNumber(phoneNumber);
       expect(response.phoneNumberInUse).toBe(false);
       expect(response.userId).toBe('');
+    });
+  });
+  describe('SendEmail', () => {
+    it('Should return false when send email of a inexistent use', async () => {
+      const sut = makeSut();
+      const { email } = fakeUseRegisterData();
+
+      const response = await sut.sendEmail(email);
+      expect(response).toBeFalsy();
+    });
+    it('Should return true when send email of a existent use', async () => {
+      const sut = makeSut();
+      const { email } = await registerUserWithEmailAndPassword();
+      const response = await sut.sendEmail(email);
+      expect(response).toBeTruthy();
     });
   });
 });
