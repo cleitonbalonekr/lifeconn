@@ -18,14 +18,11 @@ const useFeedbackMessage = () => {
       visibilityTime: 5000
     });
   }
-  function showError() {
-    // const Codes = Object(codes);
-    // const errorCode = code || '000';
-    // const errorMessage = Codes[errorCode];
+  function showError(error: Error) {
     Toast.show({
       type: 'error',
       text1: 'Algo deu errado',
-      // text2: `[1${errorCode}]:${errorMessage}`,
+      text2: error.message,
       position: 'top',
       visibilityTime: 5000
     });
