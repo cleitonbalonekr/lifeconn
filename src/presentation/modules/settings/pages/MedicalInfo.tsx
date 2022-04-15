@@ -77,21 +77,15 @@ const MedicalInfo: React.FC<Props> = ({ validation }) => {
 
   async function updateUserData() {
     const payload = {
-      fullName: fullName.value,
-      email: email.value,
-      phoneNumber: phoneNumber.value,
-      totalVoiceToken: totalVoiceToken.value,
-      activeByAccelerometer: activeByAccelerometer.value
+      title: title.value,
+      description: description.value
     };
 
     const validate = await validation.validateForm(payload);
     const { valid, errors } = validate;
     if (!valid && errors) {
-      fullName.setError(errors);
-      email.setError(errors);
-      phoneNumber.setError(errors);
-      totalVoiceToken.setError(errors);
-      activeByAccelerometer.setError(errors);
+      title.setError(errors);
+      description.setError(errors);
     } else {
       showSuccess({
         description: 'Dados atualizados com sucesso!'
@@ -101,32 +95,32 @@ const MedicalInfo: React.FC<Props> = ({ validation }) => {
 
   return (
     <Container>
-      <View style={tailwind('flex-1')}>
-        <Text style={tailwind('text-lg font-bold')}>Dados de saúde</Text>
-        <Input
-          placeholder="Ex.: Tipo sanguíneo"
-          label="Título"
-          value={title.value}
-          onChangeText={title.set}
-          error={title.error}
+      <Text style={tailwind('text-lg font-bold')}>Dados de saúde</Text>
+      <Input
+        placeholder="Ex.: Tipo sanguíneo"
+        label="Título"
+        value={title.value}
+        onChangeText={title.set}
+        error={title.error}
+      />
+      <Input
+        placeholder="Ex.: AB+"
+        label="Descrição"
+        value={title.value}
+        onChangeText={title.set}
+        error={title.error}
+      />
+      <View style={tailwind('flex-row justify-start items-center mb-2')}>
+        <Switch
+          value={activeVisualization.value}
+          onValueChange={activeVisualization.set}
+          style={tailwind(' mr-2')}
         />
-        <Input
-          placeholder="Ex.: AB+"
-          label="Descrição"
-          value={title.value}
-          onChangeText={title.set}
-          error={title.error}
-        />
-        <View style={tailwind('flex-row justify-start items-center mb-2')}>
-          <Switch
-            value={activeVisualization.value}
-            onValueChange={activeVisualization.set}
-            style={tailwind(' mr-2')}
-          />
-          <Text style={tailwind('text-sm font-ubuntu')}>
-            Visivel somente para o corpo de bombeiros
-          </Text>
-        </View>
+        <Text style={tailwind('text-sm font-ubuntu')}>
+          Visível somente para o corpo de bombeiros
+        </Text>
+      </View>
+      <View style={tailwind('mb-3')}>
         <Button label="Salvar" onPress={updateUserData}>
           <Ionicons
             name="save-outline"
@@ -135,25 +129,23 @@ const MedicalInfo: React.FC<Props> = ({ validation }) => {
           />
         </Button>
       </View>
-      <Container scroll>
-        <FlatList
-          style={tailwind('mt-2 flex-1')}
-          contentContainerStyle={tailwind('justify-center flex-grow')}
-          showsVerticalScrollIndicator={false}
-          data={fakeMedicalData}
-          keyExtractor={(item) => String(item.id)}
-          ListEmptyComponent={<MedicalEmpty />}
-          renderItem={({ item }) => (
-            <BaseListItem itemName={item.victimName}>
-              <Ionicons
-                name="heart-circle-outline"
-                style={tailwind('text-red-600')}
-                size={32}
-              />
-            </BaseListItem>
-          )}
-        />
-      </Container>
+      <FlatList
+        style={tailwind('mt-2 flex-1')}
+        contentContainerStyle={tailwind('justify-center flex-grow')}
+        showsVerticalScrollIndicator={false}
+        data={fakeMedicalData}
+        keyExtractor={(item) => String(item.id)}
+        ListEmptyComponent={<MedicalEmpty />}
+        renderItem={({ item }) => (
+          <BaseListItem itemName={item.victimName}>
+            <Ionicons
+              name="heart-circle-outline"
+              style={tailwind('text-red-600')}
+              size={32}
+            />
+          </BaseListItem>
+        )}
+      />
     </Container>
   );
 };

@@ -122,6 +122,10 @@
   margin-bottom: 0.25rem
 }
 
+.mb-6 {
+  margin-bottom: 1.5rem
+}
+
 .flex {
   display: flex
 }
@@ -499,14 +503,14 @@
   color: rgb(202 138 4 / var(--tw-text-opacity))
 }
 
-.text-emerald-600 {
-  --tw-text-opacity: 1;
-  color: rgb(5 150 105 / var(--tw-text-opacity))
-}
-
 .text-blue-600 {
   --tw-text-opacity: 1;
   color: rgb(37 99 235 / var(--tw-text-opacity))
+}
+
+.text-emerald-600 {
+  --tw-text-opacity: 1;
+  color: rgb(5 150 105 / var(--tw-text-opacity))
 }
 
 .text-blue-500 {
