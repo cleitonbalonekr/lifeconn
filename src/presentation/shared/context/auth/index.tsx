@@ -1,33 +1,60 @@
-import React, { createContext, useState, useContext } from 'react';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import React, { createContext, useState, useContext, useEffect } from 'react';
+
+import { AuthUser } from '@/domain/models';
 
 export interface AuthContextData {
   signed: boolean;
-  signIn(): void;
+  loading: boolean;
+  saveUserSate(user: AuthUser): void;
   signOut(): void;
+  authUser: AuthUser;
 }
 
 const AuthContext = createContext<AuthContextData>({} as AuthContextData);
 
-export const AuthProvider: React.FC = ({ children }) => {
-  const [signed, setSigned] = useState(true);
+const AsyncAuthUserKey = '@lifeconn-AuthUser';
 
-  async function signIn() {
-    try {
-      setSigned(true);
-    } catch (error) {
-      console.log('error', error);
+export const AuthProvider: React.FC = ({ children }) => {
+  const [signed, setSigned] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [authUser, setAuthUser] = useState<AuthUser | null>(null);
+
+  useEffect(() => {
+    async function loadStorage() {
+      const storageUser = await AsyncStorage.getItem(AsyncAuthUserKey);
+      if (storageUser) {
+        setAuthUser(JSON.parse(storageUser));
+        setSigned(true);
+      }
+
+      setLoading(false);
     }
+
+    loadStorage();
+  }, []);
+
+  async function saveUserSate(user: AuthUser) {
+    setAuthUser(user);
+    await AsyncStorage.setItem(AsyncAuthUserKey, JSON.stringify(user));
+    setSigned(true);
   }
-  function signOut() {
-    try {
-      setSigned(false);
-    } catch (error) {
-      console.log('error', error);
-    }
+  async function signOut() {
+    setAuthUser(null);
+    setSigned(false);
+    await AsyncStorage.removeItem(AsyncAuthUserKey);
   }
 
   return (
-    <AuthContext.Provider value={{ signed, signIn, signOut }}>
+    <AuthContext.Provider
+      value={{
+        signed,
+        loading,
+        saveUserSate,
+        signOut,
+        authUser: authUser as AuthUser
+      }}
+    >
       {children}
     </AuthContext.Provider>
   );

@@ -31,7 +31,7 @@ const Login: React.FC<Props> = ({
   resetPassword
 }) => {
   const tailwind = useTailwind();
-  const { signIn } = useAuth();
+  const { saveUserSate } = useAuth();
   const { showError, showSuccess } = useFeedbackMessage();
   const forgotPasswordRef = useRef<ForgotPasswordModalRefProps>(null);
   const email = useInputState({
@@ -62,8 +62,8 @@ const Login: React.FC<Props> = ({
         email.setError(errors);
         password.setError(errors);
       } else {
-        await authentication.auth(payload);
-        signIn();
+        const authUser = await authentication.auth(payload);
+        saveUserSate(authUser);
       }
     } catch (error: any) {
       showError(error);
@@ -112,12 +112,14 @@ const Login: React.FC<Props> = ({
       <View>
         <Input
           placeholder="E-mail"
+          keyboardType="email-address"
           value={email.value}
           onChangeText={email.set}
           error={email.error}
         />
         <Input
           placeholder="Senha"
+          secureTextEntry
           value={password.value}
           onChangeText={password.set}
           error={password.error}
@@ -131,6 +133,7 @@ const Login: React.FC<Props> = ({
         <Text style={tailwind('text-lg font-semibold')}>Crie sua conta</Text>
         <Input
           placeholder="E-mail"
+          keyboardType="email-address"
           value={registerEmail.value}
           onChangeText={registerEmail.set}
           error={registerEmail.error}
