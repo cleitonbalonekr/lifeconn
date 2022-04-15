@@ -1,1 +1,2 @@
-export * from './addAccountFactory';
+export * from './remoteAddAccountFactory';
+export * from './remoteAuthenticationFactory';
