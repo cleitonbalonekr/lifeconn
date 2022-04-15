@@ -4,6 +4,7 @@ export interface AuthUser {
   fullName?: string;
   nickname?: string;
   totalVoiceToken?: string;
+  impactActivation?: boolean;
   email: string;
   phoneNumber: string;
   photo?: string;
