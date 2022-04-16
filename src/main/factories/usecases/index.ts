@@ -1,3 +1,4 @@
 export * from './remoteAddAccountFactory';
 export * from './remoteAuthenticationFactory';
-export * from './remoteResetPassword';
+export * from './remoteResetPasswordFactory';
+export * from './remoteUpdateUserInfoFactory';
