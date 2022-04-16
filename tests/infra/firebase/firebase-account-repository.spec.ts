@@ -11,16 +11,12 @@ import {
   closeFirebase
 } from '@/tests/utils/firebase-emulator';
 
-import { fakeUseRegisterData } from '../mock';
+import { fakeUseRegisterData, getUserDoc } from '../mock';
 
 const makeSut = () => {
   return new FirebaseAccountRepository();
 };
-const getUserDoc = (userId = fakeId) => {
-  const userCollection = firestore.collection(FirestoreInstance, 'users');
-  const userDoc = firestore.doc(userCollection, userId);
-  return userDoc;
-};
+
 const registerUserWithEmailAndPassword = async () => {
   const { email, password } = fakeUseRegisterData();
   const { user } = await auth.createUserWithEmailAndPassword(
