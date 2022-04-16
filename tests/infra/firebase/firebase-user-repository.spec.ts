@@ -1,6 +1,6 @@
 import { setDoc } from 'firebase/firestore';
 
-import FirebaseUserRepository from '@/infra/firebase/FirebaseUserRepository';
+import { FirebaseUserRepository } from '@/infra/firebase/FirebaseUserRepository';
 import { fakeId } from '@/tests/shared/mocks';
 import {
   cleanEmulators,

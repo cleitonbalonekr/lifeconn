@@ -17,7 +17,7 @@ import {
 import { AuthUser } from '@/domain/models';
 import { UpdateUserInfo } from '@/domain/usecases/UpdateUserInfo';
 
-export default class FirebaseUserRepository
+export class FirebaseUserRepository
   implements GetUserByIdRepository, UpdateUserInfoRepository
 {
   private userCollection: CollectionReference;
