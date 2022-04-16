@@ -1,12 +1,12 @@
 import { RemoteAuthentication } from '@/data/usecases';
 import { InvalidCredentialsError, UnexpectedError } from '@/domain/errors';
 import { UserNotFoundError } from '@/domain/errors/UserNotFoundError';
+import { throwError } from '@/tests/shared/mocks';
 
 import {
   getFakeCredentials,
   GetUserInfoByAuthRepositorySpy,
-  SignInWithEmailAndPasswordRepositorySpy,
-  throwError
+  SignInWithEmailAndPasswordRepositorySpy
 } from '../mock/auth-mock';
 
 const makeSut = () => {

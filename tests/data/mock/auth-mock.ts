@@ -66,6 +66,3 @@ export class GetUserInfoByAuthRepositorySpy
     return this.response;
   }
 }
-export const throwError = (): never => {
-  throw new Error();
-};

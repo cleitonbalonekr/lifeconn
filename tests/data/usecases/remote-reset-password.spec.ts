@@ -1,10 +1,10 @@
 import { RemoteResetPassword } from '@/data/usecases';
 import { UnexpectedError, UserNotFoundError } from '@/domain/errors';
+import { throwError } from '@/tests/shared/mocks';
 
 import {
   getFakeCredentials,
-  SendEmailToRecoveryPasswordSpy,
-  throwError
+  SendEmailToRecoveryPasswordSpy
 } from '../mock/auth-mock';
 
 const makeSut = () => {

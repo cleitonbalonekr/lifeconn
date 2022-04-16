@@ -1,6 +1,6 @@
 import { RemoteUpdateUserInfo } from '@/data/usecases';
 import { UserNotFoundError } from '@/domain/errors';
-import { fakeId } from '@/tests/infra/mock';
+import { fakeId } from '@/tests/shared/mocks';
 
 import {
   GetUserByIdRepositorySpy,

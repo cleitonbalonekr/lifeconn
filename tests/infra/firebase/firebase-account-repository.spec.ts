@@ -4,13 +4,14 @@ import * as firestore from 'firebase/firestore';
 
 import { AuthInstance, FirestoreInstance } from '@/configs/firebase';
 import { FirebaseAccountRepository } from '@/infra/firebase/FirebaseAccountRepository';
+import { fakeId } from '@/tests/shared/mocks';
 import {
   setupEmulators,
   cleanEmulators,
   closeFirebase
 } from '@/tests/utils/firebase-emulator';
 
-import { fakeId, fakeUseRegisterData } from '../mock';
+import { fakeUseRegisterData } from '../mock';
 
 const makeSut = () => {
   return new FirebaseAccountRepository();

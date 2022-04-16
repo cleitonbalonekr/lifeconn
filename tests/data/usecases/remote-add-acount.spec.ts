@@ -2,6 +2,7 @@ import faker from '@faker-js/faker';
 
 import { RemoteAddAccount } from '@/data/usecases/RemoteAddAccount';
 import { EmailInUseError, UnexpectedError } from '@/domain/errors';
+import { throwError } from '@/tests/shared/mocks';
 
 import {
   AddAccountRepositorySpy,
@@ -10,7 +11,6 @@ import {
   CheckAccountPhoneNumberRepositorySpy,
   fakeUseRegisterData
 } from '../mock';
-import { throwError } from '../mock/auth-mock';
 
 const makeSut = () => {
   const addAccountRepositorySpy = new AddAccountRepositorySpy();
