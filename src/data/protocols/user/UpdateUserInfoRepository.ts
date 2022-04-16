@@ -10,5 +10,5 @@ export interface UpdateUserInfoRepository {
 
 export namespace UpdateUserInfoRepository {
   export type Params = UpdateUserInfo.Params;
-  export type Result = AuthUser;
+  export type Result = AuthUser | null;
 }

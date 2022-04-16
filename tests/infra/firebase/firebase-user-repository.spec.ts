@@ -8,7 +8,7 @@ import {
   setupEmulators
 } from '@/tests/utils/firebase-emulator';
 
-import { fakeUseRegisterData, getUserDoc } from '../mock';
+import { fakeUseRegisterData, getUserDoc, makeUserUpdateInfo } from '../mock';
 
 const makeSut = () => {
   return new FirebaseUserRepository();
@@ -43,6 +43,34 @@ describe('FirebaseUserRepository', () => {
       const response = await sut.getUser(userId);
       expect(response).toHaveProperty('id', userId);
       expect(response).toHaveProperty('authId', userId);
+    });
+  });
+  describe('UpdateUser', () => {
+    it('Should return NULL when try to update a inexistent user', async () => {
+      const sut = makeSut();
+      const userId = fakeId;
+      const userMock = makeUserUpdateInfo();
+      const response = await sut.updateUser(userMock, userId);
+      expect(response).toBeNull();
+    });
+    it('Should update a existent user', async () => {
+      const sut = makeSut();
+      const userId = fakeId;
+      const userMock = makeUserUpdateInfo();
+      const oldUserInfo = makeUserUpdateInfo();
+      const userDoc = getUserDoc(userId);
+      await setDoc(userDoc, {
+        ...oldUserInfo,
+        authId: fakeId,
+        id: userId
+      });
+      const response = await sut.updateUser(userMock, userId);
+      const expectedResponse = {
+        authId: fakeId,
+        id: userId,
+        ...userMock
+      };
+      expect(response).toEqual(expectedResponse);
     });
   });
 });
