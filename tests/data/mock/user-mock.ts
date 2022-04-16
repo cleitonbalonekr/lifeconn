@@ -26,7 +26,7 @@ export class GetUserByIdRepositorySpy implements GetUserByIdRepository {
   }
 }
 export class UpdateUserInfoRepositorySpy implements UpdateUserInfoRepository {
-  public response = getFakeAuthUser();
+  public response: UpdateUserInfoRepository.Result = getFakeAuthUser();
 
   async updateUser(
     params: UpdateUserInfoRepository.Params,
