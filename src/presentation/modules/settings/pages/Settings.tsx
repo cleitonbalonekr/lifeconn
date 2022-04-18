@@ -1,10 +1,11 @@
 import { Ionicons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import * as Linking from 'expo-linking';
-import React from 'react';
+import React, { useState } from 'react';
 import { Switch, Text, View } from 'react-native';
 import { useTailwind } from 'tailwind-rn/dist';
 
+import { UpdateUserInfo } from '@/domain/usecases';
 import { Validation } from '@/presentation/protocols';
 import Container from '@/presentation/shared/components/Container';
 import Button from '@/presentation/shared/components/form/button';
@@ -16,11 +17,12 @@ import useInputState from '@/presentation/shared/hooks/useInputState';
 
 interface Props {
   validation: Validation;
+  updateUserInfo: UpdateUserInfo;
 }
 
-const Settings: React.FC<Props> = ({ validation }) => {
-  const { signOut } = useAuth();
-  const { showSuccess } = useFeedbackMessage();
+const Settings: React.FC<Props> = ({ validation, updateUserInfo }) => {
+  const { signOut, authUser, saveUserSate } = useAuth();
+  const { showSuccess, showError } = useFeedbackMessage();
   const navigation = useNavigation();
   const email = useInputState({
     name: 'email'
@@ -39,29 +41,49 @@ const Settings: React.FC<Props> = ({ validation }) => {
     initialValue: false
   });
 
+  useState(() => {
+    fullName.set(authUser.fullName);
+    email.set(authUser.email);
+    phoneNumber.set(authUser.phoneNumber);
+    totalVoiceToken.set(authUser.totalVoiceToken);
+    activeByAccelerometer.set(authUser.impactActivation);
+  });
+
   const tailwind = useTailwind();
 
   async function updateUserData() {
-    const payload = {
-      fullName: fullName.value,
-      email: email.value,
-      phoneNumber: phoneNumber.value,
-      totalVoiceToken: totalVoiceToken.value,
-      activeByAccelerometer: activeByAccelerometer.value
-    };
+    try {
+      const payload = {
+        fullName: fullName.value,
+        email: email.value,
+        phoneNumber: phoneNumber.value,
+        totalVoiceToken: totalVoiceToken.value,
+        impactActivation: activeByAccelerometer.value || false
+      };
+      if (!payload.totalVoiceToken) {
+        delete payload.totalVoiceToken;
+      }
+      if (!payload.fullName) {
+        delete payload.fullName;
+      }
 
-    const validate = await validation.validateForm(payload);
-    const { valid, errors } = validate;
-    if (!valid && errors) {
-      fullName.setError(errors);
-      email.setError(errors);
-      phoneNumber.setError(errors);
-      totalVoiceToken.setError(errors);
-      activeByAccelerometer.setError(errors);
-    } else {
-      showSuccess({
-        description: 'Dados atualizados com sucesso!'
-      });
+      const validate = await validation.validateForm(payload);
+      const { valid, errors } = validate;
+      if (!valid && errors) {
+        fullName.setError(errors);
+        email.setError(errors);
+        phoneNumber.setError(errors);
+        totalVoiceToken.setError(errors);
+        activeByAccelerometer.setError(errors);
+      } else {
+        const updatedUser = await updateUserInfo.update(payload, authUser.id);
+        saveUserSate(updatedUser);
+        showSuccess({
+          description: 'Dados atualizados com sucesso!'
+        });
+      }
+    } catch (error: any) {
+      showError(error);
     }
   }
 
