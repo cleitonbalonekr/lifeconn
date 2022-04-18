@@ -1,15 +1,19 @@
 import {
+  EmailAuthProvider,
+  getAuth,
+  reauthenticateWithCredential,
+  SignInMethod,
+  updateEmail
+} from 'firebase/auth';
+import {
   collection,
   CollectionReference,
   doc,
   getDoc,
-  getDocs,
-  query,
-  updateDoc,
-  where
+  updateDoc
 } from 'firebase/firestore';
 
-import { FirestoreInstance } from '@/configs/firebase';
+import app, { FirestoreInstance } from '@/configs/firebase';
 import {
   GetUserByIdRepository,
   UpdateUserInfoRepository
@@ -30,20 +34,32 @@ export class FirebaseUserRepository
     params: UpdateUserInfo.Params,
     userId: string
   ): Promise<UpdateUserInfoRepository.Result> {
+    const payload = { ...params };
     const userRef = doc(this.userCollection, userId);
     const userDoc = await getDoc(userRef);
     if (!userDoc.exists()) {
       return null;
     }
+
+    if (userDoc.data().email !== payload.email) {
+      const auth = getAuth(app);
+      const { currentUser } = auth;
+      if (currentUser) {
+        await updateEmail(currentUser, payload.email);
+        payload.email = auth.currentUser?.email as string;
+      }
+    }
+
     await updateDoc(userRef, {
-      ...params
+      ...payload
     });
     const updatedUser = await getDoc(userRef);
-
-    return {
+    const updatedAuthUser = {
       id: updatedUser.id,
       ...updatedUser.data()
     } as AuthUser;
+
+    return updatedAuthUser;
   }
 
   async getUser(userId: string): Promise<GetUserByIdRepository.Result> {

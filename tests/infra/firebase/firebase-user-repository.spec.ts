@@ -1,5 +1,7 @@
+import * as auth from 'firebase/auth';
 import { setDoc } from 'firebase/firestore';
 
+import { AuthInstance } from '@/configs/firebase';
 import { FirebaseUserRepository } from '@/infra/firebase/FirebaseUserRepository';
 import { fakeId } from '@/tests/shared/mocks';
 import {
@@ -71,6 +73,30 @@ describe('FirebaseUserRepository', () => {
         ...userMock
       };
       expect(response).toEqual(expectedResponse);
+    });
+    it('Should update a existent user auth email', async () => {
+      const sut = makeSut();
+      const { email, password } = fakeUseRegisterData();
+      const authUser = await auth.createUserWithEmailAndPassword(
+        AuthInstance,
+        email,
+        password
+      );
+      await auth.signInWithEmailAndPassword(AuthInstance, email, password);
+      const userId = fakeId;
+      const userMock = makeUserUpdateInfo();
+      const oldUserInfo = makeUserUpdateInfo();
+      const userDoc = getUserDoc(userId);
+      await setDoc(userDoc, {
+        ...oldUserInfo,
+        authId: authUser.user.uid,
+        id: userId,
+        email
+      });
+      const response = await sut.updateUser(userMock, userId);
+      const authenticatedUser = auth.getAuth().currentUser;
+
+      expect(authenticatedUser).toHaveProperty('email', response?.email);
     });
   });
 });
