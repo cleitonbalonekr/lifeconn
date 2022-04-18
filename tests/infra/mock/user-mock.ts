@@ -9,3 +9,10 @@ export const makeUserUpdateInfo = () => ({
   totalVoiceToken: fakeId,
   impactActivation: true
 });
+export const makeMedicalData = () => {
+  return {
+    title: faker.random.word(),
+    description: faker.random.words(6),
+    onlyOrganization: false
+  };
+};

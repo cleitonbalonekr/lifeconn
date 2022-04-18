@@ -10,7 +10,12 @@ import {
   setupEmulators
 } from '@/tests/utils/firebase-emulator';
 
-import { fakeUseRegisterData, getUserDoc, makeUserUpdateInfo } from '../mock';
+import {
+  fakeUseRegisterData,
+  getUserDoc,
+  makeMedicalData,
+  makeUserUpdateInfo
+} from '../mock';
 
 const makeSut = () => {
   return new FirebaseUserRepository();
@@ -97,6 +102,30 @@ describe('FirebaseUserRepository', () => {
       const authenticatedUser = auth.getAuth().currentUser;
 
       expect(authenticatedUser).toHaveProperty('email', response?.email);
+    });
+  });
+  describe('AddMedicalData', () => {
+    it('Should return NULL when try to add medicalData to an inexistent user', async () => {
+      const sut = makeSut();
+      const userId = fakeId;
+      const medicalData = makeMedicalData();
+      const response = await sut.addMedicalData(medicalData, userId);
+      expect(response).toBeNull();
+    });
+    it('Should add medicalData to an existent user', async () => {
+      const sut = makeSut();
+      const userId = fakeId;
+      const medicalData = makeMedicalData();
+      const oldUserInfo = makeUserUpdateInfo();
+      const userDoc = getUserDoc(userId);
+      await setDoc(userDoc, {
+        ...oldUserInfo,
+        authId: fakeId,
+        id: userId
+      });
+      const response = await sut.addMedicalData(medicalData, userId);
+
+      expect(response).toHaveProperty('medicalData');
     });
   });
 });
