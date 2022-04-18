@@ -10,7 +10,8 @@ import {
   AddAccountToExistenteUserRepository,
   SignInWithEmailAndPasswordRepository,
   GetUserInfoByAuthRepository,
-  SendEmailToRecoveryPassword
+  SendEmailToRecoveryPassword,
+  SignOutRepository
 } from '@/data/protocols/account';
 import { AuthUser } from '@/domain/models';
 
@@ -22,12 +23,17 @@ export class FirebaseAccountRepository
     AddAccountToExistenteUserRepository,
     SignInWithEmailAndPasswordRepository,
     GetUserInfoByAuthRepository,
-    SendEmailToRecoveryPassword
+    SendEmailToRecoveryPassword,
+    SignOutRepository
 {
   private userCollection: firestore.CollectionReference;
 
   constructor() {
     this.userCollection = firestore.collection(FirestoreInstance, 'users');
+  }
+
+  async signOut(): Promise<void> {
+    await auth.signOut(AuthInstance);
   }
 
   async sendEmail(email: string) {

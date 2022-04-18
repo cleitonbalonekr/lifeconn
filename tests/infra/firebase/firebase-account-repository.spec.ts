@@ -2,7 +2,7 @@ import { FirebaseError } from 'firebase/app';
 import * as auth from 'firebase/auth';
 import * as firestore from 'firebase/firestore';
 
-import { AuthInstance, FirestoreInstance } from '@/configs/firebase';
+import app, { AuthInstance, FirestoreInstance } from '@/configs/firebase';
 import { FirebaseAccountRepository } from '@/infra/firebase/FirebaseAccountRepository';
 import { fakeId } from '@/tests/shared/mocks';
 import {
@@ -85,6 +85,19 @@ describe('FirebaseAccountRepository', () => {
         password
       });
       expect(response).toHaveProperty('authId', user.uid);
+    });
+  });
+  describe('SignOut', () => {
+    const { email, password } = fakeUseRegisterData();
+    beforeEach(async () => {
+      await auth.createUserWithEmailAndPassword(AuthInstance, email, password);
+      auth.signInWithEmailAndPassword(AuthInstance, email, password);
+    });
+    it('Should signOut an user', async () => {
+      const sut = makeSut();
+      await sut.signOut();
+      const authentication = auth.getAuth(app);
+      expect(authentication.currentUser).toBeNull();
     });
   });
   describe('RegisterExistentUser', () => {
