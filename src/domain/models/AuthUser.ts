@@ -1,3 +1,5 @@
+import { MedicalData } from './MedicalData';
+
 export interface AuthUser {
   id: string;
   authId: string;
@@ -8,4 +10,5 @@ export interface AuthUser {
   email: string;
   phoneNumber: string;
   photo?: string;
+  MedicalData: MedicalData[];
 }
