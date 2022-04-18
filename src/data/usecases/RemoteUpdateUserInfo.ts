@@ -9,8 +9,13 @@ export class RemoteUpdateUserInfo implements UpdateUserInfo {
 
   async update(params: UpdateUserInfo.Params, userId: string) {
     try {
+      const payload = { ...params };
+      if (!payload.totalVoiceToken) {
+        delete payload.totalVoiceToken;
+      }
+
       const response = await this.updateUserInfoRepository.updateUser(
-        params,
+        payload,
         userId
       );
       if (!response) {

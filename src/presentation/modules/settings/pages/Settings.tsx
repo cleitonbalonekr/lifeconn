@@ -60,12 +60,6 @@ const Settings: React.FC<Props> = ({ validation, updateUserInfo }) => {
         totalVoiceToken: totalVoiceToken.value,
         impactActivation: activeByAccelerometer.value || false
       };
-      if (!payload.totalVoiceToken) {
-        delete payload.totalVoiceToken;
-      }
-      if (!payload.fullName) {
-        delete payload.fullName;
-      }
 
       const validate = await validation.validateForm(payload);
       const { valid, errors } = validate;
