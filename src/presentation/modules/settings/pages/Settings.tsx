@@ -5,7 +5,7 @@ import React, { useState } from 'react';
 import { Switch, Text, View } from 'react-native';
 import { useTailwind } from 'tailwind-rn/dist';
 
-import { UpdateUserInfo } from '@/domain/usecases';
+import { LogoutUser, UpdateUserInfo } from '@/domain/usecases';
 import { Validation } from '@/presentation/protocols';
 import Container from '@/presentation/shared/components/Container';
 import Button from '@/presentation/shared/components/form/button';
@@ -18,9 +18,14 @@ import useInputState from '@/presentation/shared/hooks/useInputState';
 interface Props {
   validation: Validation;
   updateUserInfo: UpdateUserInfo;
+  logoutUser: LogoutUser;
 }
 
-const Settings: React.FC<Props> = ({ validation, updateUserInfo }) => {
+const Settings: React.FC<Props> = ({
+  validation,
+  updateUserInfo,
+  logoutUser
+}) => {
   const { signOut, authUser, saveUserSate } = useAuth();
   const { showSuccess, showError } = useFeedbackMessage();
   const navigation = useNavigation();
@@ -88,6 +93,10 @@ const Settings: React.FC<Props> = ({ validation, updateUserInfo }) => {
   }
   function handleNavigateToMedicalInfo() {
     navigation.navigate('MedicalInfo');
+  }
+  function handleLogoutUser() {
+    logoutUser.signOut();
+    signOut();
   }
 
   return (
@@ -163,7 +172,7 @@ const Settings: React.FC<Props> = ({ validation, updateUserInfo }) => {
         </Button>
       </View>
       <View style={tailwind('mt-5 items-start')}>
-        <Button label="Sair" type="danger" onPress={signOut}>
+        <Button label="Sair" type="danger" onPress={handleLogoutUser}>
           <Ionicons
             name="log-out-outline"
             size={20}
