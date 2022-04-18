@@ -3,7 +3,8 @@ import faker from '@faker-js/faker';
 
 import {
   GetUserByIdRepository,
-  UpdateUserInfoRepository
+  UpdateUserInfoRepository,
+  AddUserMedicalDataRepository
 } from '@/data/protocols/user';
 
 import { getFakeAuthUser } from './auth-mock';
@@ -17,7 +18,26 @@ export const makeUpdateUserParams = () => {
     impactActivation: false
   };
 };
+export const makeMedicalData = () => {
+  return {
+    title: faker.random.word(),
+    description: faker.random.words(6),
+    onlyOrganization: false
+  };
+};
 
+export class AddUserMedicalDataRepositorySpy
+  implements AddUserMedicalDataRepository
+{
+  public response: GetUserByIdRepository.Result = getFakeAuthUser();
+
+  async addMedicalData(
+    params: AddUserMedicalDataRepository.Params,
+    userId: string
+  ): Promise<AddUserMedicalDataRepository.Result> {
+    return this.response;
+  }
+}
 export class GetUserByIdRepositorySpy implements GetUserByIdRepository {
   public response: GetUserByIdRepository.Result = getFakeAuthUser();
 

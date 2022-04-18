@@ -10,5 +10,5 @@ export interface AuthUser {
   email: string;
   phoneNumber: string;
   photo?: string;
-  MedicalData: MedicalData[];
+  medicalData: MedicalData[];
 }

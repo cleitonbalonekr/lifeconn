@@ -1,6 +1,8 @@
 /* eslint-disable max-classes-per-file */
 import faker from '@faker-js/faker';
 
+import { MedicalData } from '@/domain/models';
+
 import {
   GetUserInfoByAuthRepository,
   SignInWithEmailAndPasswordRepository,
@@ -19,7 +21,8 @@ export const getFakeAuthUser = () => ({
   totalVoiceToken: faker.random.alphaNumeric(8),
   email: faker.internet.email(),
   phoneNumber: faker.phone.phoneNumber(),
-  photo: faker.internet.avatar()
+  photo: faker.internet.avatar(),
+  medicalData: [] as MedicalData[]
 });
 
 export class SendEmailToRecoveryPasswordSpy
