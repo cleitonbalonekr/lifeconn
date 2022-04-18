@@ -1,9 +1,10 @@
 import { Ionicons } from '@expo/vector-icons';
 import * as Linking from 'expo-linking';
-import React from 'react';
+import React, { useState } from 'react';
 import { Switch, Text, View, FlatList } from 'react-native';
 import { useTailwind } from 'tailwind-rn/dist';
 
+import { MedicalData } from '@/domain/models';
 import { Validation } from '@/presentation/protocols';
 import BaseListItem from '@/presentation/shared/components/BaseListItem';
 import Container from '@/presentation/shared/components/Container';
@@ -23,59 +24,57 @@ interface Props {
 const fakeMedicalData = [
   {
     id: '1',
-    victimName: 'Tipo sanguineo'
+    title: 'Tipo sanguíneo',
+    description: 'O+',
+    onlyOrganization: false
   },
   {
     id: '2',
-    victimName: 'Doença respiratoria'
-  },
-  {
-    id: '3',
-    victimName: 'Fulano'
-  },
-  {
-    id: '4',
-    victimName: 'Fulano'
-  },
-  {
-    id: '5',
-    victimName: 'Fulano'
-  },
-  {
-    id: '6',
-    victimName: 'Fulano'
-  },
-  {
-    id: '7',
-    victimName: 'Fulano'
-  },
-  {
-    id: '8',
-    victimName: 'Fulano'
-  },
-  {
-    id: '9',
-    victimName: 'Fulano'
+    title: 'Doença respiratória',
+    description: 'Rinite alérgica',
+    onlyOrganization: true
   }
 ];
 
 const MedicalInfo: React.FC<Props> = ({ validation }) => {
-  const { signOut } = useAuth();
+  const { authUser } = useAuth();
   const { showSuccess } = useFeedbackMessage();
+  const [isOnEditMode, setIsOnEditMode] = useState(false);
+  const medicalDataId = useInputState({
+    name: 'medicalDataId'
+  });
   const title = useInputState({
     name: 'title'
   });
   const description = useInputState({
     name: 'description'
   });
-  const activeVisualization = useInputState({
-    name: 'activeVisualization',
+  const onlyOrganization = useInputState({
+    name: 'onlyOrganization',
     initialValue: true
   });
 
   const tailwind = useTailwind();
 
-  async function updateUserData() {
+  async function handleCreateMedicalInfo() {
+    const payload = {
+      id: medicalDataId.value,
+      title: title.value,
+      description: description.value
+    };
+
+    const validate = await validation.validateForm(payload);
+    const { valid, errors } = validate;
+    if (!valid && errors) {
+      title.setError(errors);
+      description.setError(errors);
+    } else {
+      showSuccess({
+        description: 'Informação salva com sucesso!'
+      });
+    }
+  }
+  async function handleUpdateMedicalInfo() {
     const payload = {
       title: title.value,
       description: description.value
@@ -88,14 +87,41 @@ const MedicalInfo: React.FC<Props> = ({ validation }) => {
       description.setError(errors);
     } else {
       showSuccess({
-        description: 'Dados atualizados com sucesso!'
+        description: 'Informação salva com sucesso!'
       });
     }
+  }
+  function handleDeleteMedicalInfo() {
+    setIsOnEditMode(false);
+  }
+  function handleChooseItem(item: MedicalData) {
+    setIsOnEditMode(true);
+    title.set(item.title);
+    description.set(item.description);
+    medicalDataId.set(item.id);
+    onlyOrganization.set(item.onlyOrganization);
+  }
+  function handleExitEditMode() {
+    setIsOnEditMode(false);
+    title.set('');
+    description.set('');
+    medicalDataId.set('');
+    onlyOrganization.set(false);
   }
 
   return (
     <Container>
-      <Text style={tailwind('text-lg font-bold')}>Dados de saúde</Text>
+      <View style={tailwind('flex-row justify-between items-center')}>
+        <Text style={tailwind('text-lg font-ubuntu-bold')}>Dados de saúde</Text>
+        {isOnEditMode && (
+          <Ionicons
+            name="trash"
+            size={24}
+            style={tailwind('text-red-500')}
+            onPress={handleDeleteMedicalInfo}
+          />
+        )}
+      </View>
       <Input
         placeholder="Ex.: Tipo sanguíneo"
         label="Título"
@@ -106,14 +132,14 @@ const MedicalInfo: React.FC<Props> = ({ validation }) => {
       <Input
         placeholder="Ex.: AB+"
         label="Descrição"
-        value={title.value}
-        onChangeText={title.set}
-        error={title.error}
+        value={description.value}
+        onChangeText={description.set}
+        error={description.error}
       />
-      <View style={tailwind('flex-row justify-start items-center mb-2')}>
+      <View style={tailwind('flex-row justify-start items-center my-3')}>
         <Switch
-          value={activeVisualization.value}
-          onValueChange={activeVisualization.set}
+          value={onlyOrganization.value}
+          onValueChange={onlyOrganization.set}
           style={tailwind(' mr-2')}
         />
         <Text style={tailwind('text-sm font-ubuntu')}>
@@ -121,23 +147,53 @@ const MedicalInfo: React.FC<Props> = ({ validation }) => {
         </Text>
       </View>
       <View style={tailwind('mb-3')}>
-        <Button label="Salvar" onPress={updateUserData}>
-          <Ionicons
-            name="save-outline"
-            size={20}
-            style={tailwind('text-white')}
-          />
-        </Button>
+        {isOnEditMode ? (
+          <View style={tailwind('flex-row justify-between')}>
+            <View style={tailwind('flex-1 mr-2')}>
+              <Button label="Salvar" onPress={handleUpdateMedicalInfo}>
+                <Ionicons
+                  name="save-outline"
+                  size={20}
+                  style={tailwind('text-white')}
+                />
+              </Button>
+            </View>
+            <View style={tailwind('flex-1 ml-2')}>
+              <Button
+                label="Cancelar"
+                type="warning"
+                onPress={handleExitEditMode}
+              >
+                <Ionicons
+                  name="close-circle-outline"
+                  size={20}
+                  style={tailwind('text-white')}
+                />
+              </Button>
+            </View>
+          </View>
+        ) : (
+          <Button label="Cadastrar" onPress={handleCreateMedicalInfo}>
+            <Ionicons
+              name="save-outline"
+              size={20}
+              style={tailwind('text-white')}
+            />
+          </Button>
+        )}
       </View>
       <FlatList
         style={tailwind('mt-2 flex-1')}
-        contentContainerStyle={tailwind('justify-center flex-grow')}
+        contentContainerStyle={tailwind('flex-grow')}
         showsVerticalScrollIndicator={false}
         data={fakeMedicalData}
         keyExtractor={(item) => String(item.id)}
         ListEmptyComponent={<MedicalEmpty />}
         renderItem={({ item }) => (
-          <BaseListItem itemName={item.victimName}>
+          <BaseListItem
+            itemName={item.title}
+            onPress={() => handleChooseItem(item)}
+          >
             <Ionicons
               name="heart-circle-outline"
               style={tailwind('text-red-600')}

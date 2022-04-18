@@ -8,7 +8,7 @@ const NotificationEmpty: React.FC = () => {
   return (
     <View style={tailwind('flex-1  items-center justify-center ')}>
       <FontAwesome5 name="bell-slash" size={60} />
-      <Text style={tailwind('text-lg mt-3')}>Nenhuma dado médico</Text>
+      <Text style={tailwind('text-lg mt-3')}>Nenhum dado médico</Text>
     </View>
   );
 };
