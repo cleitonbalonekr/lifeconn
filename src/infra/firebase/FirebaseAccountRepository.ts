@@ -56,15 +56,31 @@ export class FirebaseAccountRepository
       firestore.where('authId', '==', authId)
     );
     const snapshot = await firestore.getDocs(query);
+    if (snapshot.empty) {
+      return null;
+    }
     const user = snapshot.docs[0];
+    const medicalDataCollection = firestore.collection(
+      FirestoreInstance,
+      'users',
+      user.id,
+      'medicalData'
+    );
+    const medicalData = await firestore.getDocs(
+      firestore.query(medicalDataCollection)
+    );
+    const formattedMedicalData = medicalData.docs.map((doc) => {
+      return {
+        id: doc.id,
+        ...doc.data()
+      };
+    });
 
-    const response = snapshot.empty
-      ? null
-      : ({
-          id: user.id,
-          ...user.data()
-        } as AuthUser);
-    return response;
+    return {
+      id: user.id,
+      ...user.data(),
+      medicalData: formattedMedicalData
+    } as AuthUser;
   }
 
   async signIn(
