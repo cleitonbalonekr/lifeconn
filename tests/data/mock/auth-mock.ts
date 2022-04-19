@@ -6,7 +6,8 @@ import { MedicalData } from '@/domain/models';
 import {
   GetUserInfoByAuthRepository,
   SignInWithEmailAndPasswordRepository,
-  SendEmailToRecoveryPassword
+  SendEmailToRecoveryPassword,
+  SignOutRepository
 } from '../protocols/account';
 
 export const getFakeCredentials = () => ({
@@ -25,6 +26,13 @@ export const getFakeAuthUser = () => ({
   medicalData: [] as MedicalData[]
 });
 
+export class SignOutRepositorySpy implements SignOutRepository {
+  public callCount = 0;
+
+  async signOut() {
+    this.callCount += 1;
+  }
+}
 export class SendEmailToRecoveryPasswordSpy
   implements SendEmailToRecoveryPassword
 {
