@@ -53,12 +53,12 @@ export class FirebaseUserRepository
       ...params
     });
 
-    const medicalData = await getDoc(addMedicalDataRef);
+    const medicalData = await this.getMedicalDataByUserId(userId);
 
     const updatedAuthUser = {
       id: userDoc.id,
       ...userDoc.data(),
-      medicalData: [{ id: medicalData.id, ...medicalData.data() }]
+      medicalData
     } as AuthUser;
 
     return updatedAuthUser;
@@ -88,9 +88,11 @@ export class FirebaseUserRepository
       ...payload
     });
     const updatedUser = await getDoc(userRef);
+    const medicalData = await this.getMedicalDataByUserId(userId);
     const updatedAuthUser = {
       id: updatedUser.id,
-      ...updatedUser.data()
+      ...updatedUser.data(),
+      medicalData
     } as AuthUser;
 
     return updatedAuthUser;
@@ -99,12 +101,31 @@ export class FirebaseUserRepository
   async getUser(userId: string): Promise<GetUserByIdRepository.Result> {
     const userRef = doc(this.userCollection, userId);
     const user = await getDoc(userRef);
+    const medicalData = await this.getMedicalDataByUserId(userId);
     const response = !user.exists()
       ? null
       : ({
           id: user.id,
-          ...user.data()
+          ...user.data(),
+          medicalData
         } as AuthUser);
     return response;
+  }
+
+  private async getMedicalDataByUserId(userId: string) {
+    const medicalDataCollection = collection(
+      FirestoreInstance,
+      'users',
+      userId,
+      'medicalData'
+    );
+    const medicalData = await getDocs(query(medicalDataCollection));
+    const formattedMedicalData = medicalData.docs.map((medicalDataDoc) => {
+      return {
+        id: medicalDataDoc.id,
+        ...medicalDataDoc.data()
+      };
+    });
+    return formattedMedicalData;
   }
 }

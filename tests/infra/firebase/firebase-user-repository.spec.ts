@@ -122,8 +122,8 @@ describe('FirebaseUserRepository', () => {
         id: userId
       });
       const response = await sut.addMedicalData(medicalData, userId);
-
       expect(response).toHaveProperty('medicalData');
+      expect(response?.medicalData).toHaveLength(1);
     });
   });
 });
