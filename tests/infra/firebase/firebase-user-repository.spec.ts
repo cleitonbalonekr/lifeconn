@@ -72,12 +72,10 @@ describe('FirebaseUserRepository', () => {
         id: userId
       });
       const response = await sut.updateUser(userMock, userId);
-      const expectedResponse = {
-        authId: fakeId,
-        id: userId,
-        ...userMock
-      };
-      expect(response).toEqual(expectedResponse);
+
+      expect(response).toHaveProperty('email', userMock.email);
+      expect(response).toHaveProperty('fullName', userMock.fullName);
+      expect(response).toHaveProperty('phoneNumber', userMock.phoneNumber);
     });
     it('Should update a existent user auth email', async () => {
       const sut = makeSut();
