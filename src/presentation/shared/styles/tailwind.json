@@ -43,6 +43,12 @@
 			"marginBottom": 24
 		}
 	},
+	"my-3": {
+		"style": {
+			"marginTop": 12,
+			"marginBottom": 12
+		}
+	},
 	"my-2.5": {
 		"style": {
 			"marginTop": 10,
@@ -53,12 +59,6 @@
 		"style": {
 			"marginTop": 8,
 			"marginBottom": 8
-		}
-	},
-	"my-3": {
-		"style": {
-			"marginTop": 12,
-			"marginBottom": 12
 		}
 	},
 	"mb-3": {
@@ -464,12 +464,6 @@
 		"style": {
 			"--tw-bg-opacity": 1,
 			"backgroundColor": "rgb(255 255 255 / var(--tw-bg-opacity))"
-		}
-	},
-	"bg-red-500": {
-		"style": {
-			"--tw-bg-opacity": 1,
-			"backgroundColor": "rgb(239 68 68 / var(--tw-bg-opacity))"
 		}
 	},
 	"p-4": {

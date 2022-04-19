@@ -1,15 +1,18 @@
 import { Ionicons } from '@expo/vector-icons';
-import * as Linking from 'expo-linking';
 import React, { useState } from 'react';
 import { Switch, Text, View, FlatList } from 'react-native';
 import { useTailwind } from 'tailwind-rn/dist';
 
 import { MedicalData } from '@/domain/models';
+import {
+  AddMedicalData,
+  UpdateMedicalData,
+  DeleteMedicalData
+} from '@/domain/usecases';
 import { Validation } from '@/presentation/protocols';
 import BaseListItem from '@/presentation/shared/components/BaseListItem';
 import Container from '@/presentation/shared/components/Container';
 import Button from '@/presentation/shared/components/form/button';
-import ButtonOutline from '@/presentation/shared/components/form/buttonOutline';
 import Input from '@/presentation/shared/components/form/input';
 import { useAuth } from '@/presentation/shared/context/auth';
 import useFeedbackMessage from '@/presentation/shared/hooks/useFeedbackMessage';
@@ -19,26 +22,19 @@ import MedicalEmpty from '../components/MedicalEmpty';
 
 interface Props {
   validation: Validation;
+  addMedicalData: AddMedicalData;
+  updateMedicalData: UpdateMedicalData;
+  deleteMedicalData: DeleteMedicalData;
 }
 
-const fakeMedicalData = [
-  {
-    id: '1',
-    title: 'Tipo sanguíneo',
-    description: 'O+',
-    onlyOrganization: false
-  },
-  {
-    id: '2',
-    title: 'Doença respiratória',
-    description: 'Rinite alérgica',
-    onlyOrganization: true
-  }
-];
-
-const MedicalInfo: React.FC<Props> = ({ validation }) => {
-  const { authUser } = useAuth();
-  const { showSuccess } = useFeedbackMessage();
+const MedicalInfo: React.FC<Props> = ({
+  validation,
+  addMedicalData,
+  updateMedicalData,
+  deleteMedicalData
+}) => {
+  const { authUser, saveUserSate } = useAuth();
+  const { showSuccess, showError } = useFeedbackMessage();
   const [isOnEditMode, setIsOnEditMode] = useState(false);
   const medicalDataId = useInputState({
     name: 'medicalDataId'
@@ -57,42 +53,73 @@ const MedicalInfo: React.FC<Props> = ({ validation }) => {
   const tailwind = useTailwind();
 
   async function handleCreateMedicalInfo() {
-    const payload = {
-      id: medicalDataId.value,
-      title: title.value,
-      description: description.value
-    };
+    try {
+      const payload = {
+        title: title.value,
+        description: description.value,
+        onlyOrganization: onlyOrganization.value || false
+      };
 
-    const validate = await validation.validateForm(payload);
-    const { valid, errors } = validate;
-    if (!valid && errors) {
-      title.setError(errors);
-      description.setError(errors);
-    } else {
-      showSuccess({
-        description: 'Informação salva com sucesso!'
-      });
+      const validate = await validation.validateForm(payload);
+      const { valid, errors } = validate;
+      if (!valid && errors) {
+        title.setError(errors);
+        description.setError(errors);
+      } else {
+        const newUserInfo = await addMedicalData.add(payload, authUser.id);
+        saveUserSate(newUserInfo);
+        showSuccess({
+          description: 'Dado médico salvo com sucesso!'
+        });
+      }
+    } catch (error: any) {
+      showError(error);
     }
   }
   async function handleUpdateMedicalInfo() {
-    const payload = {
-      title: title.value,
-      description: description.value
-    };
+    try {
+      const payload = {
+        id: medicalDataId.value,
+        title: title.value,
+        description: description.value,
+        onlyOrganization: onlyOrganization.value || false
+      };
 
-    const validate = await validation.validateForm(payload);
-    const { valid, errors } = validate;
-    if (!valid && errors) {
-      title.setError(errors);
-      description.setError(errors);
-    } else {
-      showSuccess({
-        description: 'Informação salva com sucesso!'
-      });
+      const validate = await validation.validateForm(payload);
+      const { valid, errors } = validate;
+      if (!valid && errors) {
+        title.setError(errors);
+        description.setError(errors);
+      } else {
+        const newUserInfo = await updateMedicalData.update(
+          payload,
+          authUser.id
+        );
+        saveUserSate(newUserInfo);
+        showSuccess({
+          description: 'Dado médico atualizado com sucesso!'
+        });
+        handleExitEditMode();
+      }
+    } catch (error: any) {
+      showError(error);
     }
   }
-  function handleDeleteMedicalInfo() {
-    setIsOnEditMode(false);
+  async function handleDeleteMedicalInfo() {
+    try {
+      const newUserInfo = await deleteMedicalData.remove(
+        medicalDataId.value,
+        authUser.id
+      );
+      saveUserSate(newUserInfo);
+      showSuccess({
+        description: 'Dado médico removido com sucesso!'
+      });
+
+      handleExitEditMode();
+    } catch (error: any) {
+      showError(error);
+    }
   }
   function handleChooseItem(item: MedicalData) {
     setIsOnEditMode(true);
@@ -186,7 +213,7 @@ const MedicalInfo: React.FC<Props> = ({ validation }) => {
         style={tailwind('mt-2 flex-1')}
         contentContainerStyle={tailwind('flex-grow')}
         showsVerticalScrollIndicator={false}
-        data={fakeMedicalData}
+        data={authUser.medicalData}
         keyExtractor={(item) => String(item.id)}
         ListEmptyComponent={<MedicalEmpty />}
         renderItem={({ item }) => (
