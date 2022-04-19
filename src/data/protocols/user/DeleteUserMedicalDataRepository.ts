@@ -8,11 +8,6 @@ export interface DeleteUserMedicalDataRepository {
 }
 
 export namespace DeleteUserMedicalDataRepository {
-  export type Params = {
-    id: string;
-    title: string;
-    description: string;
-    onlyOrganization: boolean;
-  };
+  export type Params = string;
   export type Result = AuthUser | null;
 }

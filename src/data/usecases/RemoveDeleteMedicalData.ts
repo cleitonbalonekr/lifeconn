@@ -9,11 +9,11 @@ export class RemoteDeleteMedicalData implements DeleteMedicalData {
     private readonly deleteUserMedicalDataRepository: DeleteUserMedicalDataRepository
   ) {}
 
-  async remove(params: DeleteMedicalData.Params, userId: string) {
+  async remove(medicalDataId: DeleteMedicalData.Params, userId: string) {
     try {
       const response =
         await this.deleteUserMedicalDataRepository.removeMedicalData(
-          params,
+          medicalDataId,
           userId
         );
       if (!response) {
