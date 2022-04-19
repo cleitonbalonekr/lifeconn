@@ -4,3 +4,4 @@ export * from './RemoteResetPassword';
 export * from './RemoteUpdateUserInfo';
 export * from './RemoteLogoutUser';
 export * from './RemoteAddMedicalData';
+export * from './RemoteUpdateMedicalData';
