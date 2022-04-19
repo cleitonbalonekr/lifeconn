@@ -15,7 +15,8 @@ import app, { FirestoreInstance } from '@/configs/firebase';
 import {
   AddUserMedicalDataRepository,
   GetUserByIdRepository,
-  UpdateUserInfoRepository
+  UpdateUserInfoRepository,
+  UpdateUserMedicalDataRepository
 } from '@/data/protocols/user';
 import { AuthUser } from '@/domain/models';
 import { UpdateUserInfo } from '@/domain/usecases/UpdateUserInfo';
@@ -24,12 +25,41 @@ export class FirebaseUserRepository
   implements
     GetUserByIdRepository,
     UpdateUserInfoRepository,
-    AddUserMedicalDataRepository
+    AddUserMedicalDataRepository,
+    UpdateUserMedicalDataRepository
 {
   private userCollection: CollectionReference;
 
   constructor() {
     this.userCollection = collection(FirestoreInstance, 'users');
+  }
+
+  async updateMedicalData(
+    params: UpdateUserMedicalDataRepository.Params,
+    userId: string
+  ): Promise<UpdateUserMedicalDataRepository.Result> {
+    const medicalDataRef = doc(
+      this.userCollection,
+      userId,
+      'medicalData',
+      params.id
+    );
+    const medicalData = await getDoc(medicalDataRef);
+    if (!medicalData.exists()) {
+      return null;
+    }
+    await updateDoc(medicalDataRef, {
+      ...params
+    });
+    const userRef = doc(this.userCollection, userId);
+    const user = await getDoc(userRef);
+    const updatedMedicalData = await this.getMedicalDataByUserId(userId);
+
+    return {
+      id: user.id,
+      ...user.data(),
+      medicalData: updatedMedicalData
+    } as AuthUser;
   }
 
   async addMedicalData(

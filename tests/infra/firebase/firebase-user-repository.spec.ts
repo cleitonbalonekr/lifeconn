@@ -126,4 +126,41 @@ describe('FirebaseUserRepository', () => {
       expect(response?.medicalData).toHaveLength(1);
     });
   });
+  describe('UpdateMedicalData', () => {
+    it('Should return NULL when try to update an inexistent medicalData', async () => {
+      const sut = makeSut();
+      const userId = fakeId;
+      const medicalData = {
+        ...makeMedicalData(),
+        id: fakeId
+      };
+      const response = await sut.updateMedicalData(medicalData, userId);
+      expect(response).toBeNull();
+    });
+    it('Should update medicalData', async () => {
+      const sut = makeSut();
+      const userId = fakeId;
+
+      const medicalData = {
+        ...makeMedicalData(),
+        id: fakeId
+      };
+      const oldMedicalData = {
+        ...makeMedicalData(),
+        id: fakeId
+      };
+      const medicalDataDoc = getUserDoc(
+        `${userId}/medicalData/${oldMedicalData.id}`
+      );
+      await setDoc(medicalDataDoc, oldMedicalData);
+      const response = await sut.updateMedicalData(medicalData, userId);
+
+      expect(response).toHaveProperty('medicalData');
+      expect(response?.medicalData).toHaveLength(1);
+      expect(response?.medicalData[0]).toHaveProperty(
+        'title',
+        medicalData.title
+      );
+    });
+  });
 });
