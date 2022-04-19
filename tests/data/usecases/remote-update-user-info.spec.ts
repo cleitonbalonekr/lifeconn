@@ -29,7 +29,10 @@ describe('RemoteUpdateUserInfo', () => {
   it('should return authUser info', async () => {
     const { remoteUpdateUserInfo } = makeSut();
     const fakeUpdateInfo = makeUpdateUserParams();
-    const response = await remoteUpdateUserInfo.update(fakeUpdateInfo, fakeId);
+    const response = await remoteUpdateUserInfo.update(
+      { ...fakeUpdateInfo, totalVoiceToken: undefined },
+      fakeId
+    );
     expect(response).toHaveProperty('id');
     expect(response).toHaveProperty('authId');
     expect(response).toHaveProperty('email');
