@@ -7,7 +7,8 @@ import {
   getDocs,
   query,
   setDoc,
-  updateDoc
+  updateDoc,
+  deleteDoc
 } from 'firebase/firestore';
 import { v4 as uuidv4 } from 'uuid';
 
@@ -16,7 +17,8 @@ import {
   AddUserMedicalDataRepository,
   GetUserByIdRepository,
   UpdateUserInfoRepository,
-  UpdateUserMedicalDataRepository
+  UpdateUserMedicalDataRepository,
+  DeleteUserMedicalDataRepository
 } from '@/data/protocols/user';
 import { AuthUser } from '@/domain/models';
 import { UpdateUserInfo } from '@/domain/usecases/UpdateUserInfo';
@@ -26,7 +28,8 @@ export class FirebaseUserRepository
     GetUserByIdRepository,
     UpdateUserInfoRepository,
     AddUserMedicalDataRepository,
-    UpdateUserMedicalDataRepository
+    UpdateUserMedicalDataRepository,
+    DeleteUserMedicalDataRepository
 {
   private userCollection: CollectionReference;
 
@@ -34,16 +37,25 @@ export class FirebaseUserRepository
     this.userCollection = collection(FirestoreInstance, 'users');
   }
 
+  async removeMedicalData(
+    medicalDataId: DeleteUserMedicalDataRepository.Params,
+    userId: string
+  ): Promise<DeleteUserMedicalDataRepository.Result> {
+    const medicalDataRef = this.getMedicalDataRef(userId, medicalDataId);
+    const medicalData = await getDoc(medicalDataRef);
+    if (!medicalData.exists()) {
+      return null;
+    }
+    await deleteDoc(medicalDataRef);
+    const user = await this.getUserInfo(userId);
+    return user;
+  }
+
   async updateMedicalData(
     params: UpdateUserMedicalDataRepository.Params,
     userId: string
   ): Promise<UpdateUserMedicalDataRepository.Result> {
-    const medicalDataRef = doc(
-      this.userCollection,
-      userId,
-      'medicalData',
-      params.id
-    );
+    const medicalDataRef = this.getMedicalDataRef(userId, params.id);
     const medicalData = await getDoc(medicalDataRef);
     if (!medicalData.exists()) {
       return null;
@@ -51,15 +63,8 @@ export class FirebaseUserRepository
     await updateDoc(medicalDataRef, {
       ...params
     });
-    const userRef = doc(this.userCollection, userId);
-    const user = await getDoc(userRef);
-    const updatedMedicalData = await this.getMedicalDataByUserId(userId);
-
-    return {
-      id: user.id,
-      ...user.data(),
-      medicalData: updatedMedicalData
-    } as AuthUser;
+    const user = await this.getUserInfo(userId);
+    return user;
   }
 
   async addMedicalData(
@@ -68,30 +73,17 @@ export class FirebaseUserRepository
   ): Promise<AddUserMedicalDataRepository.Result> {
     const userRef = doc(this.userCollection, userId);
     const medicalDataId = uuidv4();
-    const addMedicalDataRef = doc(
-      this.userCollection,
-      userId,
-      'medicalData',
-      medicalDataId
-    );
+    const addMedicalDataRef = this.getMedicalDataRef(userId, medicalDataId);
     const userDoc = await getDoc(userRef);
     if (!userDoc.exists()) {
       return null;
     }
-
     await setDoc(addMedicalDataRef, {
       ...params
     });
 
-    const medicalData = await this.getMedicalDataByUserId(userId);
-
-    const updatedAuthUser = {
-      id: userDoc.id,
-      ...userDoc.data(),
-      medicalData
-    } as AuthUser;
-
-    return updatedAuthUser;
+    const user = await this.getUserInfo(userId);
+    return user;
   }
 
   async updateUser(
@@ -117,15 +109,8 @@ export class FirebaseUserRepository
     await updateDoc(userRef, {
       ...payload
     });
-    const updatedUser = await getDoc(userRef);
-    const medicalData = await this.getMedicalDataByUserId(userId);
-    const updatedAuthUser = {
-      id: updatedUser.id,
-      ...updatedUser.data(),
-      medicalData
-    } as AuthUser;
-
-    return updatedAuthUser;
+    const user = await this.getUserInfo(userId);
+    return user;
   }
 
   async getUser(userId: string): Promise<GetUserByIdRepository.Result> {
@@ -157,5 +142,20 @@ export class FirebaseUserRepository
       };
     });
     return formattedMedicalData;
+  }
+
+  private async getUserInfo(userId: string) {
+    const userRef = doc(this.userCollection, userId);
+    const user = await getDoc(userRef);
+    const medicalData = await this.getMedicalDataByUserId(userId);
+    return {
+      id: user.id,
+      ...user.data(),
+      medicalData
+    } as AuthUser;
+  }
+
+  private getMedicalDataRef(userId: string, medicalDataId: string) {
+    return doc(this.userCollection, userId, 'medicalData', medicalDataId);
   }
 }

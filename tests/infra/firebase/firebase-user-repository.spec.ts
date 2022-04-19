@@ -163,4 +163,32 @@ describe('FirebaseUserRepository', () => {
       );
     });
   });
+  describe('RemoveMedicalData', () => {
+    it('Should return NULL when try to remove an inexistent medicalData', async () => {
+      const sut = makeSut();
+      const userId = fakeId;
+      const medicalData = {
+        ...makeMedicalData(),
+        id: fakeId
+      };
+      const response = await sut.removeMedicalData(medicalData.id, userId);
+      expect(response).toBeNull();
+    });
+    it('Should remove medicalData', async () => {
+      const sut = makeSut();
+      const userId = fakeId;
+      const oldMedicalData = {
+        ...makeMedicalData(),
+        id: fakeId
+      };
+      const medicalDataDoc = getUserDoc(
+        `${userId}/medicalData/${oldMedicalData.id}`
+      );
+      await setDoc(medicalDataDoc, oldMedicalData);
+      const response = await sut.removeMedicalData(oldMedicalData.id, userId);
+
+      expect(response).toHaveProperty('medicalData');
+      expect(response?.medicalData).toHaveLength(0);
+    });
+  });
 });
