@@ -14,7 +14,6 @@ import { v4 as uuidv4 } from 'uuid';
 
 import app, { FirestoreInstance } from '@/configs/firebase';
 import {
-  AddUserMedicalDataRepository,
   GetUserByIdRepository,
   UpdateUserInfoRepository,
   UpdateUserMedicalDataRepository,
@@ -24,66 +23,12 @@ import { AuthUser } from '@/domain/models';
 import { UpdateUserInfo } from '@/domain/usecases/UpdateUserInfo';
 
 export class FirebaseUserRepository
-  implements
-    GetUserByIdRepository,
-    UpdateUserInfoRepository,
-    AddUserMedicalDataRepository,
-    UpdateUserMedicalDataRepository,
-    DeleteUserMedicalDataRepository
+  implements GetUserByIdRepository, UpdateUserInfoRepository
 {
   private userCollection: CollectionReference;
 
   constructor() {
     this.userCollection = collection(FirestoreInstance, 'users');
-  }
-
-  async removeMedicalData(
-    medicalDataId: DeleteUserMedicalDataRepository.Params,
-    userId: string
-  ): Promise<DeleteUserMedicalDataRepository.Result> {
-    const medicalDataRef = this.getMedicalDataRef(userId, medicalDataId);
-    const medicalData = await getDoc(medicalDataRef);
-    if (!medicalData.exists()) {
-      return null;
-    }
-    await deleteDoc(medicalDataRef);
-    const user = await this.getUserInfo(userId);
-    return user;
-  }
-
-  async updateMedicalData(
-    params: UpdateUserMedicalDataRepository.Params,
-    userId: string
-  ): Promise<UpdateUserMedicalDataRepository.Result> {
-    const medicalDataRef = this.getMedicalDataRef(userId, params.id);
-    const medicalData = await getDoc(medicalDataRef);
-    if (!medicalData.exists()) {
-      return null;
-    }
-    await updateDoc(medicalDataRef, {
-      ...params
-    });
-    const user = await this.getUserInfo(userId);
-    return user;
-  }
-
-  async addMedicalData(
-    params: AddUserMedicalDataRepository.Params,
-    userId: string
-  ): Promise<AddUserMedicalDataRepository.Result> {
-    const userRef = doc(this.userCollection, userId);
-    const medicalDataId = uuidv4();
-    const addMedicalDataRef = this.getMedicalDataRef(userId, medicalDataId);
-    const userDoc = await getDoc(userRef);
-    if (!userDoc.exists()) {
-      return null;
-    }
-    await setDoc(addMedicalDataRef, {
-      ...params
-    });
-
-    const user = await this.getUserInfo(userId);
-    return user;
   }
 
   async updateUser(
@@ -153,9 +98,5 @@ export class FirebaseUserRepository
       ...user.data(),
       medicalData
     } as AuthUser;
-  }
-
-  private getMedicalDataRef(userId: string, medicalDataId: string) {
-    return doc(this.userCollection, userId, 'medicalData', medicalDataId);
   }
 }
