@@ -20,5 +20,6 @@ export namespace AddAccountToExistenteUserRepository {
     id: string;
     email: string;
     phoneNumber: string;
+    medicalData: [];
   };
 }

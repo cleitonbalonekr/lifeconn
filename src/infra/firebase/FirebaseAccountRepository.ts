@@ -128,7 +128,8 @@ export class FirebaseAccountRepository
       authId: user.uid,
       id: userDoc.id,
       email,
-      phoneNumber
+      phoneNumber,
+      medicalData: []
     };
   }
 
@@ -153,7 +154,8 @@ export class FirebaseAccountRepository
       authId: user.uid,
       id: doc.id,
       email,
-      phoneNumber
+      phoneNumber,
+      medicalData: []
     };
   }
 
