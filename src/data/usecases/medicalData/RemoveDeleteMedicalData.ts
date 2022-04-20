@@ -2,7 +2,7 @@ import { MedicalDataNotFound } from '@/domain/errors';
 import { catchErrorVerification } from '@/domain/errors/utils/catchErrorVerification';
 import { DeleteMedicalData } from '@/domain/usecases';
 
-import { DeleteUserMedicalDataRepository } from '../protocols/user';
+import { DeleteUserMedicalDataRepository } from '../../protocols/user';
 
 export class RemoteDeleteMedicalData implements DeleteMedicalData {
   constructor(

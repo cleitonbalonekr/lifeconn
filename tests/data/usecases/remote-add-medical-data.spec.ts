@@ -1,4 +1,4 @@
-import { RemoteAddMedicalData } from '@/data/usecases/RemoteAddMedicalData';
+import { RemoteAddMedicalData } from '@/data/usecases';
 import { UserNotFoundError } from '@/domain/errors';
 import { fakeId } from '@/tests/shared/mocks';
 

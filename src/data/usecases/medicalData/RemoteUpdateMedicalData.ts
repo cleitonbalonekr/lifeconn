@@ -2,7 +2,7 @@ import { MedicalDataNotFound } from '@/domain/errors';
 import { catchErrorVerification } from '@/domain/errors/utils/catchErrorVerification';
 import { UpdateMedicalData } from '@/domain/usecases';
 
-import { UpdateUserMedicalDataRepository } from '../protocols/user';
+import { UpdateUserMedicalDataRepository } from '../../protocols/user';
 
 export class RemoteUpdateMedicalData implements UpdateMedicalData {
   constructor(
