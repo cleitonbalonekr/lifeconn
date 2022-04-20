@@ -1,7 +1,7 @@
 import { Ionicons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import React from 'react';
-import { View } from 'react-native';
+import { Share, View } from 'react-native';
 import { useTailwind } from 'tailwind-rn';
 
 import Button from '@/presentation/shared/components/form/button';
@@ -13,8 +13,12 @@ const Header: React.FC = () => {
   function handleNavigationToCreateContacts() {
     navigation.navigate('CreateContacts');
   }
-  function handleNavigationToSharedContact() {
-    navigation.navigate('SharedContact');
+  async function handleNavigationToSharedContact() {
+    const token = 'Olá me adicione no app Lifeconn. Meu número é 22 11111111';
+
+    await Share.share({
+      message: token
+    });
   }
   return (
     <View style={tailwind('flex-row justify-center border-b py-3')}>

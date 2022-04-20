@@ -13,8 +13,9 @@ const CreateContacts: React.FC = () => {
   const tailwind = useTailwind();
   return (
     <Container>
-      <Input placeholder="Token de usuário" label="Token de usuário" />
-      <ScanCode />
+      <Input placeholder="Nome do contato" label="Nome" />
+      <Input placeholder="2211111111" label="Telefone" />
+      {/* <ScanCode /> */}
       <Button label="Salvar" onPress={() => {}}>
         <Ionicons
           name="save-outline"

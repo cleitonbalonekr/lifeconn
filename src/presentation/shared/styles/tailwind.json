@@ -412,6 +412,11 @@
 			"backgroundColor": "rgb(241 245 249 / var(--tw-bg-opacity))"
 		}
 	},
+	"bg-transparent": {
+		"style": {
+			"backgroundColor": "#00000040"
+		}
+	},
 	"bg-slate-300": {
 		"style": {
 			"--tw-bg-opacity": 1,
@@ -464,11 +469,6 @@
 		"style": {
 			"--tw-bg-opacity": 1,
 			"backgroundColor": "rgb(255 255 255 / var(--tw-bg-opacity))"
-		}
-	},
-	"bg-transparent": {
-		"style": {
-			"backgroundColor": "#00000040"
 		}
 	},
 	"p-4": {
