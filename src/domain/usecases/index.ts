@@ -6,3 +6,4 @@ export * from './LogoutUser';
 export * from './AddMedicalData';
 export * from './UpdateMedicalData';
 export * from './DeleteMedicalData';
+export * from './contact';
