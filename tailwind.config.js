@@ -6,6 +6,9 @@ module.exports = {
   content: ['./src/**/*.{js,ts,jsx,tsx}'],
   theme: {
     extend: {
+      colors: {
+        transparent: '#00000040'
+      },
       fontFamily: {
         ...fontFamily,
         // sans: ['Ubuntu_400Regular', 'Ubuntu_500Medium', ...fontFamily.sans],

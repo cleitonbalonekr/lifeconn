@@ -1,5 +1,5 @@
 import { Ionicons } from '@expo/vector-icons';
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { Switch, Text, View, FlatList } from 'react-native';
 import { useTailwind } from 'tailwind-rn/dist';
 
@@ -14,6 +14,9 @@ import BaseListItem from '@/presentation/shared/components/BaseListItem';
 import Container from '@/presentation/shared/components/Container';
 import Button from '@/presentation/shared/components/form/button';
 import Input from '@/presentation/shared/components/form/input';
+import LoadingOverlay, {
+  LoadingOverlayRefProps
+} from '@/presentation/shared/components/LoadingOverlay';
 import { useAuth } from '@/presentation/shared/context/auth';
 import useFeedbackMessage from '@/presentation/shared/hooks/useFeedbackMessage';
 import useInputState from '@/presentation/shared/hooks/useInputState';
@@ -34,6 +37,7 @@ const MedicalInfo: React.FC<Props> = ({
   deleteMedicalData
 }) => {
   const { authUser, saveUserSate } = useAuth();
+  const loadingOverlayRef = useRef<LoadingOverlayRefProps>(null);
   const [loading, setLoading] = useState(false);
   const { showSuccess, showError } = useFeedbackMessage();
   const [isOnEditMode, setIsOnEditMode] = useState(false);
@@ -114,6 +118,7 @@ const MedicalInfo: React.FC<Props> = ({
   }
   async function handleDeleteMedicalInfo() {
     try {
+      loadingOverlayRef.current?.showLoading();
       if (loading) return;
       const newUserInfo = await deleteMedicalData.remove(
         medicalDataId.value,
@@ -127,6 +132,8 @@ const MedicalInfo: React.FC<Props> = ({
       handleExitEditMode();
     } catch (error: any) {
       showError(error);
+    } finally {
+      loadingOverlayRef.current?.hideLoading();
     }
   }
   function handleChooseItem(item: MedicalData) {
@@ -147,6 +154,7 @@ const MedicalInfo: React.FC<Props> = ({
 
   return (
     <Container>
+      <LoadingOverlay ref={loadingOverlayRef} />
       <View style={tailwind('flex-row justify-between items-center')}>
         <Text style={tailwind('text-lg font-ubuntu-bold')}>Dados de saúde</Text>
         {isOnEditMode && (
