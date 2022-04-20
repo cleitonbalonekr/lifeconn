@@ -1,3 +1,4 @@
+import { Contact } from './Contact';
 import { MedicalData } from './MedicalData';
 
 export interface AuthUser {
@@ -10,4 +11,5 @@ export interface AuthUser {
   phoneNumber: string;
   photo?: string;
   medicalData: MedicalData[];
+  contacts: Contact[];
 }
