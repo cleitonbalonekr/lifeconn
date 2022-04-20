@@ -22,12 +22,17 @@ import {
 import { AuthUser } from '@/domain/models';
 import { UpdateUserInfo } from '@/domain/usecases/UpdateUserInfo';
 
+import { FirebaseUserUtils } from './FirebaseUserUtils';
+
 export class FirebaseUserRepository
   implements GetUserByIdRepository, UpdateUserInfoRepository
 {
   private userCollection: CollectionReference;
 
+  private firebaseUserUtils: FirebaseUserUtils;
+
   constructor() {
+    this.firebaseUserUtils = new FirebaseUserUtils();
     this.userCollection = collection(FirestoreInstance, 'users');
   }
 
@@ -54,49 +59,25 @@ export class FirebaseUserRepository
     await updateDoc(userRef, {
       ...payload
     });
-    const user = await this.getUserInfo(userId);
+    const user = await this.firebaseUserUtils.getUserInfo(userId);
     return user;
   }
 
   async getUser(userId: string): Promise<GetUserByIdRepository.Result> {
     const userRef = doc(this.userCollection, userId);
     const user = await getDoc(userRef);
-    const medicalData = await this.getMedicalDataByUserId(userId);
+    const medicalData = await this.firebaseUserUtils.getMedicalDataByUserId(
+      userId
+    );
+    const contacts = await this.firebaseUserUtils.getContactsByUserId(userId);
     const response = !user.exists()
       ? null
       : ({
           id: user.id,
           ...user.data(),
-          medicalData
+          medicalData,
+          contacts
         } as AuthUser);
     return response;
-  }
-
-  private async getMedicalDataByUserId(userId: string) {
-    const medicalDataCollection = collection(
-      FirestoreInstance,
-      'users',
-      userId,
-      'medicalData'
-    );
-    const medicalData = await getDocs(query(medicalDataCollection));
-    const formattedMedicalData = medicalData.docs.map((medicalDataDoc) => {
-      return {
-        id: medicalDataDoc.id,
-        ...medicalDataDoc.data()
-      };
-    });
-    return formattedMedicalData;
-  }
-
-  private async getUserInfo(userId: string) {
-    const userRef = doc(this.userCollection, userId);
-    const user = await getDoc(userRef);
-    const medicalData = await this.getMedicalDataByUserId(userId);
-    return {
-      id: user.id,
-      ...user.data(),
-      medicalData
-    } as AuthUser;
   }
 }

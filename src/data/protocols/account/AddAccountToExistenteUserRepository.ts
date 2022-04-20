@@ -21,5 +21,6 @@ export namespace AddAccountToExistenteUserRepository {
     email: string;
     phoneNumber: string;
     medicalData: [];
+    contacts: [];
   };
 }

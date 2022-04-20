@@ -144,7 +144,8 @@ describe('FirebaseAccountRepository', () => {
       expect(response).toHaveProperty('id', userId);
       expect(response).toHaveProperty('authId', authId);
       expect(response).toHaveProperty('phoneNumber', phoneNumber);
-      expect(response).toHaveProperty('email', email);
+      expect(response).toHaveProperty('contacts');
+      expect(response).toHaveProperty('medicalData');
     });
     it('Should return null when does not find user', async () => {
       const sut = makeSut();

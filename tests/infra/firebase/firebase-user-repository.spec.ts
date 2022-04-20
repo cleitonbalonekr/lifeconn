@@ -10,12 +10,7 @@ import {
   setupEmulators
 } from '@/tests/utils/firebase-emulator';
 
-import {
-  fakeUseRegisterData,
-  getUserDoc,
-  makeMedicalData,
-  makeUserUpdateInfo
-} from '../mock';
+import { fakeUseRegisterData, getUserDoc, makeUserUpdateInfo } from '../mock';
 
 const makeSut = () => {
   return new FirebaseUserRepository();
@@ -76,6 +71,8 @@ describe('FirebaseUserRepository', () => {
       expect(response).toHaveProperty('email', userMock.email);
       expect(response).toHaveProperty('fullName', userMock.fullName);
       expect(response).toHaveProperty('phoneNumber', userMock.phoneNumber);
+      expect(response).toHaveProperty('medicalData');
+      expect(response).toHaveProperty('contacts');
     });
     it('Should update a existent user auth email', async () => {
       const sut = makeSut();

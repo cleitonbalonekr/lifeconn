@@ -20,5 +20,6 @@ export namespace AddAccountRepository {
     email: string;
     phoneNumber: string;
     medicalData: [];
+    contacts: [];
   };
 }

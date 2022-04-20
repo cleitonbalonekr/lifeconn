@@ -1,6 +1,7 @@
 import { FirebaseError } from 'firebase/app';
 import * as auth from 'firebase/auth';
 import * as firestore from 'firebase/firestore';
+import { string } from 'yup';
 
 import { AuthInstance, FirestoreInstance } from '@/configs/firebase';
 import {
@@ -15,6 +16,8 @@ import {
 } from '@/data/protocols/account';
 import { AuthUser } from '@/domain/models';
 
+import { FirebaseUserUtils } from './FirebaseUserUtils';
+
 export class FirebaseAccountRepository
   implements
     AddAccountRepository,
@@ -28,7 +31,10 @@ export class FirebaseAccountRepository
 {
   private userCollection: firestore.CollectionReference;
 
+  private firebaseUserUtils: FirebaseUserUtils;
+
   constructor() {
+    this.firebaseUserUtils = new FirebaseUserUtils();
     this.userCollection = firestore.collection(FirestoreInstance, 'users');
   }
 
@@ -60,27 +66,10 @@ export class FirebaseAccountRepository
       return null;
     }
     const user = snapshot.docs[0];
-    const medicalDataCollection = firestore.collection(
-      FirestoreInstance,
-      'users',
-      user.id,
-      'medicalData'
-    );
-    const medicalData = await firestore.getDocs(
-      firestore.query(medicalDataCollection)
-    );
-    const formattedMedicalData = medicalData.docs.map((doc) => {
-      return {
-        id: doc.id,
-        ...doc.data()
-      };
-    });
 
-    return {
-      id: user.id,
-      ...user.data(),
-      medicalData: formattedMedicalData
-    } as AuthUser;
+    const authUser = await this.firebaseUserUtils.getUserInfo(user.id);
+
+    return authUser;
   }
 
   async signIn(
@@ -129,7 +118,8 @@ export class FirebaseAccountRepository
       id: userDoc.id,
       email,
       phoneNumber,
-      medicalData: []
+      medicalData: [],
+      contacts: []
     };
   }
 
@@ -155,7 +145,8 @@ export class FirebaseAccountRepository
       id: doc.id,
       email,
       phoneNumber,
-      medicalData: []
+      medicalData: [],
+      contacts: []
     };
   }
 
