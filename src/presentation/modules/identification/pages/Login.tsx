@@ -1,5 +1,5 @@
 import Icon from '@expo/vector-icons/Feather';
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import { View, Text, Image, ScrollView } from 'react-native';
 import { useTailwind } from 'tailwind-rn';
 
@@ -31,6 +31,7 @@ const Login: React.FC<Props> = ({
   resetPassword
 }) => {
   const tailwind = useTailwind();
+  const [loading, setLoading] = useState(false);
   const { saveUserSate } = useAuth();
   const { showError, showSuccess } = useFeedbackMessage();
   const forgotPasswordRef = useRef<ForgotPasswordModalRefProps>(null);
@@ -52,6 +53,7 @@ const Login: React.FC<Props> = ({
 
   async function handleLogin() {
     try {
+      setLoading(true);
       const payload = {
         email: email.value,
         password: password.value
@@ -67,6 +69,8 @@ const Login: React.FC<Props> = ({
       }
     } catch (error: any) {
       showError(error);
+    } finally {
+      setLoading(false);
     }
   }
   function handleResetPassword() {
@@ -74,6 +78,7 @@ const Login: React.FC<Props> = ({
   }
   async function handleRegister() {
     try {
+      setLoading(true);
       const payload = {
         email: registerEmail.value,
         password: registerPassword.value,
@@ -93,6 +98,8 @@ const Login: React.FC<Props> = ({
       });
     } catch (error: any) {
       showError(error);
+    } finally {
+      setLoading(false);
     }
   }
   return (
@@ -124,7 +131,7 @@ const Login: React.FC<Props> = ({
           onChangeText={password.set}
           error={password.error}
         />
-        <Button label="Entrar" onPress={handleLogin}>
+        <Button label="Entrar" onPress={handleLogin} loading={loading}>
           <Icon name="log-in" size={20} color="white" />
         </Button>
         <ButtonLink label="Esqueci minha senha" onPress={handleResetPassword} />
@@ -150,7 +157,12 @@ const Login: React.FC<Props> = ({
           onChangeText={phoneNumber.set}
           error={phoneNumber.error}
         />
-        <Button label="Cadastrar" type="primary" onPress={handleRegister}>
+        <Button
+          label="Cadastrar"
+          type="primary"
+          onPress={handleRegister}
+          loading={loading}
+        >
           <Icon name="user-plus" size={20} color="white" />
         </Button>
       </View>

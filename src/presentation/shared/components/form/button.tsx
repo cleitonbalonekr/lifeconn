@@ -1,5 +1,6 @@
 import React from 'react';
 import {
+  ActivityIndicator,
   Text,
   TouchableOpacity,
   TouchableOpacityProps,
@@ -12,12 +13,14 @@ type ButtonStatusType = 'success' | 'warning' | 'danger' | 'primary';
 interface Props extends TouchableOpacityProps {
   label?: string;
   type?: ButtonStatusType;
+  loading?: boolean;
 }
 
 const Button: React.FC<Props> = ({
   label,
   children,
   type = 'success',
+  loading = false,
   ...rest
 }: Props) => {
   const tailwind = useTailwind();
@@ -39,20 +42,27 @@ const Button: React.FC<Props> = ({
 
   return (
     <TouchableOpacity
+      disabled={loading}
       style={tailwind(
         `flex flex-row p-3 py-4 items-center justify-center ${getButtonColorByType()} rounded-lg`
       )}
       {...rest}
     >
-      <View>{children}</View>
-      {label && (
-        <Text
-          style={tailwind(
-            `${hasPadding} text-white font-semibold font-ubuntu-medium`
+      {loading ? (
+        <ActivityIndicator color="#fff" size="small" />
+      ) : (
+        <>
+          <View>{children}</View>
+          {label && (
+            <Text
+              style={tailwind(
+                `${hasPadding} text-white font-semibold font-ubuntu-medium`
+              )}
+            >
+              {label}
+            </Text>
           )}
-        >
-          {label}
-        </Text>
+        </>
       )}
     </TouchableOpacity>
   );

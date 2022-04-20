@@ -34,6 +34,7 @@ const MedicalInfo: React.FC<Props> = ({
   deleteMedicalData
 }) => {
   const { authUser, saveUserSate } = useAuth();
+  const [loading, setLoading] = useState(false);
   const { showSuccess, showError } = useFeedbackMessage();
   const [isOnEditMode, setIsOnEditMode] = useState(false);
   const medicalDataId = useInputState({
@@ -54,6 +55,7 @@ const MedicalInfo: React.FC<Props> = ({
 
   async function handleCreateMedicalInfo() {
     try {
+      setLoading(true);
       const payload = {
         title: title.value,
         description: description.value,
@@ -74,10 +76,13 @@ const MedicalInfo: React.FC<Props> = ({
       }
     } catch (error: any) {
       showError(error);
+    } finally {
+      setLoading(false);
     }
   }
   async function handleUpdateMedicalInfo() {
     try {
+      setLoading(true);
       const payload = {
         id: medicalDataId.value,
         title: title.value,
@@ -103,10 +108,13 @@ const MedicalInfo: React.FC<Props> = ({
       }
     } catch (error: any) {
       showError(error);
+    } finally {
+      setLoading(false);
     }
   }
   async function handleDeleteMedicalInfo() {
     try {
+      if (loading) return;
       const newUserInfo = await deleteMedicalData.remove(
         medicalDataId.value,
         authUser.id
@@ -129,6 +137,7 @@ const MedicalInfo: React.FC<Props> = ({
     onlyOrganization.set(item.onlyOrganization);
   }
   function handleExitEditMode() {
+    if (loading) return;
     setIsOnEditMode(false);
     title.set('');
     description.set('');
@@ -177,7 +186,11 @@ const MedicalInfo: React.FC<Props> = ({
         {isOnEditMode ? (
           <View style={tailwind('flex-row justify-between')}>
             <View style={tailwind('flex-1 mr-2')}>
-              <Button label="Salvar" onPress={handleUpdateMedicalInfo}>
+              <Button
+                label="Salvar"
+                onPress={handleUpdateMedicalInfo}
+                loading={loading}
+              >
                 <Ionicons
                   name="save-outline"
                   size={20}
@@ -200,7 +213,11 @@ const MedicalInfo: React.FC<Props> = ({
             </View>
           </View>
         ) : (
-          <Button label="Cadastrar" onPress={handleCreateMedicalInfo}>
+          <Button
+            label="Cadastrar"
+            onPress={handleCreateMedicalInfo}
+            loading={loading}
+          >
             <Ionicons
               name="save-outline"
               size={20}

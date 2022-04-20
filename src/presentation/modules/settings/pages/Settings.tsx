@@ -27,6 +27,7 @@ const Settings: React.FC<Props> = ({
   logoutUser
 }) => {
   const { signOut, authUser, saveUserSate } = useAuth();
+  const [loading, setLoading] = useState(false);
   const { showSuccess, showError } = useFeedbackMessage();
   const navigation = useNavigation();
   const email = useInputState({
@@ -58,6 +59,7 @@ const Settings: React.FC<Props> = ({
 
   async function updateUserData() {
     try {
+      setLoading(true);
       const payload = {
         fullName: fullName.value,
         email: email.value,
@@ -83,6 +85,8 @@ const Settings: React.FC<Props> = ({
       }
     } catch (error: any) {
       showError(error);
+    } finally {
+      setLoading(false);
     }
   }
 
@@ -163,7 +167,7 @@ const Settings: React.FC<Props> = ({
             Ativação por impacto
           </Text>
         </View>
-        <Button label="Salvar" onPress={updateUserData}>
+        <Button label="Salvar" onPress={updateUserData} loading={loading}>
           <Ionicons
             name="save-outline"
             size={20}

@@ -26,6 +26,7 @@ const ForgotPasswordModal: React.ForwardRefRenderFunction<
   Props
 > = ({ validation, resetPassword }, ref) => {
   const tailwind = useTailwind();
+  const [loading, setLoading] = useState(false);
   const { showSuccess, showError } = useFeedbackMessage();
   const [visible, setVisible] = useState(false);
   const email = useInputState({
@@ -48,6 +49,7 @@ const ForgotPasswordModal: React.ForwardRefRenderFunction<
 
   async function handleResetPassword() {
     try {
+      setLoading(true);
       const { valid, errors } = await validation.validateForm({
         email: email.value
       });
@@ -63,6 +65,8 @@ const ForgotPasswordModal: React.ForwardRefRenderFunction<
       handleCloseModal();
     } catch (error: any) {
       showError(error);
+    } finally {
+      setLoading(false);
     }
   }
 
@@ -89,7 +93,11 @@ const ForgotPasswordModal: React.ForwardRefRenderFunction<
             onChangeText={email.set}
             error={email.error}
           />
-          <Button label="Recuperar senha" onPress={handleResetPassword} />
+          <Button
+            label="Recuperar senha"
+            onPress={handleResetPassword}
+            loading={loading}
+          />
         </View>
       </Pressable>
     </Modal>
