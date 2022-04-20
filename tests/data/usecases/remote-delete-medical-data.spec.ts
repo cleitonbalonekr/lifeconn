@@ -19,7 +19,7 @@ const makeSut = () => {
   };
 };
 
-describe('RemoteUpdateMedicalData', () => {
+describe('RemoteDeleteMedicalData', () => {
   it('it Should throw MedicalDataNotFound when does not found medicalData', async () => {
     const { deleteUserMedicalDataRepository, remoteAddMedicalData } = makeSut();
     deleteUserMedicalDataRepository.response = null;
@@ -27,7 +27,7 @@ describe('RemoteUpdateMedicalData', () => {
       ...makeMedicalData(),
       id: fakeId
     };
-    const promise = remoteAddMedicalData.remove(medicalData, fakeId);
+    const promise = remoteAddMedicalData.remove(medicalData.id, fakeId);
     await expect(promise).rejects.toThrow(new MedicalDataNotFound());
   });
   it('it return AuthUser when delete medical data with success', async () => {
@@ -36,7 +36,7 @@ describe('RemoteUpdateMedicalData', () => {
       ...makeMedicalData(),
       id: fakeId
     };
-    const response = await remoteAddMedicalData.remove(medicalData, fakeId);
+    const response = await remoteAddMedicalData.remove(medicalData.id, fakeId);
     expect(response).toHaveProperty('id');
     expect(response).toHaveProperty('medicalData');
   });
