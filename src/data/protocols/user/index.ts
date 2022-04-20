@@ -1,5 +1,4 @@
 export * from './GetUserByIdRepository';
 export * from './UpdateUserInfoRepository';
-export * from './AddUserMedicalDataRepository';
-export * from './UpdateUserMedicalDataRepository';
-export * from './DeleteUserMedicalDataRepository';
+export * from './medicalData';
+export * from './contact';
