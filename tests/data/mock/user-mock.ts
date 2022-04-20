@@ -43,12 +43,12 @@ export class AddUserMedicalDataRepositorySpy
 export class DeleteUserMedicalDataRepositorySpy
   implements DeleteUserMedicalDataRepository
 {
-  public response: GetUserByIdRepository.Result = getFakeAuthUser();
+  public response: DeleteUserMedicalDataRepository.Result = getFakeAuthUser();
 
   async removeMedicalData(
-    params: AddUserMedicalDataRepository.Params,
+    params: DeleteUserMedicalDataRepository.Params,
     userId: string
-  ): Promise<AddUserMedicalDataRepository.Result> {
+  ): Promise<DeleteUserMedicalDataRepository.Result> {
     return this.response;
   }
 }

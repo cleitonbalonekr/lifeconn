@@ -2,6 +2,7 @@
 import faker from '@faker-js/faker';
 
 import { MedicalData } from '@/domain/models';
+import { Contact } from '@/domain/models/Contact';
 
 import {
   GetUserInfoByAuthRepository,
@@ -23,7 +24,8 @@ export const getFakeAuthUser = () => ({
   email: faker.internet.email(),
   phoneNumber: faker.phone.phoneNumber(),
   photo: faker.internet.avatar(),
-  medicalData: [] as MedicalData[]
+  medicalData: [] as MedicalData[],
+  contacts: [] as Contact[]
 });
 
 export class SignOutRepositorySpy implements SignOutRepository {
