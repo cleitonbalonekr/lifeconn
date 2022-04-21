@@ -2,19 +2,43 @@ import { FirebaseError } from 'firebase/app';
 import * as auth from 'firebase/auth';
 import * as firestore from 'firebase/firestore';
 
-import app, { AuthInstance, FirestoreInstance } from '@/configs/firebase';
+import app, { AuthInstance } from '@/configs/firebase';
 import { FirebaseAccountRepository } from '@/infra/firebase/FirebaseAccountRepository';
-import { fakeId } from '@/tests/shared/mocks';
+import { fakeId, randomId } from '@/tests/shared/mocks';
 import {
   setupEmulators,
   cleanEmulators,
   closeFirebase
 } from '@/tests/utils/firebase-emulator';
 
-import { fakeUseRegisterData, getUserDoc } from '../mock';
+import {
+  fakeUseRegisterData,
+  getUserDoc,
+  makeContact,
+  makeUser
+} from '../mock';
 
 const makeSut = () => {
   return new FirebaseAccountRepository();
+};
+const makeUserWithContact = async (phoneNumber: string, userId: string) => {
+  const userDoc = getUserDoc(userId);
+  await firestore.setDoc(userDoc, {
+    phoneNumber
+  });
+  // make contacts
+  const contactId = randomId();
+  await makeUser(contactId, {
+    id: contactId,
+    ...fakeUseRegisterData()
+  });
+  const contactDoc = await makeContact(contactId, phoneNumber, {
+    phoneNumber,
+    id: phoneNumber,
+    nickname: 'asd',
+    hasAccount: false
+  });
+  return { contactDoc, userDoc };
 };
 
 const registerUserWithEmailAndPassword = async () => {
@@ -208,6 +232,32 @@ describe('FirebaseAccountRepository', () => {
       const { email } = await registerUserWithEmailAndPassword();
       const response = await sut.sendEmail(email);
       expect(response).toBeTruthy();
+    });
+  });
+  describe('addUserIdToContact', () => {
+    it('Should add userId to other users that have this user as contact', async () => {
+      const sut = makeSut();
+      const { phoneNumber } = fakeUseRegisterData();
+      const userId = fakeId;
+      // make user doc
+      const { contactDoc } = await makeUserWithContact(phoneNumber, randomId());
+      const { contactDoc: contactDoc2 } = await makeUserWithContact(
+        phoneNumber,
+        randomId()
+      );
+      // test sut
+      await sut.addUserIdToContact({
+        phoneNumber,
+        userId
+      });
+      // get contact
+      const contact = await firestore.getDoc(contactDoc);
+      const contact2 = await firestore.getDoc(contactDoc2);
+      // assert
+      expect(contact.data()).toHaveProperty('hasAccount', true);
+      expect(contact.data()).toHaveProperty('contactId', userId);
+      expect(contact2.data()).toHaveProperty('hasAccount', true);
+      expect(contact2.data()).toHaveProperty('contactId', userId);
     });
   });
 });

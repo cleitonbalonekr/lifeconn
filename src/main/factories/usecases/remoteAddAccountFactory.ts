@@ -8,6 +8,7 @@ export const makeRemoteAddAccount = (): AddAccount => {
     firebaseAccountRepository,
     firebaseAccountRepository,
     firebaseAccountRepository,
+    firebaseAccountRepository,
     firebaseAccountRepository
   );
 };

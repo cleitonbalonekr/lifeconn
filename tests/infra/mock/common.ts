@@ -24,7 +24,7 @@ export const makeContact = async (
 ) => {
   const contactDoc = getUserDoc(`${userId}/contacts/${contactPhone}`);
   await setDoc(contactDoc, {
-    ...contactData,
-    id: userId
+    ...contactData
   });
+  return contactDoc;
 };

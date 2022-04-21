@@ -12,9 +12,9 @@ import {
   SignInWithEmailAndPasswordRepository,
   GetUserInfoByAuthRepository,
   SendEmailToRecoveryPassword,
-  SignOutRepository
+  SignOutRepository,
+  AddUserIdToExistentContactRepository
 } from '@/data/protocols/account';
-import { AuthUser } from '@/domain/models';
 
 import { FirebaseUserUtils } from './FirebaseUserUtils';
 
@@ -27,7 +27,8 @@ export class FirebaseAccountRepository
     SignInWithEmailAndPasswordRepository,
     GetUserInfoByAuthRepository,
     SendEmailToRecoveryPassword,
-    SignOutRepository
+    SignOutRepository,
+    AddUserIdToExistentContactRepository
 {
   private userCollection: firestore.CollectionReference;
 
@@ -140,8 +141,6 @@ export class FirebaseAccountRepository
       email
     });
 
-    await this.addUserIdToExistentContact(phoneNumber, userId);
-
     return {
       authId: user.uid,
       id: doc.id,
@@ -191,11 +190,10 @@ export class FirebaseAccountRepository
     };
   }
 
-  // TODO: test
-  private async addUserIdToExistentContact(
-    phoneNumber: string,
-    userId: string
-  ) {
+  async addUserIdToContact({
+    phoneNumber,
+    userId
+  }: AddUserIdToExistentContactRepository.Params) {
     const contactsCollection = firestore.collectionGroup(
       FirestoreInstance,
       'contacts'
@@ -206,15 +204,9 @@ export class FirebaseAccountRepository
     );
     const userContacts = await firestore.getDocs(query);
 
-    return Promise.all(
+    await Promise.all(
       userContacts.docs.map(async (contact) => {
-        console.log('contact', contact);
-        const docToChange = firestore.doc(
-          firestore.collection(FirestoreInstance, 'contacts'),
-          contact.id
-        );
-        console.log('docToChange', docToChange.id);
-        await firestore.updateDoc(docToChange, {
+        await firestore.updateDoc(contact.ref, {
           contactId: userId,
           hasAccount: true
         });
