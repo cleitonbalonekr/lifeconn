@@ -4,20 +4,13 @@ import {
   CollectionReference,
   doc,
   getDoc,
-  getDocs,
-  query,
-  setDoc,
-  updateDoc,
-  deleteDoc
+  updateDoc
 } from 'firebase/firestore';
-import { v4 as uuidv4 } from 'uuid';
 
 import app, { FirestoreInstance } from '@/configs/firebase';
 import {
   GetUserByIdRepository,
-  UpdateUserInfoRepository,
-  UpdateUserMedicalDataRepository,
-  DeleteUserMedicalDataRepository
+  UpdateUserInfoRepository
 } from '@/data/protocols/user';
 import { AuthUser } from '@/domain/models';
 import { UpdateUserInfo } from '@/domain/usecases/UpdateUserInfo';
