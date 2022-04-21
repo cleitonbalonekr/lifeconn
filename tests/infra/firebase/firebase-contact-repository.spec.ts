@@ -1,4 +1,3 @@
-import * as auth from 'firebase/auth';
 import { setDoc } from 'firebase/firestore';
 
 import { FirebaseContactRepository } from '@/infra/firebase';
@@ -10,7 +9,7 @@ import {
   setupEmulators
 } from '@/tests/utils/firebase-emulator';
 
-import { makeContact, makeUser } from '../mock';
+import { getUserDoc, makeContact, makeUser } from '../mock';
 
 const makeSut = () => {
   return new FirebaseContactRepository();
@@ -77,6 +76,28 @@ describe('FirebaseContactRepository', () => {
         contactParams.nickname
       );
       expect(response.contacts[0]).toHaveProperty('hasAccount', false);
+    });
+  });
+  describe('RemoveContact', () => {
+    it('Should remove contact', async () => {
+      const sut = makeSut();
+      const userId = fakeId;
+      const contactParams = makeAddContactParams();
+      const oldContacts = {
+        ...contactParams,
+        id: contactParams.phoneNumber
+      };
+      const contactsDoc = getUserDoc(
+        `${userId}/contacts/${contactParams.phoneNumber}`
+      );
+      await setDoc(contactsDoc, oldContacts);
+      const response = await sut.removeContact(
+        oldContacts.id,
+        contactParams.phoneNumber
+      );
+
+      expect(response).toHaveProperty('contacts');
+      expect(response?.contacts).toHaveLength(0);
     });
   });
   describe('addExistentContact', () => {
