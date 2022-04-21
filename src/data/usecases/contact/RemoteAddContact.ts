@@ -32,13 +32,19 @@ export class RemoteAddContact implements AddContact {
         if (!response) {
           throw new ContactAlreadyAddedError();
         }
-        return response;
+        return {
+          existentContact: true,
+          user: response
+        };
       }
       const response = await this.addContactRepository.addContact(
         params,
         currentUserId
       );
-      return response;
+      return {
+        existentContact: false,
+        user: response
+      };
     } catch (error) {
       return catchErrorVerification(error);
     }

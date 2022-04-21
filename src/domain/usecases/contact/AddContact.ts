@@ -13,5 +13,8 @@ export namespace AddContact {
     nickname: string;
   };
 
-  export type Result = AuthUser;
+  export type Result = {
+    existentContact: boolean;
+    user: AuthUser;
+  };
 }
