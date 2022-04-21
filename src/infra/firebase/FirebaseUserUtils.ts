@@ -45,6 +45,7 @@ export class FirebaseUserUtils {
     const formattedContacts = contacts.docs.map((contactsDoc) => {
       return {
         id: contactsDoc.id,
+        phoneNumber: contactsDoc.id,
         ...contactsDoc.data()
       };
     });
