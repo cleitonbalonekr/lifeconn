@@ -140,6 +140,8 @@ export class FirebaseAccountRepository
       email
     });
 
+    await this.addUserIdToExistentContact(phoneNumber, userId);
+
     return {
       authId: user.uid,
       id: doc.id,
@@ -187,5 +189,36 @@ export class FirebaseAccountRepository
       inUse: !snapshot.empty,
       userId
     };
+  }
+
+  // TODO: test
+  private async addUserIdToExistentContact(
+    phoneNumber: string,
+    userId: string
+  ) {
+    const contactsCollection = firestore.collectionGroup(
+      FirestoreInstance,
+      'contacts'
+    );
+    const query = firestore.query(
+      contactsCollection,
+      firestore.where('phoneNumber', '==', phoneNumber)
+    );
+    const userContacts = await firestore.getDocs(query);
+
+    return Promise.all(
+      userContacts.docs.map(async (contact) => {
+        console.log('contact', contact);
+        const docToChange = firestore.doc(
+          firestore.collection(FirestoreInstance, 'contacts'),
+          contact.id
+        );
+        console.log('docToChange', docToChange.id);
+        await firestore.updateDoc(docToChange, {
+          contactId: userId,
+          hasAccount: true
+        });
+      })
+    );
   }
 }
