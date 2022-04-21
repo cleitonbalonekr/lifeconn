@@ -21,7 +21,11 @@ import {
   MakeNotifications,
   MakeDetailsNotification
 } from '@/main/factories/pages/notification';
-import { MakeSettings, MakeMedicalInfo } from '@/main/factories/pages/settings';
+import {
+  MakeSettings,
+  MakeMedicalInfo,
+  MakeMonitorImpact
+} from '@/main/factories/pages/settings';
 
 export type AppStackParamList = {
   Home: undefined;
@@ -29,6 +33,7 @@ export type AppStackParamList = {
   Term: undefined;
   Settings: undefined;
   MedicalInfo: undefined;
+  MonitorImpact: undefined;
   Notifications: undefined;
   DetailsNotification: undefined;
   Contacts: undefined;
@@ -95,6 +100,13 @@ export function AppRoutes() {
         }}
         name="MedicalInfo"
         component={MakeMedicalInfo}
+      />
+      <Stack.Screen
+        options={{
+          headerShown: false
+        }}
+        name="MonitorImpact"
+        component={MakeMonitorImpact}
       />
       <Stack.Screen
         options={{
