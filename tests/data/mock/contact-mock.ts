@@ -4,7 +4,8 @@ import faker from '@faker-js/faker';
 import { CheckAccountPhoneNumberRepository } from '@/data/protocols/account';
 import {
   AddExistentContactRepository,
-  AddContactRepository
+  AddContactRepository,
+  VerifyContactExistToUserRepository
 } from '@/data/protocols/user';
 import { AuthUser } from '@/domain/models';
 
@@ -15,6 +16,21 @@ export const makeAddContactParams = () => ({
   phoneNumber: faker.phone.phoneNumber()
 });
 
+export class VerifyContactExistToUserRepositorySpy
+  implements VerifyContactExistToUserRepository
+{
+  public response = false;
+
+  public count = 0;
+
+  async contactAlreadyAddedToUser(
+    params: VerifyContactExistToUserRepository.Params
+  ): Promise<boolean> {
+    this.count += 1;
+
+    return this.response;
+  }
+}
 export class CheckAccountPhoneNumberRepositorySpy
   implements CheckAccountPhoneNumberRepository
 {

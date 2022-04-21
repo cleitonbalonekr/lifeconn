@@ -1,12 +1,17 @@
 import { RemoteAddContact } from '@/data/usecases';
-import { ContactAlreadyAddedError, UnexpectedError } from '@/domain/errors';
+import {
+  ContactAlreadyAddedError,
+  ContactNotFoundError,
+  UnexpectedError
+} from '@/domain/errors';
 import { fakeId, throwError } from '@/tests/shared/mocks';
 
 import {
   AddContactRepositorySpy,
   AddExistentContactRepositorySpy,
   CheckAccountPhoneNumberRepositorySpy,
-  makeAddContactParams
+  makeAddContactParams,
+  VerifyContactExistToUserRepositorySpy
 } from '../mock/contact-mock';
 
 const makeSut = () => {
@@ -14,13 +19,17 @@ const makeSut = () => {
     new CheckAccountPhoneNumberRepositorySpy();
   const addExistentContactRepositorySpy = new AddExistentContactRepositorySpy();
   const addContactRepositorySpy = new AddContactRepositorySpy();
+  const verifyContactExistToUserRepositorySpy =
+    new VerifyContactExistToUserRepositorySpy();
   const remoteAddContact = new RemoteAddContact(
     checkAccountPhoneNumberRepositorySpy,
+    verifyContactExistToUserRepositorySpy,
     addExistentContactRepositorySpy,
     addContactRepositorySpy
   );
   return {
     remoteAddContact,
+    verifyContactExistToUserRepositorySpy,
     checkAccountPhoneNumberRepositorySpy,
     addExistentContactRepositorySpy,
     addContactRepositorySpy
@@ -28,6 +37,15 @@ const makeSut = () => {
 };
 
 describe('RemoteAddContact', () => {
+  it('Should throw ContactAlreadyAddedError if an contact is already added', async () => {
+    const { remoteAddContact, verifyContactExistToUserRepositorySpy } =
+      makeSut();
+    verifyContactExistToUserRepositorySpy.response = true;
+    const promise = remoteAddContact.add(makeAddContactParams(), fakeId);
+    await expect(promise).rejects.toThrow(new ContactAlreadyAddedError());
+
+    expect(verifyContactExistToUserRepositorySpy.count).toBe(1);
+  });
   it('Should call checkAccountPhoneNumberRepository', async () => {
     const { remoteAddContact, checkAccountPhoneNumberRepositorySpy } =
       makeSut();
@@ -49,7 +67,7 @@ describe('RemoteAddContact', () => {
     expect(addExistentContactRepositorySpy.count).toBe(1);
     expect(addContactRepositorySpy.count).toBe(0);
   });
-  it('Should throw ContactAlreadyAddedError to an existent user that is already added', async () => {
+  it('Should throw ContactNotFoundError in case of addExistentContactRepositorySpy dos not find the contact', async () => {
     const {
       remoteAddContact,
       addExistentContactRepositorySpy,
@@ -62,7 +80,7 @@ describe('RemoteAddContact', () => {
     };
     addExistentContactRepositorySpy.response = null;
     const promise = remoteAddContact.add(makeAddContactParams(), fakeId);
-    await expect(promise).rejects.toThrow(new ContactAlreadyAddedError());
+    await expect(promise).rejects.toThrow(new ContactNotFoundError());
     expect(addContactRepositorySpy.count).toBe(0);
   });
   it('Should call addContactRepositorySpy to an inexistent contact', async () => {

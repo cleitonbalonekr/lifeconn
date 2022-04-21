@@ -1,21 +1,34 @@
 import { CheckAccountPhoneNumberRepository } from '@/data/protocols/account';
 import {
   AddContactRepository,
-  AddExistentContactRepository
+  AddExistentContactRepository,
+  VerifyContactExistToUserRepository
 } from '@/data/protocols/user';
-import { ContactAlreadyAddedError } from '@/domain/errors';
+import {
+  ContactAlreadyAddedError,
+  ContactNotFoundError
+} from '@/domain/errors';
 import { catchErrorVerification } from '@/domain/errors/utils/catchErrorVerification';
 import { AddContact } from '@/domain/usecases';
 
 export class RemoteAddContact implements AddContact {
   constructor(
     private readonly checkAccountPhoneNumberRepository: CheckAccountPhoneNumberRepository,
+    private readonly verifyContactExistToUserRepository: VerifyContactExistToUserRepository,
     private readonly addExistentContactRepository: AddExistentContactRepository,
     private readonly addContactRepository: AddContactRepository
   ) {}
 
   async add(params: AddContact.Params, currentUserId: string) {
     try {
+      const contactAlreadyAdded =
+        await this.verifyContactExistToUserRepository.contactAlreadyAddedToUser(
+          { contactPhoneNumber: params.phoneNumber, userId: currentUserId }
+        );
+      if (contactAlreadyAdded) {
+        throw new ContactAlreadyAddedError();
+      }
+
       const { phoneNumberInUse, userId } =
         await this.checkAccountPhoneNumberRepository.checkPhoneNumber(
           params.phoneNumber
@@ -30,7 +43,7 @@ export class RemoteAddContact implements AddContact {
             currentUserId
           );
         if (!response) {
-          throw new ContactAlreadyAddedError();
+          throw new ContactNotFoundError();
         }
         return {
           existentContact: true,
