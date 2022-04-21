@@ -5,7 +5,8 @@ import { CheckAccountPhoneNumberRepository } from '@/data/protocols/account';
 import {
   AddExistentContactRepository,
   AddContactRepository,
-  VerifyContactExistToUserRepository
+  VerifyContactExistToUserRepository,
+  RemoteRemoveContactRepository
 } from '@/data/protocols/user';
 import { AuthUser } from '@/domain/models';
 
@@ -16,6 +17,18 @@ export const makeAddContactParams = () => ({
   phoneNumber: faker.phone.phoneNumber()
 });
 
+export class RemoteRemoveContactRepositorySpy
+  implements RemoteRemoveContactRepository
+{
+  public response = getFakeAuthUser();
+
+  public count = 0;
+
+  async removeContact(phoneNumber: string, userId: string): Promise<AuthUser> {
+    this.count += 1;
+    return this.response;
+  }
+}
 export class VerifyContactExistToUserRepositorySpy
   implements VerifyContactExistToUserRepository
 {
