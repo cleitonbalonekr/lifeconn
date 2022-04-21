@@ -8,6 +8,7 @@ import { useTailwind } from 'tailwind-rn/dist';
 import liliImg from '@/presentation/shared/assets/lili.gif';
 import Container from '@/presentation/shared/components/Container';
 import Button from '@/presentation/shared/components/form/button';
+import Accelerometer from '@/presentation/shared/hooks/backgroundServices/useAccelerometer';
 import Task from '@/presentation/shared/hooks/backgroundServices/useBackgroundService';
 
 Task.register();
@@ -18,17 +19,16 @@ const MonitorImpact: React.FC = () => {
   const tailwind = useTailwind();
   const navigation = useNavigation();
 
+  Accelerometer.register(setStatusAccelerometer);
+
   function handleTextVoice() {
-    const info = `Olá, sou sua assistente lili, estarei monitorando eventuais colisões, e contato autoridades responsaveis caso necessário! `;
+    const info = `Olá, sou sua assistente lili, estarei monitorando eventuais colisões, e acionarei autoridades responsaveis caso necessário! `;
     Speech.speak(info);
   }
 
   useEffect(() => {
-    handleTextVoice();
-  }, []);
-
-  useEffect(() => {
     Speech.stop();
+    handleTextVoice();
     if (statusAccelerometer) {
       const info = `Detectei um impacto, estarei acionando as autoridades em 2 minutos, caso queira cancelar clique em cancelar! `;
       Speech.speak(info);
