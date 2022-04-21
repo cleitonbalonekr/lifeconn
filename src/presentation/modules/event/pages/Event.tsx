@@ -1,5 +1,6 @@
 /* eslint-disable react/no-unescaped-entities */
 import { Ionicons } from '@expo/vector-icons';
+import { useNavigation } from '@react-navigation/native';
 import * as Speech from 'expo-speech';
 import React, { useEffect } from 'react';
 import { Text } from 'react-native';
@@ -10,6 +11,7 @@ import Button from '@/presentation/shared/components/form/button';
 
 const Event: React.FC = () => {
   const tailwind = useTailwind();
+  const navigation = useNavigation();
 
   function handleTextVoice() {
     const info = `laificom informa, 
@@ -31,6 +33,11 @@ const Event: React.FC = () => {
   }
   function handleStopTextVoice() {
     Speech.stop();
+  }
+
+  function confirm() {
+    handleStopTextVoice();
+    navigation.navigate('CreateEvent');
   }
 
   useEffect(() => {
@@ -81,7 +88,7 @@ const Event: React.FC = () => {
           de granizo.
         </Text>
       </Container>
-      <Button label="CONFIRMAR" type="primary" onPress={handleStopTextVoice}>
+      <Button label="CONFIRMAR" type="primary" onPress={confirm}>
         <Ionicons
           name="checkmark-done"
           size={20}

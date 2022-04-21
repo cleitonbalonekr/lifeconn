@@ -27,9 +27,13 @@ const MonitorImpact: React.FC = () => {
   }
 
   useEffect(() => {
-    Speech.stop();
     handleTextVoice();
+  }, []);
+
+  useEffect(() => {
     if (statusAccelerometer) {
+      Speech.stop();
+      setStatusContact(true);
       const info = `Detectei um impacto, estarei acionando as autoridades em 2 minutos, caso queira cancelar clique em cancelar! `;
       Speech.speak(info);
       setTimeout(() => {
@@ -39,7 +43,7 @@ const MonitorImpact: React.FC = () => {
           const info3 = `Estarei acionando as autoridades agora! `;
           Speech.speak(info3);
           setTimeout(() => {
-            navigation.navigate('Event');
+            navigation.navigate('CreateEvent');
           }, 5000);
         }, 60000);
       }, 60000);

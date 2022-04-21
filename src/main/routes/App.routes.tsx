@@ -10,7 +10,7 @@ import {
   MakeDetailsContact
 } from '@/main/factories/pages/contacts';
 import { MakeDonate } from '@/main/factories/pages/donate';
-import { MakeEvent } from '@/main/factories/pages/event';
+import { MakeEvent, MakeCreateEvent } from '@/main/factories/pages/event';
 import { MakeGuides } from '@/main/factories/pages/guides';
 import {
   MakeHome,
@@ -45,6 +45,7 @@ export type AppStackParamList = {
   DetailsFirstAid: undefined;
   DetailsBasicMechanics: undefined;
   Event: undefined;
+  CreateEvent: undefined;
 };
 
 declare global {
@@ -179,6 +180,13 @@ export function AppRoutes() {
         }}
         name="Event"
         component={MakeEvent}
+      />
+      <Stack.Screen
+        options={{
+          headerShown: false
+        }}
+        name="CreateEvent"
+        component={MakeCreateEvent}
       />
     </Stack.Navigator>
   );
