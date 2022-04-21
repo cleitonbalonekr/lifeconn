@@ -60,6 +60,8 @@ export class FirebaseContactRepository
     );
 
     await setDoc(medicalDataRef, {
+      id: params.phoneNumber,
+      phoneNumber: params.phoneNumber,
       nickname: params.nickname,
       hasAccount: false
     });
@@ -83,9 +85,10 @@ export class FirebaseContactRepository
       return null;
     }
     await setDoc(medicalDataRef, {
+      id: params.phoneNumber,
+      phoneNumber: params.phoneNumber,
       nickname: params.nickname,
       contactId: params.contactId,
-      notificationToken: contact.data()?.notificationToken,
       hasAccount: true
     });
 

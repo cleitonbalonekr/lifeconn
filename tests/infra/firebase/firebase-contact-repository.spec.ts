@@ -90,8 +90,7 @@ describe('FirebaseContactRepository', () => {
       });
       await makeUser(contactId, {
         authId: contactId,
-        phoneNumber: contactParams.phoneNumber,
-        notificationToken: 'token'
+        phoneNumber: contactParams.phoneNumber
       });
       const response = await firebaseContactRepository.addExistentContact(
         contactParams,
@@ -109,7 +108,6 @@ describe('FirebaseContactRepository', () => {
       );
       expect(response.contacts[0]).toHaveProperty('hasAccount', true);
       expect(response.contacts[0]).toHaveProperty('contactId', contactId);
-      expect(response.contacts[0]).toHaveProperty('notificationToken');
     });
     it('should return null if contact does not exist', async () => {
       const firebaseContactRepository = makeSut();
