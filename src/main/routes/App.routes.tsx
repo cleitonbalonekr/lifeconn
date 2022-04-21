@@ -34,7 +34,7 @@ export type AppStackParamList = {
   Contacts: undefined;
   CreateContacts: undefined;
   SharedContact: undefined;
-  DetailsContact: undefined;
+  DetailsContact: { phoneNumber: string; nickname: string };
   Donate: undefined;
   Guides: undefined;
   DetailsFirstAid: undefined;

@@ -4,6 +4,7 @@ import React from 'react';
 import { FlatList } from 'react-native';
 import { useTailwind } from 'tailwind-rn/dist';
 
+import { Contact } from '@/domain/models';
 import Header from '@/presentation/modules/contacts/components/header';
 import BaseListItem from '@/presentation/shared/components/BaseListItem';
 import Container from '@/presentation/shared/components/Container';
@@ -16,8 +17,8 @@ const Contacts: React.FC = () => {
   const tailwind = useTailwind();
   const navigation = useNavigation();
 
-  function handleNavigationToDetailContact() {
-    navigation.navigate('DetailsContact');
+  function handleNavigationToDetailContact({ phoneNumber, nickname }: Contact) {
+    navigation.navigate('DetailsContact', { phoneNumber, nickname });
   }
   return (
     <Container>
@@ -32,7 +33,7 @@ const Contacts: React.FC = () => {
         renderItem={({ item }) => (
           <BaseListItem
             itemName={item.nickname}
-            onPress={handleNavigationToDetailContact}
+            onPress={() => handleNavigationToDetailContact(item)}
           >
             <Ionicons
               name="person-outline"
