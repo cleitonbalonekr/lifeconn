@@ -5,8 +5,10 @@ import {
   AddAccountRepository,
   AddAccountToExistenteUserRepository,
   CheckAccountByEmailRepository,
-  CheckAccountPhoneNumberRepository
+  CheckAccountPhoneNumberRepository,
+  AddUserIdToExistentContactRepository
 } from '@/data/protocols/account';
+import { Contact, MedicalData } from '@/domain/models';
 
 export const fakeUseRegisterData = () => ({
   email: faker.internet.email(),
@@ -21,7 +23,9 @@ export class AddAccountRepositorySpy implements AddAccountRepository {
     id: faker.random.alphaNumeric(8),
     authId: faker.random.alphaNumeric(8),
     email: faker.internet.email(),
-    phoneNumber: faker.phone.phoneNumber()
+    phoneNumber: faker.phone.phoneNumber(),
+    medicalData: [] as MedicalData[],
+    contacts: [] as Contact[]
   };
 
   async register(
@@ -40,7 +44,9 @@ export class AddAccountToExistenteUserRepositorySpy
     id: faker.random.alphaNumeric(8),
     authId: faker.random.alphaNumeric(8),
     email: faker.internet.email(),
-    phoneNumber: faker.phone.phoneNumber()
+    phoneNumber: faker.phone.phoneNumber(),
+    medicalData: [] as MedicalData[],
+    contacts: [] as Contact[]
   };
 
   async registerExistentUser(
@@ -80,5 +86,18 @@ export class CheckAccountPhoneNumberRepositorySpy
       phoneNumberInUse: this.isInUse,
       userId: this.userId
     };
+  }
+}
+export class AddUserIdToExistentContactRepositorySpy
+  implements AddUserIdToExistentContactRepository
+{
+  public response = false;
+
+  public callCount = 0;
+
+  async addUserIdToContact(
+    params: AddUserIdToExistentContactRepository.Params
+  ): Promise<void> {
+    this.callCount += 1;
   }
 }

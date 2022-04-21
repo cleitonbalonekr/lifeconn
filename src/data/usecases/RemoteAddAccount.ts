@@ -6,7 +6,8 @@ import {
   AddAccountRepository,
   AddAccountToExistenteUserRepository,
   CheckAccountByEmailRepository,
-  CheckAccountPhoneNumberRepository
+  CheckAccountPhoneNumberRepository,
+  AddUserIdToExistentContactRepository
 } from '../protocols/account';
 
 export class RemoteAddAccount implements AddAccount {
@@ -14,7 +15,8 @@ export class RemoteAddAccount implements AddAccount {
     private addAccountRepository: AddAccountRepository,
     private checkAccountByEmailRepository: CheckAccountByEmailRepository,
     private checkAccountPhoneNumber: CheckAccountPhoneNumberRepository,
-    private addAccountToExistenteUser: AddAccountToExistenteUserRepository
+    private addAccountToExistenteUser: AddAccountToExistenteUserRepository,
+    private addUserIdToExistentContactsRepository: AddUserIdToExistentContactRepository
   ) {}
 
   async add(params: AddAccount.Params): Promise<AddAccount.Model> {
@@ -32,6 +34,10 @@ export class RemoteAddAccount implements AddAccount {
             params,
             userId
           );
+        await this.addUserIdToExistentContactsRepository.addUserIdToContact({
+          userId,
+          phoneNumber: params.phoneNumber
+        });
         return response;
       }
       const response = await this.addAccountRepository.register(params);

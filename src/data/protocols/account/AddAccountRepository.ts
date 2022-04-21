@@ -1,6 +1,8 @@
 /* eslint-disable no-redeclare */
 /* eslint-disable no-unused-vars */
 
+import { Contact, MedicalData } from '@/domain/models';
+
 export interface AddAccountRepository {
   register: (
     params: AddAccountRepository.Params
@@ -19,7 +21,7 @@ export namespace AddAccountRepository {
     id: string;
     email: string;
     phoneNumber: string;
-    medicalData: [];
-    contacts: [];
+    medicalData: MedicalData[];
+    contacts: Contact[];
   };
 }

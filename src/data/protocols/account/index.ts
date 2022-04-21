@@ -6,3 +6,4 @@ export * from './SignInWithEmailAndPasswordRepository';
 export * from './GetUserInfoByAuthRepository';
 export * from './SendEmailToRecoveryPassword';
 export * from './SignOutRepository';
+export * from './AddUserIdToExistentContactRepository';

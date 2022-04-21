@@ -9,7 +9,8 @@ import {
   AddAccountToExistenteUserRepositorySpy,
   CheckAccountByEmailRepositorySpy,
   CheckAccountPhoneNumberRepositorySpy,
-  fakeUseRegisterData
+  fakeUseRegisterData,
+  AddUserIdToExistentContactRepositorySpy
 } from '../mock';
 
 const makeSut = () => {
@@ -20,18 +21,22 @@ const makeSut = () => {
     new CheckAccountPhoneNumberRepositorySpy();
   const checkAccountByEmailRepositorySpy =
     new CheckAccountByEmailRepositorySpy();
+  const addUserIdToExistentContactRepositorySpy =
+    new AddUserIdToExistentContactRepositorySpy();
   const remoteAddAccount = new RemoteAddAccount(
     addAccountRepositorySpy,
     checkAccountByEmailRepositorySpy,
     checkAccountPhoneNumberRepositorySpy,
-    addAccountToExistenteUserRepositorySpy
+    addAccountToExistenteUserRepositorySpy,
+    addUserIdToExistentContactRepositorySpy
   );
   return {
     remoteAddAccount,
     addAccountRepositorySpy,
     checkAccountByEmailRepositorySpy,
     checkAccountPhoneNumberRepositorySpy,
-    addAccountToExistenteUserRepositorySpy
+    addAccountToExistenteUserRepositorySpy,
+    addUserIdToExistentContactRepositorySpy
   };
 };
 
@@ -47,13 +52,15 @@ describe('RemoteAddAccount', () => {
     const {
       remoteAddAccount,
       checkAccountPhoneNumberRepositorySpy,
-      addAccountToExistenteUserRepositorySpy
+      addAccountToExistenteUserRepositorySpy,
+      addUserIdToExistentContactRepositorySpy
     } = makeSut();
     checkAccountPhoneNumberRepositorySpy.isInUse = true;
     const fakeRegisterData = fakeUseRegisterData();
     checkAccountPhoneNumberRepositorySpy.userId = faker.random.alphaNumeric(8);
     const response = await remoteAddAccount.add(fakeRegisterData);
     expect(addAccountToExistenteUserRepositorySpy.callCount).toBe(1);
+    expect(addUserIdToExistentContactRepositorySpy.callCount).toBe(1);
     expect(response).toHaveProperty('id');
     expect(response).toEqual({
       ...addAccountToExistenteUserRepositorySpy.fakeResponse,
