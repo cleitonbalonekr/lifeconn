@@ -16,3 +16,15 @@ export const makeUser = async (userId: string, userData: any) => {
     id: userId
   });
 };
+
+export const makeContact = async (
+  userId: string,
+  contactPhone: string,
+  contactData: any
+) => {
+  const contactDoc = getUserDoc(`${userId}/contacts/${contactPhone}`);
+  await setDoc(contactDoc, {
+    ...contactData,
+    id: userId
+  });
+};

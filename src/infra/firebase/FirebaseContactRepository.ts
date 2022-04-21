@@ -12,14 +12,18 @@ import {
 import { FirestoreInstance } from '@/configs/firebase';
 import {
   AddContactRepository,
-  AddExistentContactRepository
+  AddExistentContactRepository,
+  VerifyContactExistToUserRepository
 } from '@/data/protocols/user';
 import { AuthUser } from '@/domain/models';
 
 import { FirebaseUserUtils } from './FirebaseUserUtils';
 
 export class FirebaseContactRepository
-  implements AddContactRepository, AddExistentContactRepository
+  implements
+    AddContactRepository,
+    AddExistentContactRepository,
+    VerifyContactExistToUserRepository
 {
   private userCollection: CollectionReference;
 
@@ -28,6 +32,20 @@ export class FirebaseContactRepository
   constructor() {
     this.firebaseUserUtils = new FirebaseUserUtils();
     this.userCollection = collection(FirestoreInstance, 'users');
+  }
+
+  async contactAlreadyAddedToUser(
+    params: VerifyContactExistToUserRepository.Params
+  ): Promise<boolean> {
+    const { contactPhoneNumber, userId } = params;
+    const contactUserDoc = doc(
+      this.userCollection,
+      userId,
+      'contacts',
+      contactPhoneNumber
+    );
+    const user = await getDoc(contactUserDoc);
+    return user.exists();
   }
 
   async addContact(

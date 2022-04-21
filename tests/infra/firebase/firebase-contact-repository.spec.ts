@@ -1,7 +1,6 @@
 import * as auth from 'firebase/auth';
 import { setDoc } from 'firebase/firestore';
 
-import { AuthInstance } from '@/configs/firebase';
 import { FirebaseContactRepository } from '@/infra/firebase';
 import { makeAddContactParams } from '@/tests/data/mock/contact-mock';
 import { fakeId, randomId } from '@/tests/shared/mocks';
@@ -11,13 +10,7 @@ import {
   setupEmulators
 } from '@/tests/utils/firebase-emulator';
 
-import {
-  fakeUseRegisterData,
-  getUserDoc,
-  makeMedicalData,
-  makeUser,
-  makeUserUpdateInfo
-} from '../mock';
+import { makeContact, makeUser } from '../mock';
 
 const makeSut = () => {
   return new FirebaseContactRepository();
@@ -34,6 +27,37 @@ describe('FirebaseContactRepository', () => {
     await closeFirebase();
   });
 
+  describe('contactAlreadyAddedToUser', () => {
+    it('should return false to a contact that is not added to user', async () => {
+      const firebaseContactRepository = makeSut();
+      const contactParams = makeAddContactParams();
+      const userId = fakeId;
+      await makeUser(userId, {
+        authId: userId
+      });
+      const response =
+        await firebaseContactRepository.contactAlreadyAddedToUser({
+          userId,
+          contactPhoneNumber: contactParams.phoneNumber
+        });
+      expect(response).toBeFalsy();
+    });
+    it('should return true to a contact that is already added to user', async () => {
+      const firebaseContactRepository = makeSut();
+      const contactParams = makeAddContactParams();
+      const userId = fakeId;
+      await makeUser(userId, {
+        authId: userId
+      });
+      await makeContact(userId, contactParams.phoneNumber, contactParams);
+      const response =
+        await firebaseContactRepository.contactAlreadyAddedToUser({
+          userId,
+          contactPhoneNumber: contactParams.phoneNumber
+        });
+      expect(response).toBeTruthy();
+    });
+  });
   describe('AddContact', () => {
     it('should create a new contact and return its info', async () => {
       const firebaseContactRepository = makeSut();
