@@ -2,9 +2,10 @@ import { RemoteAddContact } from '@/data/usecases';
 import {
   ContactAlreadyAddedError,
   ContactNotFoundError,
+  InvalidContactError,
   UnexpectedError
 } from '@/domain/errors';
-import { fakeId, throwError } from '@/tests/shared/mocks';
+import { fakeId, randomId, throwError } from '@/tests/shared/mocks';
 
 import {
   AddContactRepositorySpy,
@@ -46,6 +47,17 @@ describe('RemoteAddContact', () => {
 
     expect(verifyContactExistToUserRepositorySpy.count).toBe(1);
   });
+  it('Should throw InvalidContactError if when user try add herself', async () => {
+    const { remoteAddContact, checkAccountPhoneNumberRepositorySpy } =
+      makeSut();
+    const userId = fakeId;
+    checkAccountPhoneNumberRepositorySpy.response = {
+      phoneNumberInUse: true,
+      userId
+    };
+    const promise = remoteAddContact.add(makeAddContactParams(), userId);
+    await expect(promise).rejects.toThrow(new InvalidContactError());
+  });
   it('Should call checkAccountPhoneNumberRepository', async () => {
     const { remoteAddContact, checkAccountPhoneNumberRepositorySpy } =
       makeSut();
@@ -61,7 +73,7 @@ describe('RemoteAddContact', () => {
     } = makeSut();
     checkAccountPhoneNumberRepositorySpy.response = {
       phoneNumberInUse: true,
-      userId: fakeId
+      userId: randomId()
     };
     await remoteAddContact.add(makeAddContactParams(), fakeId);
     expect(addExistentContactRepositorySpy.count).toBe(1);
@@ -76,7 +88,7 @@ describe('RemoteAddContact', () => {
     } = makeSut();
     checkAccountPhoneNumberRepositorySpy.response = {
       phoneNumberInUse: true,
-      userId: fakeId
+      userId: randomId()
     };
     addExistentContactRepositorySpy.response = null;
     const promise = remoteAddContact.add(makeAddContactParams(), fakeId);

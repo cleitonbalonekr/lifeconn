@@ -6,3 +6,4 @@ export * from './ApplicationError';
 export * from './MedicalDataNotFound';
 export * from './ContactAlreadyAddedError';
 export * from './ContactNotFoundError';
+export * from './InvalidContactError';

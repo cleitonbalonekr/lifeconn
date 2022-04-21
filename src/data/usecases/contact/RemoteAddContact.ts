@@ -6,7 +6,8 @@ import {
 } from '@/data/protocols/user';
 import {
   ContactAlreadyAddedError,
-  ContactNotFoundError
+  ContactNotFoundError,
+  InvalidContactError
 } from '@/domain/errors';
 import { catchErrorVerification } from '@/domain/errors/utils/catchErrorVerification';
 import { AddContact } from '@/domain/usecases';
@@ -33,6 +34,9 @@ export class RemoteAddContact implements AddContact {
         await this.checkAccountPhoneNumberRepository.checkPhoneNumber(
           params.phoneNumber
         );
+      if (userId === currentUserId) {
+        throw new InvalidContactError();
+      }
       if (phoneNumberInUse) {
         const response =
           await this.addExistentContactRepository.addExistentContact(
