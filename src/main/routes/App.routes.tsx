@@ -6,7 +6,6 @@ import { useTailwind } from 'tailwind-rn/dist';
 import {
   MakeContacts,
   MakeCreateContacts,
-  MakeSharedContact,
   MakeDetailsContact
 } from '@/main/factories/pages/contacts';
 import { MakeDonate } from '@/main/factories/pages/donate';
@@ -141,14 +140,7 @@ export function AppRoutes() {
         name="CreateContacts"
         component={MakeCreateContacts}
       />
-      <Stack.Screen
-        options={{
-          headerShown: true,
-          title: 'Compartilhar contato'
-        }}
-        name="SharedContact"
-        component={MakeSharedContact}
-      />
+
       <Stack.Screen
         options={{
           headerShown: true,
