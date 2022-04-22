@@ -1,5 +1,5 @@
 import { Ionicons } from '@expo/vector-icons';
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { useTailwind } from 'tailwind-rn';
 
 import { AddContact } from '@/domain/usecases';
@@ -11,6 +11,8 @@ import { useAuth } from '@/presentation/shared/context/auth';
 import useFeedbackMessage from '@/presentation/shared/hooks/useFeedbackMessage';
 import useInputState from '@/presentation/shared/hooks/useInputState';
 
+import InviteModal, { InviteModalRefProps } from '../components/InviteModal';
+
 interface Props {
   addContact: AddContact;
   validation: Validation;
@@ -18,6 +20,7 @@ interface Props {
 
 const CreateContacts: React.FC<Props> = ({ addContact, validation }) => {
   const tailwind = useTailwind();
+  const inviteModalRef = useRef<InviteModalRefProps>(null);
   const [loading, setLoading] = useState(false);
   const phoneNumber = useInputState({
     name: 'phoneNumber'
@@ -55,6 +58,9 @@ const CreateContacts: React.FC<Props> = ({ addContact, validation }) => {
       showSuccess({
         description: 'Contato adicionado com sucesso'
       });
+      if (!existentContact) {
+        inviteModalRef.current?.handleOpenModal();
+      }
     } catch (error: any) {
       showError(error);
     } finally {
@@ -63,6 +69,7 @@ const CreateContacts: React.FC<Props> = ({ addContact, validation }) => {
   }
   return (
     <Container>
+      <InviteModal ref={inviteModalRef} />
       <Input
         placeholder="Nome do contato"
         label="Nome"
