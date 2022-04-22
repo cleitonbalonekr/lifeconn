@@ -1,8 +1,7 @@
+import { UpdateUserInfoRepository } from '@/data/protocols/user';
 import { UserNotFoundError } from '@/domain/errors';
 import { catchErrorVerification } from '@/domain/errors/utils/catchErrorVerification';
-import { UpdateUserInfo } from '@/domain/usecases/UpdateUserInfo';
-
-import { UpdateUserInfoRepository } from '../protocols/user';
+import { UpdateUserInfo } from '@/domain/usecases';
 
 export class RemoteUpdateUserInfo implements UpdateUserInfo {
   constructor(private updateUserInfoRepository: UpdateUserInfoRepository) {}

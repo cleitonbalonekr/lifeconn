@@ -1,7 +1,6 @@
+import { SignOutRepository } from '@/data/protocols/account';
 import { catchErrorVerification } from '@/domain/errors/utils/catchErrorVerification';
 import { LogoutUser } from '@/domain/usecases';
-
-import { SignOutRepository } from '../protocols/account';
 
 export class RemoteLogoutUser implements LogoutUser {
   constructor(private readonly signOutRepository: SignOutRepository) {}

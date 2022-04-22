@@ -1,7 +1,3 @@
-/* eslint-disable no-redeclare */
-/* eslint-disable no-unused-vars */
-import { AuthUser } from '@/domain/models';
-
 export interface LogoutUser {
   signOut: () => Promise<LogoutUser.Result>;
 }

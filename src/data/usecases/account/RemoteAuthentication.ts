@@ -1,12 +1,11 @@
+import {
+  GetUserInfoByAuthRepository,
+  SignInWithEmailAndPasswordRepository
+} from '@/data/protocols/account';
 import { InvalidCredentialsError, UserNotFoundError } from '@/domain/errors';
 import { catchErrorVerification } from '@/domain/errors/utils/catchErrorVerification';
 import { AuthUser } from '@/domain/models';
 import { Authentication } from '@/domain/usecases';
-
-import {
-  GetUserInfoByAuthRepository,
-  SignInWithEmailAndPasswordRepository
-} from '../protocols/account';
 
 export class RemoteAuthentication implements Authentication {
   constructor(

@@ -1,14 +1,13 @@
-import { EmailInUseError } from '@/domain/errors';
-import { catchErrorVerification } from '@/domain/errors/utils/catchErrorVerification';
-import { AddAccount } from '@/domain/usecases';
-
 import {
   AddAccountRepository,
   AddAccountToExistenteUserRepository,
   CheckAccountByEmailRepository,
   CheckAccountPhoneNumberRepository,
   AddUserIdToExistentContactRepository
-} from '../protocols/account';
+} from '@/data/protocols/account';
+import { EmailInUseError } from '@/domain/errors';
+import { catchErrorVerification } from '@/domain/errors/utils/catchErrorVerification';
+import { AddAccount } from '@/domain/usecases';
 
 export class RemoteAddAccount implements AddAccount {
   constructor(

@@ -1,4 +1,4 @@
-import { AuthUser } from '../models';
+import { AuthUser } from '@/domain/models';
 
 export interface UpdateUserInfo {
   update: (

@@ -1,6 +1,6 @@
 import faker from '@faker-js/faker';
 
-import { RemoteAddAccount } from '@/data/usecases/RemoteAddAccount';
+import { RemoteAddAccount } from '@/data/usecases/account';
 import { EmailInUseError, UnexpectedError } from '@/domain/errors';
 import { throwError } from '@/tests/shared/mocks';
 

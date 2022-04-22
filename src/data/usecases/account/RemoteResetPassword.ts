@@ -1,8 +1,7 @@
+import { SendEmailToRecoveryPassword } from '@/data/protocols/account';
 import { UserNotFoundError } from '@/domain/errors';
 import { catchErrorVerification } from '@/domain/errors/utils/catchErrorVerification';
 import { ResetPassword } from '@/domain/usecases';
-
-import { SendEmailToRecoveryPassword } from '../protocols/account';
 
 export class RemoteResetPassword implements ResetPassword {
   constructor(
