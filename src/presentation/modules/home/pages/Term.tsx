@@ -19,7 +19,7 @@ const Term: React.FC = () => {
     A aplicação foi desenvolvida sem fins lucrativos,
     e sua distribuição deverá ser livre,
     não podendo ser comercializada por terceiros.
-    A aplicação utiliza a comunicação com o orgão público do corpo de bombeiros,
+    A aplicação utiliza a comunicação com o órgão público do corpo de bombeiros,
     por isso sua utilização está de acordo com o artigo 266 do Decreto nº 2.848 de 24 de Fevereiro de 1891 do Código Penal Brasileiro, 
     aonde está explicito que interromper ou perturbar serviço telegráfico,
     radiotelegráfico ou telefônico, 
@@ -45,8 +45,8 @@ const Term: React.FC = () => {
     Informações médicas
     Localização
     Dados pessoais (nome, telefone, email)
-    As informações serão compartilhadas com o orgão do corpo de bombeiros obrigatóriamente.
-    As informações só serã compartilhadas com familiares se o usuário optar.
+    As informações serão compartilhadas com o órgão do corpo de bombeiros obrigatoriamente.
+    As informações só serão compartilhadas com familiares se o usuário optar.
     Esses são os termos de utilização, se você estiver de acordo clique no botão eu aceito.
     `;
     Speech.speak(info);
@@ -89,7 +89,7 @@ const Term: React.FC = () => {
           deverá ser livre, não podendo ser comercializada por terceiros.
         </Text>
         <Text>
-          A aplicação utiliza a comunicação com o orgão público do corpo de
+          A aplicação utiliza a comunicação com o órgão público do corpo de
           bombeiros, por isso sua utilização está de acordo com o{' '}
           <Text style={tailwind('mb-2 text-center font-bold')}>
             artigo 266 do Decreto nº 2.848 de 24 de Fevereiro de 1891 do Código
@@ -137,10 +137,10 @@ const Term: React.FC = () => {
         <Text>A aplicação compartilhará informações pessoais como:</Text>
         <Text>* Informações médicas</Text>
         <Text>* Localização</Text>
-        <Text>* Dados pessoais (nome, telefone, email)</Text>
+        <Text>* Dados pessoais (nome, telefone, e-mail)</Text>
         <Text>
-          As informações serão compartilhadas com o orgão do corpo de bombeiros
-          obrigatóriamente.
+          As informações serão compartilhadas com o órgão do corpo de bombeiros
+          obrigatoriamente.
         </Text>
         <Text>
           As informações só serã compartilhadas com familiares se o usuário

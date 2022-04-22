@@ -92,7 +92,6 @@ const Settings: React.FC<Props> = ({
 
   function handleOpenTotalVoice() {
     const url = `https://voice-app.zenvia.com/painel/login.php`;
-
     Linking.openURL(url);
   }
   function handleNavigateToMedicalInfo() {

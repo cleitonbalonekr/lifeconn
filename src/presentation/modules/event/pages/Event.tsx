@@ -1,5 +1,6 @@
 /* eslint-disable react/no-unescaped-entities */
 import { Ionicons } from '@expo/vector-icons';
+import { useNavigation } from '@react-navigation/native';
 import * as Speech from 'expo-speech';
 import React, { useEffect } from 'react';
 import { Text } from 'react-native';
@@ -10,11 +11,12 @@ import Button from '@/presentation/shared/components/form/button';
 
 const Event: React.FC = () => {
   const tailwind = useTailwind();
+  const navigation = useNavigation();
 
   function handleTextVoice() {
     const info = `laificom informa, 
     Você está prestes a acionar o corpo de bombeiros e notificar familiares!
-    Para continuar clique no botão "CONFIRMAR"! Atenção, só assione o corpo de bombeiros nos seguintes casos:
+    Para continuar clique no botão "CONFIRMAR"! Atenção, só acione o corpo de bombeiros nos seguintes casos:
     Incêndios em residências, empresas, estruturas e em vegetação.
     Acidentes de trânsito com vítimas.
     Afogamentos.
@@ -31,6 +33,11 @@ const Event: React.FC = () => {
   }
   function handleStopTextVoice() {
     Speech.stop();
+  }
+
+  function confirm() {
+    handleStopTextVoice();
+    navigation.navigate('CreateEvent');
   }
 
   useEffect(() => {
@@ -54,7 +61,7 @@ const Event: React.FC = () => {
           familiares! Para continuar clique no botão "CONFIRMAR"!
         </Text>
         <Text style={tailwind('mb-2 text-red-500')}>
-          Atenção, só assione o corpo de bombeiros nos seguintes casos:
+          Atenção, só acione o corpo de bombeiros nos seguintes casos:
         </Text>
         <Text>
           * Incêndios em residências, empresas, estruturas e em vegetação.
@@ -81,7 +88,7 @@ const Event: React.FC = () => {
           de granizo.
         </Text>
       </Container>
-      <Button label="CONFIRMAR" type="primary" onPress={handleStopTextVoice}>
+      <Button label="CONFIRMAR" type="primary" onPress={confirm}>
         <Ionicons
           name="checkmark-done"
           size={20}

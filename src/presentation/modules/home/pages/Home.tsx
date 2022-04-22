@@ -1,7 +1,8 @@
 /* eslint-disable react/jsx-curly-newline */
 import { FontAwesome5 } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
-import React from 'react';
+import * as Notifications from 'expo-notifications';
+import React, { useEffect } from 'react';
 import { FlatList, Text, TouchableOpacity, View } from 'react-native';
 import { useTailwind } from 'tailwind-rn';
 
@@ -59,7 +60,13 @@ const Home: React.FC = () => {
     navigation.navigate(navigateTo);
   }
 
-  navigation.navigate('Term');
+  const notification = Notifications.useLastNotificationResponse();
+  useEffect(() => {
+    if (notification?.notification.request.content.data.route)
+      navigation.navigate('MonitorImpact');
+  }, [notification]);
+
+  // navigation.navigate('Term');
   return (
     <Container>
       <Header />

@@ -10,7 +10,7 @@ import {
   MakeDetailsContact
 } from '@/main/factories/pages/contacts';
 import { MakeDonate } from '@/main/factories/pages/donate';
-import { MakeEvent } from '@/main/factories/pages/event';
+import { MakeEvent, MakeCreateEvent } from '@/main/factories/pages/event';
 import { MakeGuides } from '@/main/factories/pages/guides';
 import {
   MakeHome,
@@ -21,7 +21,11 @@ import {
   MakeNotifications,
   MakeDetailsNotification
 } from '@/main/factories/pages/notification';
-import { MakeSettings, MakeMedicalInfo } from '@/main/factories/pages/settings';
+import {
+  MakeSettings,
+  MakeMedicalInfo,
+  MakeMonitorImpact
+} from '@/main/factories/pages/settings';
 
 export type AppStackParamList = {
   Home: undefined;
@@ -29,6 +33,7 @@ export type AppStackParamList = {
   Term: undefined;
   Settings: undefined;
   MedicalInfo: undefined;
+  MonitorImpact: undefined;
   Notifications: undefined;
   DetailsNotification: undefined;
   Contacts: undefined;
@@ -40,6 +45,7 @@ export type AppStackParamList = {
   DetailsFirstAid: undefined;
   DetailsBasicMechanics: undefined;
   Event: undefined;
+  CreateEvent: undefined;
 };
 
 declare global {
@@ -95,6 +101,13 @@ export function AppRoutes() {
         }}
         name="MedicalInfo"
         component={MakeMedicalInfo}
+      />
+      <Stack.Screen
+        options={{
+          headerShown: false
+        }}
+        name="MonitorImpact"
+        component={MakeMonitorImpact}
       />
       <Stack.Screen
         options={{
@@ -167,6 +180,13 @@ export function AppRoutes() {
         }}
         name="Event"
         component={MakeEvent}
+      />
+      <Stack.Screen
+        options={{
+          headerShown: false
+        }}
+        name="CreateEvent"
+        component={MakeCreateEvent}
       />
     </Stack.Navigator>
   );
