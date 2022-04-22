@@ -3,5 +3,10 @@ export interface LoadCallsBalance {
 }
 
 export namespace LoadCallsBalance {
-  export type Model = number;
+  export type Model = {
+    dados: {
+      saldo: number;
+    };
+    mensagem: string;
+  };
 }

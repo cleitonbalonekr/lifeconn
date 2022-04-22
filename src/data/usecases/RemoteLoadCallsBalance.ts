@@ -21,7 +21,7 @@ export class RemoteLoadCallsBalance implements LoadCallsBalance {
         'Access-Token': this.token
       }
     });
-    const remoteSurveyResult = httpResponse.body as number;
+    const remoteSurveyResult = httpResponse.body as LoadCallsBalance.Model;
     switch (httpResponse.statusCode) {
       case HttpStatusCode.ok:
         return remoteSurveyResult;

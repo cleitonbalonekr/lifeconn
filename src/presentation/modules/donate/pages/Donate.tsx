@@ -1,16 +1,22 @@
 import { Ionicons } from '@expo/vector-icons';
-import Constants from 'expo-constants';
 import * as Linking from 'expo-linking';
 import React, { useEffect, useState } from 'react';
 import { Text, View } from 'react-native';
 import { useTailwind } from 'tailwind-rn';
 
+import { LoadCallsBalance } from '@/domain/usecases';
 import Container from '@/presentation/shared/components/Container';
 import Button from '@/presentation/shared/components/form/button';
 import ButtonLink from '@/presentation/shared/components/form/link';
+import useFeedbackMessage from '@/presentation/shared/hooks/useFeedbackMessage';
 
-const Donate: React.FC = () => {
+interface Props {
+  loadCallsBalance: LoadCallsBalance;
+}
+
+const Donate: React.FC<Props> = ({ loadCallsBalance }) => {
   const tailwind = useTailwind();
+  const { showError } = useFeedbackMessage();
   const [balance, setBalance] = useState(0);
 
   function handleOpenYoutube() {
@@ -25,18 +31,11 @@ const Donate: React.FC = () => {
 
   async function getBalance() {
     try {
-      const token = Constants.manifest?.extra?.zenviaToken;
-      const result = await fetch('https://voice-api.zenvia.com/saldo', {
-        method: 'GET',
-        headers: {
-          'Access-Token': token
-        }
-      });
-      result.json().then((response) => {
-        setBalance(response.dados.saldo);
-      });
-    } catch (error) {
-      console.log('error', error);
+      const result = await loadCallsBalance.load();
+
+      setBalance(result.dados.saldo);
+    } catch (error: any) {
+      showError(error);
     }
   }
 
