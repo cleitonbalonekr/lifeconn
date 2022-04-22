@@ -20,6 +20,8 @@ export default {
       supportsTablet: true
     },
     android: {
+      package: 'com.lifeconn.app',
+      googleServicesFile: './google-services.json',
       adaptiveIcon: {
         foregroundImage: './assets/adaptive-icon.png',
         backgroundColor: '#FFFFFF'
