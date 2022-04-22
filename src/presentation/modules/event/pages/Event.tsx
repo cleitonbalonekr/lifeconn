@@ -16,7 +16,7 @@ const Event: React.FC = () => {
   function handleTextVoice() {
     const info = `laificom informa, 
     Você está prestes a acionar o corpo de bombeiros e notificar familiares!
-    Para continuar clique no botão "CONFIRMAR"! Atenção, só assione o corpo de bombeiros nos seguintes casos:
+    Para continuar clique no botão "CONFIRMAR"! Atenção, só acione o corpo de bombeiros nos seguintes casos:
     Incêndios em residências, empresas, estruturas e em vegetação.
     Acidentes de trânsito com vítimas.
     Afogamentos.
@@ -61,7 +61,7 @@ const Event: React.FC = () => {
           familiares! Para continuar clique no botão "CONFIRMAR"!
         </Text>
         <Text style={tailwind('mb-2 text-red-500')}>
-          Atenção, só assione o corpo de bombeiros nos seguintes casos:
+          Atenção, só acione o corpo de bombeiros nos seguintes casos:
         </Text>
         <Text>
           * Incêndios em residências, empresas, estruturas e em vegetação.

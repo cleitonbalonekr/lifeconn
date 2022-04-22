@@ -66,7 +66,7 @@ const Home: React.FC = () => {
       navigation.navigate('MonitorImpact');
   }, [notification]);
 
-  navigation.navigate('Term');
+  // navigation.navigate('Term');
   return (
     <Container>
       <Header />

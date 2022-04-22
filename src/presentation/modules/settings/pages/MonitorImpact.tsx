@@ -11,7 +11,7 @@ import Button from '@/presentation/shared/components/form/button';
 import Accelerometer from '@/presentation/shared/hooks/backgroundServices/useAccelerometer';
 import Task from '@/presentation/shared/hooks/backgroundServices/useBackgroundService';
 
-Task.register();
+Task.runService();
 
 const MonitorImpact: React.FC = () => {
   const [statusAccelerometer, setStatusAccelerometer] = useState(false);
@@ -22,7 +22,7 @@ const MonitorImpact: React.FC = () => {
   Accelerometer.register(setStatusAccelerometer);
 
   function handleTextVoice() {
-    const info = `Olá, sou sua assistente lili, estarei monitorando eventuais colisões, e acionarei autoridades responsaveis caso necessário! `;
+    const info = `Olá, sou sua assistente lili, estarei monitorando eventuais colisões, e notificando autoridades responsáveis caso necessário!`;
     Speech.speak(info);
   }
 
