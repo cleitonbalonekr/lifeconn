@@ -1,4 +1,5 @@
 import { Ionicons } from '@expo/vector-icons';
+import Constants from 'expo-constants';
 import * as Linking from 'expo-linking';
 import React, { useEffect, useState } from 'react';
 import { Text, View } from 'react-native';
@@ -23,15 +24,20 @@ const Donate: React.FC = () => {
   }
 
   async function getBalance() {
-    const result = await fetch('https://voice-api.zenvia.com/saldo', {
-      method: 'GET',
-      headers: {
-        'Access-Token': 'bfbe1f593e25d20d40b2cca000466c99'
-      }
-    });
-    result.json().then((response) => {
-      setBalance(response.dados.saldo);
-    });
+    try {
+      const token = Constants.manifest?.extra?.zenviaToken;
+      const result = await fetch('https://voice-api.zenvia.com/saldo', {
+        method: 'GET',
+        headers: {
+          'Access-Token': token
+        }
+      });
+      result.json().then((response) => {
+        setBalance(response.dados.saldo);
+      });
+    } catch (error) {
+      console.log('error', error);
+    }
   }
 
   useEffect(() => {
@@ -57,7 +63,7 @@ const Donate: React.FC = () => {
           label="Assista o video de criar token privado"
           onPress={handleOpenYoutube}
         />
-        <View style={tailwind('flex-1 mt-10')}>
+        <View style={tailwind('flex-1 my-3')}>
           <Text
             style={tailwind(
               'border rounded-lg p-2 text-sm text-center font-ubuntu mb-2'
