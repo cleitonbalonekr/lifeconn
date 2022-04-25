@@ -35,7 +35,7 @@ describe('RemoteSaveNotificationToken', () => {
     const { remoteSaveNotificationToken, updateNotificationTokenRepository } =
       makeSut();
     jest
-      .spyOn(updateNotificationTokenRepository, 'update')
+      .spyOn(updateNotificationTokenRepository, 'updateNotificationToken')
       .mockImplementationOnce(throwError);
 
     const promise = remoteSaveNotificationToken.update({

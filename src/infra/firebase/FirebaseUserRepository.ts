@@ -33,11 +33,20 @@ export class FirebaseUserRepository
     this.userCollection = collection(FirestoreInstance, 'users');
   }
 
-  updateNotificationToken(
+  async updateNotificationToken(
     notificationToken: string,
     userId: string
   ): Promise<UpdateNotificationTokenRepository.Result> {
-    throw new Error('Method not implemented.');
+    const userRef = doc(this.userCollection, userId);
+    const userDoc = await getDoc(userRef);
+    if (!userDoc.exists()) {
+      return null;
+    }
+    await updateDoc(userRef, {
+      notificationToken
+    });
+    const user = await this.firebaseUserUtils.getUserInfo(userId);
+    return user;
   }
 
   async updateUser(

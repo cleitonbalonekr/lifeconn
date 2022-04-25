@@ -62,6 +62,7 @@ export class FirebaseUserUtils {
       authId: user.data()?.authId,
       fullName: user.data()?.fullName,
       totalVoiceToken: user.data()?.totalVoiceToken,
+      notificationToken: user.data()?.notificationToken,
       impactActivation: user.data()?.impactActivation,
       email: user.data()?.email,
       phoneNumber: user.data()?.phoneNumber,

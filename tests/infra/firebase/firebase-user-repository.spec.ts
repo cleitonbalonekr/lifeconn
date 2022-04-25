@@ -3,14 +3,19 @@ import { setDoc } from 'firebase/firestore';
 
 import { AuthInstance } from '@/configs/firebase';
 import { FirebaseUserRepository } from '@/infra/firebase/FirebaseUserRepository';
-import { fakeId } from '@/tests/shared/mocks';
+import { fakeId, randomId } from '@/tests/shared/mocks';
 import {
   cleanEmulators,
   closeFirebase,
   setupEmulators
 } from '@/tests/utils/firebase-emulator';
 
-import { fakeUseRegisterData, getUserDoc, makeUserUpdateInfo } from '../mock';
+import {
+  fakeUseRegisterData,
+  getUserDoc,
+  makeUser,
+  makeUserUpdateInfo
+} from '../mock';
 
 const makeSut = () => {
   return new FirebaseUserRepository();
@@ -97,6 +102,29 @@ describe('FirebaseUserRepository', () => {
       const authenticatedUser = auth.getAuth().currentUser;
 
       expect(authenticatedUser).toHaveProperty('email', response?.email);
+    });
+  });
+  describe('UpdateNotificationToken', () => {
+    it('should return NULL if does not find user', async () => {
+      const sut = makeSut();
+      const notificationToken = randomId();
+      const userId = randomId();
+      const response = await sut.updateNotificationToken(
+        notificationToken,
+        userId
+      );
+      expect(response).toBeNull();
+    });
+    it('should return update notificationToken', async () => {
+      const sut = makeSut();
+      const notificationToken = randomId();
+      const userId = randomId();
+      await makeUser(userId, { id: userId, authId: userId });
+      const response = await sut.updateNotificationToken(
+        notificationToken,
+        userId
+      );
+      expect(response).toHaveProperty('notificationToken', notificationToken);
     });
   });
 });
