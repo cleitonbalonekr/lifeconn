@@ -2,7 +2,10 @@ import { useNavigation } from '@react-navigation/native';
 import * as Notifications from 'expo-notifications';
 import { useEffect } from 'react';
 
+import { SaveNotificationToken } from '@/domain/usecases';
 import useFeedbackMessage from '@/presentation/shared/hooks/useFeedbackMessage';
+
+import { useAuth } from '../../context/auth';
 
 Notifications.setNotificationHandler({
   handleNotification: async () => ({
@@ -11,68 +14,42 @@ Notifications.setNotificationHandler({
     shouldSetBadge: true
   })
 });
-// send notification
-// curl -H "Content-Type: application/json" -X POST "https://exp.host/--/api/v2/push/send" -d '{
-//   "to": "ExponentPushToken[VJYqaOFa1iqKvD0Znw6jAT]",
-//   "title":"Ajuda o maluco que ta doente",
-//   "body": "world",
-//   "data":{"test":true}
-// }'
 
-const SubscribeToNotifications = () => {
+interface Props {
+  saveNotificationToken: SaveNotificationToken;
+}
+
+const GRANTED_PERMISSION = 'granted';
+
+const SubscribeToNotifications = ({ saveNotificationToken }: Props) => {
   const navigation = useNavigation();
+  const { authUser, saveUserSate } = useAuth();
   const { showError } = useFeedbackMessage();
 
-  const getPermissions = async () => {
+  const registerForPushNotificationsAsync = async () => {
     const { status: existingStatus } =
       await Notifications.getPermissionsAsync();
     let finalStatus = existingStatus;
-    if (existingStatus !== 'granted') {
+    if (existingStatus !== GRANTED_PERMISSION) {
       const { status } = await Notifications.requestPermissionsAsync();
       finalStatus = status;
     }
-    if (finalStatus !== 'granted') {
+    if (authUser && !authUser.notificationToken) {
+      const notificationToken = (await Notifications.getExpoPushTokenAsync())
+        .data;
+      const user = await saveNotificationToken.update({
+        userId: authUser.id,
+        notificationToken
+      });
+      saveUserSate(user);
+    }
+
+    if (finalStatus !== GRANTED_PERMISSION) {
       showError('Permissão para receber notificações negada');
     }
   };
 
-  async function sendPushNotification(expoPushToken: string) {
-    const message = {
-      to: expoPushToken,
-      sound: 'default',
-      title: 'Original Title',
-      body: 'And here is the body!',
-      data: { someData: 'goes here' }
-    };
-
-    await fetch('https://exp.host/--/api/v2/push/send', {
-      method: 'POST',
-      headers: {
-        Accept: 'application/json',
-        'Accept-encoding': 'gzip, deflate',
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(message)
-    });
-  }
-
-  const registerForPushNotificationsAsync = async () => {
-    const token = (await Notifications.getExpoPushTokenAsync()).data;
-    console.log(token);
-
-    // if (Platform.OS === 'android') {
-    //   Notifications.setNotificationChannelAsync('default', {
-    //     name: 'default',
-    //     importance: Notifications.AndroidImportance.MAX,
-    //     vibrationPattern: [0, 250, 250, 250],
-    //     lightColor: '#FF231F7C'
-    //   });
-    // }
-  };
-
-  const handleNotification = (notification: Notifications.Notification) => {
-    console.log('notification', notification.date);
-  };
+  const handleNotification = (notification: Notifications.Notification) => {};
   const handleNotificationResponse = (
     notification: Notifications.NotificationResponse
   ) => {
@@ -81,7 +58,7 @@ const SubscribeToNotifications = () => {
   };
 
   useEffect(() => {
-    getPermissions();
+    registerForPushNotificationsAsync();
     Notifications.addNotificationReceivedListener(handleNotification);
     Notifications.addNotificationResponseReceivedListener(
       handleNotificationResponse

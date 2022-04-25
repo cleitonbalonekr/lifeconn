@@ -2,6 +2,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import React, { createContext, useState, useContext, useEffect } from 'react';
 
 import { AuthUser } from '@/domain/models';
+import { SaveNotificationToken } from '@/domain/usecases';
 
 export interface AuthContextData {
   signed: boolean;
@@ -24,7 +25,9 @@ export const AuthProvider: React.FC = ({ children }) => {
     async function loadStorage() {
       const storageUser = await AsyncStorage.getItem(AsyncAuthUserKey);
       if (storageUser) {
-        setAuthUser(JSON.parse(storageUser));
+        const user = JSON.parse(storageUser);
+
+        setAuthUser(user);
         setSigned(true);
       }
 

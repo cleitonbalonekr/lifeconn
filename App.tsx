@@ -15,9 +15,9 @@ import { TailwindProvider } from 'tailwind-rn';
 import '@/configs/firebase';
 import 'react-native-get-random-values';
 
+import { MakeSubscribeToNotifications } from '@/main/factories/services/notification/subscribeToNotificationsFactory';
 import Routes from '@/main/routes/index';
 import { AuthProvider } from '@/presentation/shared/context/auth';
-import SubscribeToNotifications from '@/presentation/shared/services/notifications';
 import utilities from '@/presentation/shared/styles/tailwind.json';
 
 export default function App() {
@@ -37,7 +37,7 @@ export default function App() {
       <NavigationContainer>
         <TailwindProvider utilities={utilities}>
           <AuthProvider>
-            <SubscribeToNotifications />
+            <MakeSubscribeToNotifications />
             <Routes />
           </AuthProvider>
         </TailwindProvider>
