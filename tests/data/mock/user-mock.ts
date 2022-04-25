@@ -6,7 +6,8 @@ import {
   UpdateUserInfoRepository,
   AddUserMedicalDataRepository,
   UpdateUserMedicalDataRepository,
-  DeleteUserMedicalDataRepository
+  DeleteUserMedicalDataRepository,
+  UpdateNotificationTokenRepository
 } from '@/data/protocols/user';
 
 import { getFakeAuthUser } from './auth-mock';
@@ -79,6 +80,18 @@ export class UpdateUserInfoRepositorySpy implements UpdateUserInfoRepository {
     params: UpdateUserInfoRepository.Params,
     userId: string
   ): Promise<UpdateUserInfoRepository.Result> {
+    return this.response;
+  }
+}
+export class UpdateNotificationTokenRepositorySpy
+  implements UpdateNotificationTokenRepository
+{
+  public response: UpdateUserInfoRepository.Result = getFakeAuthUser();
+
+  public callCount = 0;
+
+  async update(notificationToken: string, userId: string) {
+    this.callCount += 1;
     return this.response;
   }
 }

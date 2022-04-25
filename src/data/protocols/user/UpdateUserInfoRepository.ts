@@ -1,5 +1,5 @@
 import { AuthUser } from '@/domain/models';
-import { UpdateUserInfo } from '@/domain/usecases/UpdateUserInfo';
+import { UpdateUserInfo } from '@/domain/usecases';
 
 export interface UpdateUserInfoRepository {
   updateUser(
