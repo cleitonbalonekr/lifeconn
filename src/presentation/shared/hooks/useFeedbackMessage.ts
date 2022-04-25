@@ -18,11 +18,11 @@ const useFeedbackMessage = () => {
       visibilityTime: 5000
     });
   }
-  function showError(error: Error) {
+  function showError(error: Error | string) {
     Toast.show({
       type: 'error',
       text1: 'Algo deu errado',
-      text2: error.message,
+      text2: typeof error === 'string' ? error : error.message,
       position: 'top',
       visibilityTime: 5000
     });

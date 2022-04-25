@@ -17,7 +17,7 @@ import 'react-native-get-random-values';
 
 import Routes from '@/main/routes/index';
 import { AuthProvider } from '@/presentation/shared/context/auth';
-import RegisterPushNotification from '@/presentation/shared/hooks/useRegisterPushNotification';
+import SubscribeToNotifications from '@/presentation/shared/services/notifications';
 import utilities from '@/presentation/shared/styles/tailwind.json';
 
 export default function App() {
@@ -37,7 +37,7 @@ export default function App() {
       <NavigationContainer>
         <TailwindProvider utilities={utilities}>
           <AuthProvider>
-            <RegisterPushNotification />
+            <SubscribeToNotifications />
             <Routes />
           </AuthProvider>
         </TailwindProvider>
