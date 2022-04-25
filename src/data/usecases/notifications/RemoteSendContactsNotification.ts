@@ -1,5 +1,7 @@
 import { SendPushNotification } from '@/data/protocols/notification/SendPushNotification';
 import { GetUserContactsNotificationToken } from '@/data/protocols/user';
+import { UserNotFoundError } from '@/domain/errors';
+import { catchErrorVerification } from '@/domain/errors/utils/catchErrorVerification';
 import { SendContactsNotification } from '@/domain/usecases/notification';
 
 export class RemoteSendContactsNotification
@@ -11,8 +13,18 @@ export class RemoteSendContactsNotification
   ) {}
 
   async notifyContacts(userId: string) {
-    const { tokens, fullName } =
-      await this.getUserContactsNotificationToken.getNotificationTokens(userId);
-    await this.sendNotification.notify(tokens, fullName);
+    try {
+      const response =
+        await this.getUserContactsNotificationToken.getNotificationTokens(
+          userId
+        );
+      if (!response) {
+        throw new UserNotFoundError();
+      }
+      const { tokens, fullName } = response;
+      await this.sendNotification.notify(tokens, fullName);
+    } catch (error) {
+      catchErrorVerification(error);
+    }
   }
 }

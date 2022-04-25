@@ -9,5 +9,5 @@ export namespace GetUserContactsNotificationToken {
   export type Result = {
     tokens: string[];
     fullName: string;
-  };
+  } | null;
 }
