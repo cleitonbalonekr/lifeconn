@@ -90,7 +90,7 @@ export class UpdateNotificationTokenRepositorySpy
 
   public callCount = 0;
 
-  async update(notificationToken: string, userId: string) {
+  async updateNotificationToken(notificationToken: string, userId: string) {
     this.callCount += 1;
     return this.response;
   }

@@ -10,10 +10,11 @@ export class RemoteSaveNotificationToken implements SaveNotificationToken {
 
   async update({ userId, notificationToken }: SaveNotificationToken.Params) {
     try {
-      const response = await this.updateNotificationTokenRepository.update(
-        notificationToken,
-        userId
-      );
+      const response =
+        await this.updateNotificationTokenRepository.updateNotificationToken(
+          notificationToken,
+          userId
+        );
       if (!response) {
         throw new UserNotFoundError();
       }

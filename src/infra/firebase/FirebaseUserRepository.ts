@@ -10,15 +10,19 @@ import {
 import app, { FirestoreInstance } from '@/configs/firebase';
 import {
   GetUserByIdRepository,
-  UpdateUserInfoRepository
+  UpdateUserInfoRepository,
+  UpdateNotificationTokenRepository
 } from '@/data/protocols/user';
 import { AuthUser } from '@/domain/models';
-import { UpdateUserInfo } from '@/domain/usecases/UpdateUserInfo';
+import { UpdateUserInfo } from '@/domain/usecases';
 
 import { FirebaseUserUtils } from './FirebaseUserUtils';
 
 export class FirebaseUserRepository
-  implements GetUserByIdRepository, UpdateUserInfoRepository
+  implements
+    GetUserByIdRepository,
+    UpdateUserInfoRepository,
+    UpdateNotificationTokenRepository
 {
   private userCollection: CollectionReference;
 
@@ -27,6 +31,13 @@ export class FirebaseUserRepository
   constructor() {
     this.firebaseUserUtils = new FirebaseUserUtils();
     this.userCollection = collection(FirestoreInstance, 'users');
+  }
+
+  updateNotificationToken(
+    notificationToken: string,
+    userId: string
+  ): Promise<UpdateNotificationTokenRepository.Result> {
+    throw new Error('Method not implemented.');
   }
 
   async updateUser(

@@ -1,7 +1,7 @@
 import { AuthUser } from '@/domain/models';
 
 export interface UpdateNotificationTokenRepository {
-  update(
+  updateNotificationToken(
     notificationToken: string,
     userId: string
   ): Promise<UpdateNotificationTokenRepository.Result>;
