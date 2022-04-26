@@ -3,6 +3,7 @@ import { setDoc } from 'firebase/firestore';
 
 import { AuthInstance } from '@/configs/firebase';
 import { FirebaseUserRepository } from '@/infra/firebase/FirebaseUserRepository';
+import { makeAddContactParams } from '@/tests/data/mock/contact-mock';
 import { fakeId, randomId } from '@/tests/shared/mocks';
 import {
   cleanEmulators,
@@ -13,6 +14,7 @@ import {
 import {
   fakeUseRegisterData,
   getUserDoc,
+  makeContact,
   makeUser,
   makeUserUpdateInfo
 } from '../mock';
@@ -125,6 +127,52 @@ describe('FirebaseUserRepository', () => {
         userId
       );
       expect(response).toHaveProperty('notificationToken', notificationToken);
+    });
+  });
+  describe('GetNotificationTokens', () => {
+    it('should return contacts notificationToken', async () => {
+      const sut = makeSut();
+
+      const userId = randomId();
+      const userInfo = makeUserUpdateInfo();
+      const contactId = randomId();
+      const contactId2 = randomId();
+
+      const contactParams = {
+        ...makeAddContactParams(),
+        hasAccount: true
+      };
+      const contactParams2 = {
+        ...makeAddContactParams(),
+        hasAccount: true
+      };
+
+      await makeUser(userId, {
+        id: userId,
+        authId: userId,
+        ...userInfo
+      });
+      // contacts
+      await makeUser(contactId, {
+        id: contactId,
+        authId: contactId,
+        phoneNumber: contactParams.phoneNumber,
+        notificationToken: randomId()
+      });
+      await makeUser(contactId2, {
+        id: contactId2,
+        authId: contactId2,
+        phoneNumber: contactParams2.phoneNumber,
+        notificationToken: randomId()
+      });
+
+      await makeContact(userId, contactParams.phoneNumber, contactParams);
+      await makeContact(userId, contactParams2.phoneNumber, contactParams2);
+
+      const response = await sut.getNotificationTokens(userId);
+
+      expect(response).toHaveProperty('fullName', userInfo.fullName);
+      expect(response?.tokens).toHaveLength(2);
     });
   });
 });
