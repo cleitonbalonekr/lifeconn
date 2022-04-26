@@ -3,3 +3,4 @@ export * from './medicalData';
 export * from './account';
 export * from './user';
 export * from './LoadCallsBalance';
+export * from './notification';
