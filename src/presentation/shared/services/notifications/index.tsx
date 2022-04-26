@@ -34,14 +34,19 @@ const SubscribeToNotifications = ({ saveNotificationToken }: Props) => {
       const { status } = await Notifications.requestPermissionsAsync();
       finalStatus = status;
     }
-    if (authUser && !authUser.notificationToken) {
+    if (authUser) {
       const notificationToken = (await Notifications.getExpoPushTokenAsync())
         .data;
-      const user = await saveNotificationToken.update({
-        userId: authUser.id,
-        notificationToken
-      });
-      saveUserSate(user);
+      if (
+        !authUser.notificationToken ||
+        authUser.notificationToken !== notificationToken
+      ) {
+        const user = await saveNotificationToken.update({
+          userId: authUser.id,
+          notificationToken
+        });
+        saveUserSate(user);
+      }
     }
 
     if (finalStatus !== GRANTED_PERMISSION) {
