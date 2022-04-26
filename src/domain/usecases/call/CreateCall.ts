@@ -11,5 +11,5 @@ export namespace CreateCall {
     };
   };
 
-  export type Result = void;
+  export type Result = string;
 }

@@ -1,3 +1,5 @@
+import { Call } from '@/domain/models/Call';
+
 export interface CreateCallRepository {
   create(
     params: CreateCallRepository.Params
@@ -13,5 +15,5 @@ export namespace CreateCallRepository {
     };
     token: string;
   };
-  export type Result = void;
+  export type Result = Call;
 }
