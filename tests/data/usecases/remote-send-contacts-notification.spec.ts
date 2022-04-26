@@ -1,6 +1,6 @@
 import { RemoteSendContactsNotification } from '@/data/usecases';
 import { UnexpectedError, UserNotFoundError } from '@/domain/errors';
-import { fakeId, randomId, throwError } from '@/tests/shared/mocks';
+import { randomId, throwError } from '@/tests/shared/mocks';
 
 import {
   SendPushNotificationSpy,
@@ -44,6 +44,16 @@ describe('RemoteSendContactsNotification', () => {
       .spyOn(getUserContactsNotificationTokenSpy, 'getNotificationTokens')
       .mockImplementationOnce(throwError);
 
+    const promise = remoteSendContactsNotifications.notifyContacts(userId);
+    await expect(promise).rejects.toThrow(new UnexpectedError());
+  });
+  it('should throw UnexpectedError if sendPushNotificationSpy fail', async () => {
+    const {
+      remoteSendContactsNotifications,
+      getUserContactsNotificationTokenSpy,
+      sendPushNotificationSpy
+    } = makeSut();
+    sendPushNotificationSpy.response = false;
     const promise = remoteSendContactsNotifications.notifyContacts(userId);
     await expect(promise).rejects.toThrow(new UnexpectedError());
   });

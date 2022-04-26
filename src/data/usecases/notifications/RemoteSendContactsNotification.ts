@@ -1,6 +1,6 @@
 import { SendPushNotification } from '@/data/gateways/notification';
 import { GetUserContactsNotificationToken } from '@/data/protocols/user';
-import { UserNotFoundError } from '@/domain/errors';
+import { UnexpectedError, UserNotFoundError } from '@/domain/errors';
 import { catchErrorVerification } from '@/domain/errors/utils/catchErrorVerification';
 import { SendContactsNotification } from '@/domain/usecases/notification';
 
@@ -22,7 +22,10 @@ export class RemoteSendContactsNotification
         throw new UserNotFoundError();
       }
       const { tokens, fullName } = response;
-      await this.sendNotification.notify(tokens, fullName);
+      const send = await this.sendNotification.notify(tokens, fullName);
+      if (!send) {
+        throw new UnexpectedError();
+      }
     } catch (error) {
       catchErrorVerification(error);
     }
