@@ -1,4 +1,4 @@
-import { SendPushNotification } from '@/data/protocols/notification/SendPushNotification';
+import { SendPushNotification } from '@/data/gateways/notification';
 import { GetUserContactsNotificationToken } from '@/data/protocols/user';
 import { UserNotFoundError } from '@/domain/errors';
 import { catchErrorVerification } from '@/domain/errors/utils/catchErrorVerification';
