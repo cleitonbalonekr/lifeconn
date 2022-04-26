@@ -1,5 +1,7 @@
-import { AddCallEventRepository } from '@/data/protocols/call';
-import { CreateCallRepository } from '@/data/protocols/call/CreateCallRepository';
+import {
+  AddCallEventRepository,
+  CreateCallRepository
+} from '@/data/protocols/call';
 import { TokenGenerator } from '@/data/protocols/hash/TokenGenerator';
 import { catchErrorVerification } from '@/domain/errors/utils/catchErrorVerification';
 import { EventStatus } from '@/domain/models/CallEvent';
