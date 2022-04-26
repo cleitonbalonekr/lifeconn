@@ -22,7 +22,10 @@ export class GetUserContactsNotificationTokenSpy
 export class SendPushNotificationSpy implements SendPushNotification {
   public callCount = 0;
 
-  async notify(tokens: string[], victimName: string): Promise<void> {
+  public response = true;
+
+  async notify(tokens: string[], victimName: string): Promise<boolean> {
     this.callCount += 1;
+    return this.response;
   }
 }
