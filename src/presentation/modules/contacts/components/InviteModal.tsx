@@ -17,7 +17,7 @@ const InviteModal: React.ForwardRefRenderFunction<InviteModalRefProps> = (
 ) => {
   const tailwind = useTailwind();
 
-  const [visible, setVisible] = useState(true);
+  const [visible, setVisible] = useState(false);
 
   useImperativeHandle(ref, () => {
     return {
