@@ -1,7 +1,6 @@
 import { FirebaseError } from 'firebase/app';
 import * as auth from 'firebase/auth';
 import * as firestore from 'firebase/firestore';
-import { string } from 'yup';
 
 import { AuthInstance, FirestoreInstance } from '@/configs/firebase';
 import {
