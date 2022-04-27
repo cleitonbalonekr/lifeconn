@@ -1,5 +1,4 @@
 import * as Notification from 'expo-notifications';
-import * as Permissions from 'expo-permissions';
 
 Notification.setNotificationHandler({
   handleNotification: async () => {
@@ -10,19 +9,6 @@ Notification.setNotificationHandler({
     };
   }
 });
-
-Permissions.getAsync(Permissions.NOTIFICATIONS)
-  .then((statusObj) => {
-    if (statusObj.status !== 'granted') {
-      return Permissions.askAsync(Permissions.NOTIFICATIONS);
-    }
-    return statusObj;
-  })
-  .then((statusObj) => {
-    if (statusObj.status !== 'granted') {
-      alert('Notifications will be unavailable now');
-    }
-  });
 
 const NotificationUserData = () => {
   Notification.scheduleNotificationAsync({
