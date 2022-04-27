@@ -1,13 +1,13 @@
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as BackgroundFetch from 'expo-background-fetch';
 import * as Location from 'expo-location';
 import * as TaskManager from 'expo-task-manager';
 import { reloadAsync } from 'expo-updates';
 import * as geolib from 'geolib';
-import { AsyncStorage } from 'react-native';
 
 import Notification from './useNotification';
 
-const TASK_NAME = 'lifeccon-service-background';
+const TASK_NAME = 'lifeconn-service-background';
 
 (async () => {
   const activeAccelerometer = await AsyncStorage.getItem(
@@ -78,6 +78,8 @@ const runService = async () => {
 };
 
 const register = async () => {
+  await Location.requestBackgroundPermissionsAsync();
+  await Location.requestForegroundPermissionsAsync();
   await AsyncStorage.setItem('@activeAccelerometer', 'true');
   reloadAsync();
 };
