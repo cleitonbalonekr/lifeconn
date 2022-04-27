@@ -25,7 +25,8 @@ export default {
       adaptiveIcon: {
         foregroundImage: './assets/adaptive-icon.png',
         backgroundColor: '#FFFFFF'
-      }
+      },
+      permissions: ['ACCESS_FINE_LOCATION', 'ACCESS_BACKGROUND_LOCATION']
     },
     web: {
       favicon: './assets/favicon.png'
