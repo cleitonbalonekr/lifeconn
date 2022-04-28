@@ -14,4 +14,5 @@ export interface CallEvent {
   occurredAt: Date;
   status: EventStatus;
   creatorId: string;
+  callId: string;
 }

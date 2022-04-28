@@ -13,5 +13,5 @@ export namespace AddCallEventRepository {
     creatorId: string;
     callId: string;
   };
-  export type Result = CallEvent;
+  export type Result = CallEvent | null;
 }

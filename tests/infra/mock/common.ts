@@ -16,6 +16,19 @@ export const makeUser = async (userId: string, userData: any) => {
     id: userId
   });
 };
+export const getCallDoc = (callId = fakeId) => {
+  const callCollection = collection(FirestoreInstance, 'calls');
+  const callDoc = doc(callCollection, callId);
+  return callDoc;
+};
+
+export const makeCall = async (callId: string, callData: any) => {
+  const callDoc = getCallDoc(callId);
+  await setDoc(callDoc, {
+    ...callData,
+    id: callId
+  });
+};
 
 export const makeContact = async (
   userId: string,
