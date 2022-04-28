@@ -40,7 +40,7 @@ export class TokenGeneratorSpy implements TokenGenerator {
 
   public response = randomId();
 
-  async generate(): Promise<string> {
+  generate(): string {
     this.callCount += 1;
     return this.response;
   }
