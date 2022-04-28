@@ -16,7 +16,7 @@ export class RemoteCreateCall implements CreateCall {
 
   async add(params: CreateCall.Params) {
     try {
-      const token = await this.tokenGenerator.generate();
+      const token = this.tokenGenerator.generate();
       const payload = {
         ...params,
         token
