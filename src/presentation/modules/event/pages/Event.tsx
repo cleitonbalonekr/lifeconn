@@ -1,15 +1,29 @@
 /* eslint-disable react/no-unescaped-entities */
 import { Ionicons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
+import * as Location from 'expo-location';
 import * as Speech from 'expo-speech';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Text } from 'react-native';
 import { useTailwind } from 'tailwind-rn/dist';
 
+import { CallLocation } from '@/domain/models/Call';
+import { CreateCall, SendContactsNotification } from '@/domain/usecases';
 import Container from '@/presentation/shared/components/Container';
 import Button from '@/presentation/shared/components/form/button';
+import { useAuth } from '@/presentation/shared/context/auth';
+import useFeedbackMessage from '@/presentation/shared/hooks/useFeedbackMessage';
 
-const Event: React.FC = () => {
+interface Props {
+  createCall: CreateCall;
+  sendContactsNotification: SendContactsNotification;
+}
+
+const Event: React.FC<Props> = ({ createCall, sendContactsNotification }) => {
+  const { authUser } = useAuth();
+  const { showError } = useFeedbackMessage();
+  const [muteSpeech, setMuteSpeech] = useState(true);
+  const [location, setLocation] = useState<CallLocation | null>(null);
   const tailwind = useTailwind();
   const navigation = useNavigation();
 
@@ -34,24 +48,52 @@ const Event: React.FC = () => {
   function handleStopTextVoice() {
     Speech.stop();
   }
-
-  function confirm() {
-    handleStopTextVoice();
-    navigation.navigate('CreateEvent');
+  function toggleSpeech() {
+    setMuteSpeech(!muteSpeech);
+    if (muteSpeech) {
+      handleStopTextVoice();
+    } else {
+      handleTextVoice();
+    }
   }
+
+  async function confirm() {
+    try {
+      handleStopTextVoice();
+      const token = await createCall.add({
+        userId: authUser.id,
+        location: location as CallLocation
+      });
+      await sendContactsNotification.notifyContacts(authUser.id);
+      navigation.navigate('CreateEvent', { token });
+    } catch (error: any) {
+      showError(error);
+    }
+  }
+
+  const getLocation = async () => {
+    const { coords } = await Location.getCurrentPositionAsync({
+      mayShowUserSettingsDialog: true
+    });
+    setLocation({
+      latitude: coords.latitude,
+      longitude: coords.longitude
+    });
+  };
 
   useEffect(() => {
     handleTextVoice();
+    getLocation();
   }, []);
 
   return (
     <Container>
       <Container scroll>
         <Ionicons
-          name="volume-mute"
+          name={!muteSpeech ? 'volume-high' : 'volume-mute'}
           size={20}
           style={tailwind('text-black')}
-          onPress={handleStopTextVoice}
+          onPress={toggleSpeech}
         />
         <Text style={tailwind('mb-2 text-lg font-bold text-center')}>
           LIFECONN INFORMA
@@ -88,7 +130,12 @@ const Event: React.FC = () => {
           de granizo.
         </Text>
       </Container>
-      <Button label="CONFIRMAR" type="primary" onPress={confirm}>
+      <Button
+        label="CONFIRMAR"
+        type="primary"
+        onPress={confirm}
+        disabled={!location}
+      >
         <Ionicons
           name="checkmark-done"
           size={20}

@@ -44,7 +44,9 @@ export type AppStackParamList = {
   DetailsFirstAid: undefined;
   DetailsBasicMechanics: undefined;
   Event: undefined;
-  CreateEvent: undefined;
+  CreateEvent: {
+    token: string;
+  };
 };
 
 declare global {
