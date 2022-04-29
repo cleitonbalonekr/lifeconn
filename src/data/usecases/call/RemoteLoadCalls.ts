@@ -1,18 +1,25 @@
-import { ListOpenCallsByUserRepository } from '@/data/protocols/call/ListOpenCallsByUserRepository';
+import {
+  LoadContactsCallsRepository,
+  ListOpenCallsByUserRepository
+} from '@/data/protocols/call';
 import { catchErrorVerification } from '@/domain/errors/utils/catchErrorVerification';
 import { LoadCalls } from '@/domain/usecases';
 
 export class RemoteLoadCalls implements LoadCalls {
   constructor(
-    private readonly listOpenCallsByUserRepository: ListOpenCallsByUserRepository
+    private readonly listOpenCallsByUserRepository: ListOpenCallsByUserRepository,
+    private readonly loadContactsCallsRepository: LoadContactsCallsRepository
   ) {}
 
   async load(params: LoadCalls.Params) {
     try {
-      const calls = await this.listOpenCallsByUserRepository.list(
+      const userCalls = await this.listOpenCallsByUserRepository.list(
         params.userId
       );
-      return calls;
+      const contactCalls = await this.loadContactsCallsRepository.list(
+        params.contacts
+      );
+      return userCalls.concat(contactCalls);
     } catch (error) {
       return catchErrorVerification(error);
     }

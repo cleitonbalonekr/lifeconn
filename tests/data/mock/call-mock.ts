@@ -3,7 +3,9 @@ import faker from '@faker-js/faker';
 
 import {
   AddCallEventRepository,
-  CreateCallRepository
+  CreateCallRepository,
+  ListOpenCallsByUserRepository,
+  LoadContactsCallsRepository
 } from '@/data/protocols/call';
 import { TokenGenerator } from '@/data/protocols/hash/TokenGenerator';
 import { Call } from '@/domain/models/Call';
@@ -18,7 +20,8 @@ export const makeCallEvent = () => ({
   id: randomId(),
   occurredAt: new Date(),
   status: EventStatus.AUTHOR_CREATED,
-  creatorId: randomId()
+  creatorId: randomId(),
+  callId: randomId()
 });
 
 export const makeFakeCallData = () => {
@@ -45,6 +48,38 @@ export class TokenGeneratorSpy implements TokenGenerator {
     return this.response;
   }
 }
+
+export class ListOpenCallsByUserRepositorySpy
+  implements ListOpenCallsByUserRepository
+{
+  public callCount = 0;
+
+  public params: CreateCallRepository.Params | undefined;
+
+  public response = [makeFakeCallData()];
+
+  async list(params: string): Promise<ListOpenCallsByUserRepository.Result> {
+    this.callCount += 1;
+    return this.response;
+  }
+}
+export class LoadContactsCallsRepositorySpy
+  implements LoadContactsCallsRepository
+{
+  public callCount = 0;
+
+  public params: CreateCallRepository.Params | undefined;
+
+  public response = [makeFakeCallData()];
+
+  async list(
+    params: LoadContactsCallsRepository.Params
+  ): Promise<LoadContactsCallsRepository.Result> {
+    this.callCount += 1;
+    return this.response;
+  }
+}
+
 export class CreateCallRepositorySpy implements CreateCallRepository {
   public callCount = 0;
 
@@ -61,6 +96,7 @@ export class CreateCallRepositorySpy implements CreateCallRepository {
     };
   }
 }
+
 export class AddCallEventRepositorySpy implements AddCallEventRepository {
   public callCount = 0;
 

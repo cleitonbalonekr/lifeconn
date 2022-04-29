@@ -9,12 +9,21 @@ import {
   RemoteRemoveContactRepository
 } from '@/data/protocols/user';
 import { AuthUser } from '@/domain/models';
+import { randomId } from '@/tests/shared/mocks';
 
 import { getFakeAuthUser } from './auth-mock';
 
 export const makeAddContactParams = () => ({
   nickname: faker.name.firstName(),
   phoneNumber: faker.phone.phoneNumber()
+});
+export const makeFakeContact = () => ({
+  id: randomId(),
+  contactId: randomId(),
+  nickname: faker.name.firstName(),
+  phoneNumber: faker.phone.phoneNumber(),
+  notificationToken: randomId(),
+  hasAccount: true
 });
 
 export class RemoteRemoveContactRepositorySpy
