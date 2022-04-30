@@ -1,13 +1,17 @@
 import { Ionicons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { FlatList } from 'react-native';
 import { useTailwind } from 'tailwind-rn/dist';
 
+import { AuthUser } from '@/domain/models';
 import { Call } from '@/domain/models/Call';
 import { LoadCalls } from '@/domain/usecases';
 import BaseListItem from '@/presentation/shared/components/BaseListItem';
 import Container from '@/presentation/shared/components/Container';
+import LoadingOverlay, {
+  LoadingOverlayRefProps
+} from '@/presentation/shared/components/LoadingOverlay';
 import { useAuth } from '@/presentation/shared/context/auth';
 import useFeedbackMessage from '@/presentation/shared/hooks/useFeedbackMessage';
 
@@ -69,11 +73,13 @@ const Notifications: React.FC<Props> = ({ loadCalls }) => {
   const tailwind = useTailwind();
   const { authUser } = useAuth();
   const { showError } = useFeedbackMessage();
+  const loadingOverlayRef = useRef<LoadingOverlayRefProps>(null);
   const navigation = useNavigation();
   const [notifications, setNotifications] = useState<Call[]>([]);
 
   async function loadNotifications() {
     try {
+      loadingOverlayRef.current?.showLoading();
       const calls = await loadCalls.load({
         userId: authUser.id,
         contacts: authUser.contacts
@@ -81,11 +87,13 @@ const Notifications: React.FC<Props> = ({ loadCalls }) => {
       setNotifications(calls);
     } catch (error: any) {
       showError(error);
+    } finally {
+      loadingOverlayRef.current?.hideLoading();
     }
   }
 
-  function handleNavigationToDetails() {
-    navigation.navigate('DetailsNotification');
+  function handleNavigationToDetails(item: Call) {
+    navigation.navigate('DetailsNotification', { notification: { ...item } });
   }
 
   useEffect(() => {
@@ -94,6 +102,7 @@ const Notifications: React.FC<Props> = ({ loadCalls }) => {
 
   return (
     <Container>
+      <LoadingOverlay ref={loadingOverlayRef} />
       <FlatList
         style={tailwind('mt-2 flex-1')}
         contentContainerStyle={tailwind('flex-grow')}
@@ -103,8 +112,11 @@ const Notifications: React.FC<Props> = ({ loadCalls }) => {
         ListEmptyComponent={<NotificationEmpty />}
         renderItem={({ item }) => (
           <BaseListItem
-            itemName={item.token}
-            onPress={handleNavigationToDetails}
+            itemName={
+              (item.userId as AuthUser).fullName ||
+              (item.userId as AuthUser).email
+            }
+            onPress={() => handleNavigationToDetails(item)}
           >
             <Ionicons
               name="alert-circle-outline"

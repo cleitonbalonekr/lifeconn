@@ -1,104 +1,114 @@
 import { Ionicons } from '@expo/vector-icons';
+import { useRoute } from '@react-navigation/native';
+import { format } from 'date-fns';
+import { ptBR } from 'date-fns/locale';
 import * as Linking from 'expo-linking';
-import React, { useEffect } from 'react';
+import React from 'react';
 import { View, Text, FlatList } from 'react-native';
 import { useTailwind } from 'tailwind-rn';
 
+import { AuthUser } from '@/domain/models';
+import { Call } from '@/domain/models/Call';
+import { EventStatus } from '@/domain/models/CallEvent';
 import Container from '@/presentation/shared/components/Container';
 import Button from '@/presentation/shared/components/form/button';
 import Input from '@/presentation/shared/components/form/input';
-import useInputState from '@/presentation/shared/hooks/useInputState';
 
 import MedicalInfoElse from '../components/MedicalInfoElse';
 
-const fakeMedicalInfo = [
-  {
-    id: '1',
-    title: 'Tipo sanguíneo',
-    value: 'O+'
-  },
-  {
-    id: '2',
-    title: 'Intolerância',
-    value: 'Lactose'
-  },
-  {
-    id: '3',
-    title: 'Grande texto',
-    value:
-      'Lorem Ipsum is simply dummy text of the printing and typesetting industry. text of the printing and typesetting industry'
-  }
-];
-
 const DetailsNotification: React.FC = () => {
   const tailwind = useTailwind();
-  const email = useInputState({
-    name: 'email'
-  });
-  const fullName = useInputState({
-    name: 'fullName'
-  });
-  const phoneNumber = useInputState({
-    name: 'phoneNumber'
-  });
-  const lat = useInputState({
-    name: 'lat',
-    initialValue: '0as'
-  });
-  const lng = useInputState({
-    name: 'lng',
-    initialValue: '0'
-  });
+  const route = useRoute();
+  const { notification } = route.params as { notification: Call };
+  const user = notification.userId as AuthUser;
+  const { location } = notification;
 
   function handleOpenMaps() {
-    const url = `https://www.google.pt/maps?q=${lat.value},${lng.value}`;
+    const url = `https://www.google.pt/maps?q=${location.latitude},${location.longitude}`;
 
     Linking.openURL(url);
   }
-
-  useEffect(() => {
-    lat.set('-22.3493313');
-    lng.set('-42.3993805');
-    email.set('test@gm.com');
-    phoneNumber.set('22992725861');
-    fullName.set('Fulano');
-  }, []);
+  function getNotificationStatus() {
+    switch (notification.lastEvent?.status) {
+      case EventStatus.AUTHOR_CANCELLED:
+        return 'Criado pela vítima';
+      case EventStatus.ORG_VIEWED:
+        return 'Visualizado';
+      case EventStatus.ORG_ANSWERED:
+        return 'Atendido';
+      default: {
+        return 'Status desconhecido';
+      }
+    }
+  }
+  function formatDate() {
+    return format(notification.createdAt, 'dd/MM/yyyy  HH:mm', {
+      locale: ptBR
+    });
+  }
 
   return (
     <Container scroll>
       <View
         style={tailwind(
-          'flex flex-row border-b border-gray-300 items-center py-4 '
+          'flex flex-row justify-between border-b border-gray-300 items-center py-4 '
         )}
       >
         <View style={tailwind('rounded-full bg-slate-300 p-3')}>
           <Ionicons name="person-outline" size={20} />
         </View>
         <Text style={tailwind('text-lg text-center px-2 font-ubuntu')}>
-          {fullName.value}
+          {user.fullName}
+        </Text>
+        <Text style={tailwind('text-center px-2 font-ubuntu')}>
+          {getNotificationStatus()}
         </Text>
       </View>
       <View style={tailwind('flex-1 border-b border-gray-300')}>
-        <Input label="Email" editable value={email.value} />
-        <Input label="Telefone" editable value={phoneNumber.value} />
+        <Input label="Email" editable value={user.email} />
+        <Input label="Telefone" editable value={user.phoneNumber} />
         <View style={tailwind('flex-row flex-1 justify-around')}>
           <View style={tailwind('flex-1  mr-1')}>
-            <Input editable label="Latitude" value={lat.value} />
+            <Input label="Data de criação" editable value={formatDate()} />
+          </View>
+          <View style={tailwind('flex-1  ml-1')}>
+            <Input label="Token" editable value={notification.token} />
+          </View>
+        </View>
+        <View style={tailwind('flex-row flex-1 justify-around')}>
+          <View style={tailwind('flex-1  mr-1')}>
+            <Input
+              editable
+              label="Latitude"
+              value={String(location.latitude)}
+            />
           </View>
           <View style={tailwind('flex-1 ml-1')}>
-            <Input editable label="Longitude" value={lng.value} />
+            <Input
+              editable
+              label="Longitude"
+              value={String(location.longitude)}
+            />
           </View>
         </View>
       </View>
       <View style={tailwind('flex-1 py-4')}>
         <Text style={tailwind('text-lg font-ubuntu')}>Informações médicas</Text>
         <FlatList
-          data={fakeMedicalInfo}
+          data={user.medicalData}
           style={tailwind('mt-4')}
           contentContainerStyle={tailwind('flex-grow')}
           keyExtractor={(item) => String(item.id)}
           horizontal
-          renderItem={({ item }) => <MedicalInfoElse item={item} />}
+          renderItem={({ item }) => (
+            <MedicalInfoElse
+              item={{
+                id: item.id,
+                title: item.title,
+                value: item.description
+              }}
+            />
+          )}
           ListEmptyComponent={() => (
             <View style={tailwind('flex-1 h-36 items-center justify-center')}>
               <Text style={tailwind('font-ubuntu-bold')}>

@@ -3,6 +3,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import React from 'react';
 import { useTailwind } from 'tailwind-rn/dist';
 
+import { Call } from '@/domain/models/Call';
 import {
   MakeContacts,
   MakeCreateContacts,
@@ -34,7 +35,7 @@ export type AppStackParamList = {
   MedicalInfo: undefined;
   MonitorImpact: undefined;
   Notifications: undefined;
-  DetailsNotification: undefined;
+  DetailsNotification: { notification: Call };
   Contacts: undefined;
   CreateContacts: undefined;
   SharedContact: undefined;
