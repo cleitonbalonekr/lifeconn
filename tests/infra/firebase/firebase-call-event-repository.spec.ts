@@ -1,3 +1,5 @@
+import { getDoc } from 'firebase/firestore';
+
 import { EventStatus } from '@/domain/models/CallEvent';
 import { FirebaseCallEventRepository } from '@/infra/firebase';
 import {
@@ -6,7 +8,7 @@ import {
   setupEmulators
 } from '@/tests/utils/firebase-emulator';
 
-import { makeCall } from '../mock';
+import { getCallDoc, makeCall } from '../mock';
 import { makeFakeCallEventParams, makeFakeCallParams } from '../mock/call-mock';
 
 const makeSut = () => {
@@ -39,6 +41,15 @@ describe('FirebaseCallEventRepository', () => {
       const call = await firebaseCallEventRepository.add(params);
       expect(call).toHaveProperty('id');
       expect(call).toHaveProperty('creatorId', params.creatorId);
+    });
+    it('Should update Call when create a CallEvent', async () => {
+      const firebaseCallEventRepository = makeSut();
+      const params = makeFakeCallEventParams();
+      await makeCall(params.callId, makeFakeCallParams());
+      const callEvent = await firebaseCallEventRepository.add(params);
+      const callDoc = getCallDoc(params.callId);
+      const updatedCall = await getDoc(callDoc);
+      expect(updatedCall.data()).toHaveProperty('lastEvent', callEvent);
     });
   });
 });

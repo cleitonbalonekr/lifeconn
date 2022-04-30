@@ -4,7 +4,8 @@ import {
   doc,
   getDoc,
   setDoc,
-  Timestamp
+  Timestamp,
+  updateDoc
 } from 'firebase/firestore';
 import { v4 as uuidv4 } from 'uuid';
 
@@ -42,9 +43,15 @@ export class FirebaseCallEventRepository implements AddCallEventRepository {
 
     const callEvent = await getDoc(callEventDoc);
 
-    return {
+    const callEventData = {
       id: callEvent.id,
       ...callEvent.data()
     } as CallEvent;
+
+    await updateDoc(callRef, {
+      lastEvent: callEventData
+    });
+
+    return callEventData;
   }
 }
