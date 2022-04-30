@@ -2,7 +2,7 @@ import { Contact } from '@/domain/models';
 import { Call } from '@/domain/models/Call';
 
 export interface LoadContactsCallsRepository {
-  list(
+  listByContacts(
     params: LoadContactsCallsRepository.Params
   ): Promise<LoadContactsCallsRepository.Result>;
 }

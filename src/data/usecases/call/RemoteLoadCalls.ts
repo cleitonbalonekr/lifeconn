@@ -13,12 +13,11 @@ export class RemoteLoadCalls implements LoadCalls {
 
   async load(params: LoadCalls.Params) {
     try {
-      const userCalls = await this.listOpenCallsByUserRepository.list(
+      const userCalls = await this.listOpenCallsByUserRepository.listByUser(
         params.userId
       );
-      const contactCalls = await this.loadContactsCallsRepository.list(
-        params.contacts
-      );
+      const contactCalls =
+        await this.loadContactsCallsRepository.listByContacts(params.contacts);
       return userCalls.concat(contactCalls);
     } catch (error) {
       return catchErrorVerification(error);

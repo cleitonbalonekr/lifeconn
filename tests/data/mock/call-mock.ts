@@ -58,7 +58,9 @@ export class ListOpenCallsByUserRepositorySpy
 
   public response = [makeFakeCallData()];
 
-  async list(params: string): Promise<ListOpenCallsByUserRepository.Result> {
+  async listByUser(
+    params: string
+  ): Promise<ListOpenCallsByUserRepository.Result> {
     this.callCount += 1;
     return this.response;
   }
@@ -72,7 +74,7 @@ export class LoadContactsCallsRepositorySpy
 
   public response = [makeFakeCallData()];
 
-  async list(
+  async listByContacts(
     params: LoadContactsCallsRepository.Params
   ): Promise<LoadContactsCallsRepository.Result> {
     this.callCount += 1;

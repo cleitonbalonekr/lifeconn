@@ -27,7 +27,7 @@ describe('RemoteLoadCalls', () => {
   it('Should throw UnexpectedError when some error happens', async () => {
     const { remoteLoadCalls, listOpenCallsByUserRepositorySpy } = makeSut();
     jest
-      .spyOn(listOpenCallsByUserRepositorySpy, 'list')
+      .spyOn(listOpenCallsByUserRepositorySpy, 'listByUser')
       .mockImplementationOnce(throwError);
     const params = {
       userId: randomId(),

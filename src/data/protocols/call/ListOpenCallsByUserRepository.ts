@@ -1,7 +1,7 @@
 import { Call } from '@/domain/models/Call';
 
 export interface ListOpenCallsByUserRepository {
-  list(
+  listByUser(
     params: ListOpenCallsByUserRepository.Params
   ): Promise<ListOpenCallsByUserRepository.Result>;
 }
