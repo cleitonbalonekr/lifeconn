@@ -24,6 +24,7 @@ import { AuthUser } from '@/domain/models';
 import { UpdateUserInfo } from '@/domain/usecases';
 
 import { FirebaseUserUtils } from './FirebaseUserUtils';
+import { chunkArray } from './utils/chunkArray';
 
 export class FirebaseUserRepository
   implements
@@ -50,7 +51,7 @@ export class FirebaseUserRepository
       .filter((contact) => contact.hasAccount)
       .map((contact) => contact.phoneNumber);
 
-    const chunkContacts = this.chunkArray(contactsPhone);
+    const chunkContacts = chunkArray(contactsPhone);
 
     const snaps = [] as QueryDocumentSnapshot<DocumentData>[];
     await Promise.all<QueryDocumentSnapshot<DocumentData>[]>(
@@ -134,21 +135,5 @@ export class FirebaseUserRepository
           contacts
         } as AuthUser);
     return response;
-  }
-
-  private chunkArray(inputArray: any[]) {
-    const perChunk = 10; // items per chunk. firebase allow only 10 items to in operator
-
-    const result = inputArray.reduce((resultArray, item, index) => {
-      const chunkIndex = Math.floor(index / perChunk);
-
-      if (!resultArray[chunkIndex]) {
-        // eslint-disable-next-line no-param-reassign
-        resultArray[chunkIndex] = []; // start a new chunk
-      }
-      resultArray[chunkIndex].push(item);
-      return resultArray;
-    }, []);
-    return result;
   }
 }
