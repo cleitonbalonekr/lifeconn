@@ -77,6 +77,24 @@ export class FirebaseUserUtils {
     };
   }
 
+  public async getUserToNotification(userId: string) {
+    const userRef = doc(this.userCollection, userId);
+    const user = await getDoc(userRef);
+    const medicalData = await this.getMedicalDataByUserId(userId);
+
+    const userData = {
+      fullName: user.data()?.fullName,
+      email: user.data()?.email,
+      phoneNumber: user.data()?.phoneNumber
+    };
+
+    return {
+      id: user.id,
+      ...userData,
+      medicalData: medicalData.filter((medical) => !medical.onlyOrganization)
+    };
+  }
+
   public getMedicalDataRef(userId: string, medicalDataId: string) {
     return doc(this.userCollection, userId, 'medicalData', medicalDataId);
   }

@@ -20,6 +20,7 @@ import {
 } from '@/data/protocols/call';
 import { Call } from '@/domain/models/Call';
 
+import { FirebaseUserUtils } from './FirebaseUserUtils';
 import { chunkArray } from './utils/chunkArray';
 
 export class FirebaseCallRepository
@@ -30,8 +31,11 @@ export class FirebaseCallRepository
 {
   private callsCollection: CollectionReference;
 
+  private firebaseUserUtils: FirebaseUserUtils;
+
   constructor() {
     this.callsCollection = collection(FirestoreInstance, 'calls');
+    this.firebaseUserUtils = new FirebaseUserUtils();
   }
 
   async listByUser(
@@ -42,10 +46,12 @@ export class FirebaseCallRepository
       where('userId', '==', userId),
       where('open', '==', true)
     );
+    const user = await this.firebaseUserUtils.getUserToNotification(userId);
     const calls = await getDocs(callQuery);
     return calls.docs.map((result) => ({
       id: result.id,
       ...result.data(),
+      userId: user,
       createdAt: (result.data().createdAt as Timestamp).toDate()
     })) as Call[];
   }
@@ -72,11 +78,21 @@ export class FirebaseCallRepository
       })
     );
 
-    return snaps.map((result) => ({
-      id: result.id,
-      ...result.data(),
-      createdAt: (result.data().createdAt as Timestamp).toDate()
-    })) as Call[];
+    const calls = await Promise.all(
+      snaps.map(async (result) => {
+        const user = await this.firebaseUserUtils.getUserToNotification(
+          result.data()?.userId
+        );
+        return {
+          id: result.id,
+          ...result.data(),
+          userId: user,
+          createdAt: (result.data().createdAt as Timestamp).toDate()
+        } as Call;
+      })
+    );
+
+    return calls;
   }
 
   async create(params: CreateCallRepository.Params): Promise<Call> {
