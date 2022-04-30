@@ -10,6 +10,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import AppLoading from 'expo-app-loading';
 import { StatusBar } from 'expo-status-bar';
 import * as React from 'react';
+import { LogBox } from 'react-native';
 import Toast from 'react-native-toast-message';
 import { TailwindProvider } from 'tailwind-rn';
 import '@/configs/firebase';
@@ -31,6 +32,10 @@ export default function App() {
   if (!fontsLoaded) {
     return <AppLoading />;
   }
+
+  LogBox.ignoreLogs([
+    'Setting a timer for a long period of time, i.e. multiple minutes, is a'
+  ]);
   return (
     <>
       <StatusBar translucent />
