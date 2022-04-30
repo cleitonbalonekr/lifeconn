@@ -1,11 +1,15 @@
 import { Ionicons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { FlatList } from 'react-native';
 import { useTailwind } from 'tailwind-rn/dist';
 
+import { Call } from '@/domain/models/Call';
+import { LoadCalls } from '@/domain/usecases';
 import BaseListItem from '@/presentation/shared/components/BaseListItem';
 import Container from '@/presentation/shared/components/Container';
+import { useAuth } from '@/presentation/shared/context/auth';
+import useFeedbackMessage from '@/presentation/shared/hooks/useFeedbackMessage';
 
 import NotificationEmpty from '../components/NotificationEmpty';
 
@@ -57,25 +61,49 @@ const fakeNotificationData = [
   }
 ];
 
-const Notifications: React.FC = () => {
+interface Props {
+  loadCalls: LoadCalls;
+}
+
+const Notifications: React.FC<Props> = ({ loadCalls }) => {
   const tailwind = useTailwind();
+  const { authUser } = useAuth();
+  const { showError } = useFeedbackMessage();
   const navigation = useNavigation();
+  const [notifications, setNotifications] = useState<Call[]>([]);
+
+  async function loadNotifications() {
+    try {
+      const calls = await loadCalls.load({
+        userId: authUser.id,
+        contacts: authUser.contacts
+      });
+      setNotifications(calls);
+    } catch (error: any) {
+      showError(error);
+    }
+  }
 
   function handleNavigationToDetails() {
     navigation.navigate('DetailsNotification');
   }
+
+  useEffect(() => {
+    loadNotifications();
+  }, []);
+
   return (
     <Container>
       <FlatList
         style={tailwind('mt-2 flex-1')}
-        contentContainerStyle={tailwind('justify-center flex-grow')}
+        contentContainerStyle={tailwind('flex-grow')}
         showsVerticalScrollIndicator={false}
-        data={fakeNotificationData}
+        data={notifications}
         keyExtractor={(item) => String(item.id)}
         ListEmptyComponent={<NotificationEmpty />}
         renderItem={({ item }) => (
           <BaseListItem
-            itemName={item.victimName}
+            itemName={item.token}
             onPress={handleNavigationToDetails}
           >
             <Ionicons
