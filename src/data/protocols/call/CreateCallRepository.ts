@@ -8,12 +8,18 @@ export interface CreateCallRepository {
 
 export namespace CreateCallRepository {
   export type Params = {
-    userId: string;
+    userId: string | null;
     location: {
       latitude: number;
       longitude: number;
     };
     token: string;
+    victimName?: string;
+    helper?: {
+      id: string;
+      fullName: string;
+      phoneNumber: string;
+    };
   };
   export type Result = Call;
 }
