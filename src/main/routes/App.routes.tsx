@@ -44,7 +44,13 @@ export type AppStackParamList = {
   Guides: undefined;
   DetailsFirstAid: undefined;
   DetailsBasicMechanics: undefined;
-  Event: undefined;
+  Event: {
+    fromHelpSomeoneElse: boolean;
+    victim?: {
+      fullName: string;
+      phoneNumber: string;
+    };
+  };
   CreateEvent: {
     token: string;
   };

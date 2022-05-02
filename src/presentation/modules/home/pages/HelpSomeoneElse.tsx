@@ -1,3 +1,4 @@
+import { useNavigation } from '@react-navigation/native';
 import React from 'react';
 import { Text, View } from 'react-native';
 import { useTailwind } from 'tailwind-rn/dist';
@@ -16,6 +17,7 @@ interface Props {
 
 const HelpSomeoneElse: React.FC<Props> = () => {
   const tailwind = useTailwind();
+  const navigation = useNavigation();
   const fullName = useInputState({
     name: 'fullName'
   });
@@ -23,11 +25,14 @@ const HelpSomeoneElse: React.FC<Props> = () => {
     name: 'phoneNumber'
   });
   function handleRequireHelp() {
-    // eslint-disable-next-line no-unused-vars
     const data = {
       phoneNumber: phoneNumber.value,
       fullName: fullName.value
     };
+    navigation.navigate('Event', {
+      fromHelpSomeoneElse: true,
+      victim: { ...data }
+    });
   }
   return (
     <Container>

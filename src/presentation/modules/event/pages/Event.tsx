@@ -1,6 +1,6 @@
 /* eslint-disable react/no-unescaped-entities */
 import { Ionicons } from '@expo/vector-icons';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useRoute } from '@react-navigation/native';
 import * as Location from 'expo-location';
 import * as Speech from 'expo-speech';
 import React, { useEffect, useState } from 'react';
@@ -8,7 +8,11 @@ import { Text } from 'react-native';
 import { useTailwind } from 'tailwind-rn/dist';
 
 import { CallLocation } from '@/domain/models/Call';
-import { CreateCall, SendContactsNotification } from '@/domain/usecases';
+import {
+  CreateCall,
+  CreateCallForAnotherPerson,
+  SendContactsNotification
+} from '@/domain/usecases';
 import Container from '@/presentation/shared/components/Container';
 import Button from '@/presentation/shared/components/form/button';
 import { useAuth } from '@/presentation/shared/context/auth';
@@ -16,11 +20,23 @@ import useFeedbackMessage from '@/presentation/shared/hooks/useFeedbackMessage';
 
 interface Props {
   createCall: CreateCall;
+  createCallForAnotherPerson: CreateCallForAnotherPerson;
   sendContactsNotification: SendContactsNotification;
 }
-
-const Event: React.FC<Props> = ({ createCall, sendContactsNotification }) => {
+interface Params {
+  fromHelpSomeoneElse: boolean;
+  victim?: {
+    fullName: string;
+    phoneNumber: string;
+  };
+}
+const Event: React.FC<Props> = ({
+  createCall,
+  createCallForAnotherPerson,
+  sendContactsNotification
+}) => {
   const { authUser } = useAuth();
+  const route = useRoute();
   const { showError } = useFeedbackMessage();
   const [muteSpeech, setMuteSpeech] = useState(true);
   const [location, setLocation] = useState<CallLocation | null>(null);
@@ -60,10 +76,22 @@ const Event: React.FC<Props> = ({ createCall, sendContactsNotification }) => {
   async function confirm() {
     try {
       handleStopTextVoice();
-      const token = await createCall.add({
-        userId: authUser.id,
-        location: location as CallLocation
-      });
+      const { fromHelpSomeoneElse, victim } = route.params as Params;
+      let token: string;
+      if (!fromHelpSomeoneElse) {
+        token = await createCall.add({
+          userId: authUser.id,
+          location: location as CallLocation
+        });
+      } else {
+        token = await createCallForAnotherPerson.add(
+          {
+            location: location as CallLocation,
+            victim
+          },
+          authUser.id
+        );
+      }
       await sendContactsNotification.notifyContacts(authUser.id);
       navigation.navigate('CreateEvent', { token });
     } catch (error: any) {
