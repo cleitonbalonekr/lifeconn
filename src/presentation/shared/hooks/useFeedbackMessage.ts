@@ -1,4 +1,5 @@
-// import { AppException, codes } from '@errors/index';
+import { Dimensions } from 'react-native';
+import { getStatusBarHeight } from 'react-native-status-bar-height';
 import Toast from 'react-native-toast-message';
 
 type Parameters = {
@@ -9,6 +10,7 @@ type Parameters = {
 const DEFAULT_MESSAGE = {
   title: 'Tudo certo!'
 };
+const { height } = Dimensions.get('window');
 const useFeedbackMessage = () => {
   function showSuccess(params: Parameters) {
     Toast.show({
@@ -28,8 +30,21 @@ const useFeedbackMessage = () => {
     });
     // console.log(`[1${errorCode}]`, error);
   }
+  function showWaiting(message: string) {
+    Toast.show({
+      type: 'info',
+      text1: message,
+      autoHide: false,
+      position: 'bottom',
+      bottomOffset: height * 0.12,
+      onPress: () => Toast.hide()
+    });
+  }
+  function hide() {
+    Toast.hide();
+  }
 
-  return { showSuccess, showError };
+  return { showSuccess, showError, showWaiting, hide };
 };
 
 export default useFeedbackMessage;

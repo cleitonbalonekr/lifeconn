@@ -12,7 +12,7 @@ export namespace CreateCallRepository {
     location: {
       latitude: number;
       longitude: number;
-    };
+    } | null;
     token: string;
     victimName?: string;
     helper?: {

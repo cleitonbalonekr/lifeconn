@@ -8,7 +8,7 @@ export namespace CreateCall {
     location: {
       latitude: number;
       longitude: number;
-    };
+    } | null;
   };
 
   export type Result = string;

@@ -10,7 +10,7 @@ export namespace CreateCallForAnotherPerson {
     location: {
       latitude: number;
       longitude: number;
-    };
+    } | null;
     victim?: {
       fullName: string;
       phoneNumber: string;

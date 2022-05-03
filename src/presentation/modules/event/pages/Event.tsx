@@ -3,8 +3,8 @@ import { Ionicons } from '@expo/vector-icons';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import * as Location from 'expo-location';
 import * as Speech from 'expo-speech';
-import React, { useEffect, useState } from 'react';
-import { Text } from 'react-native';
+import React, { useEffect, useRef, useState } from 'react';
+import { Text, View } from 'react-native';
 import { useTailwind } from 'tailwind-rn/dist';
 
 import { CallLocation } from '@/domain/models/Call';
@@ -18,6 +18,10 @@ import Button from '@/presentation/shared/components/form/button';
 import { useAuth } from '@/presentation/shared/context/auth';
 import useFeedbackMessage from '@/presentation/shared/hooks/useFeedbackMessage';
 
+import ConfirmNoLocationModal, {
+  ConfirmNoLocationModalRefProps
+} from '../components/ConfirmNoLocationModal';
+
 interface Props {
   createCall: CreateCall;
   createCallForAnotherPerson: CreateCallForAnotherPerson;
@@ -30,6 +34,7 @@ interface Params {
     phoneNumber: string;
   };
 }
+
 const Event: React.FC<Props> = ({
   createCall,
   createCallForAnotherPerson,
@@ -37,7 +42,9 @@ const Event: React.FC<Props> = ({
 }) => {
   const { authUser } = useAuth();
   const route = useRoute();
-  const { showError } = useFeedbackMessage();
+  const confirmNoLocationModalRef =
+    useRef<ConfirmNoLocationModalRefProps>(null);
+  const { showError, showWaiting, hide } = useFeedbackMessage();
   const [muteSpeech, setMuteSpeech] = useState(true);
   const [location, setLocation] = useState<CallLocation | null>(null);
   const tailwind = useTailwind();
@@ -73,19 +80,27 @@ const Event: React.FC<Props> = ({
     }
   }
 
+  function handleValidateLocation() {
+    handleStopTextVoice();
+    if (!location) {
+      confirmNoLocationModalRef.current?.handleOpenModal();
+    } else {
+      confirm();
+    }
+  }
+
   async function confirm() {
     try {
-      handleStopTextVoice();
       const { fromHelpSomeoneElse, victim } = route.params as Params;
       let token: string;
       if (!fromHelpSomeoneElse) {
         token = await createCall.add({
           userId: authUser.id,
-          location: location as CallLocation
+          location
         });
         await sendContactsNotification.notifyContacts(authUser.id);
       } else {
-        const payload = { location: location as CallLocation, victim };
+        const payload = { location, victim };
         const response = await createCallForAnotherPerson.add(
           payload,
           authUser.id
@@ -94,7 +109,6 @@ const Event: React.FC<Props> = ({
         if (response.victimId)
           await sendContactsNotification.notifyContacts(response.victimId);
       }
-
       navigation.navigate('CreateEvent', { token });
     } catch (error: any) {
       showError(error);
@@ -102,11 +116,12 @@ const Event: React.FC<Props> = ({
   }
 
   const getLocation = async () => {
-    await Location.requestBackgroundPermissionsAsync();
     const { granted } = await Location.requestForegroundPermissionsAsync();
+    await Location.requestBackgroundPermissionsAsync();
     if (!granted) {
-      return;
+      showError('Permissão para obter localização não concedida.');
     }
+    showWaiting('Obtendo localização');
     const { coords } = await Location.getCurrentPositionAsync({
       mayShowUserSettingsDialog: true
     });
@@ -114,6 +129,7 @@ const Event: React.FC<Props> = ({
       latitude: coords.latitude,
       longitude: coords.longitude
     });
+    hide();
   };
 
   useEffect(() => {
@@ -122,8 +138,12 @@ const Event: React.FC<Props> = ({
   }, []);
 
   return (
-    <Container>
-      <Container scroll>
+    <Container scroll>
+      <ConfirmNoLocationModal
+        ref={confirmNoLocationModalRef}
+        confirmWithoutLocation={confirm}
+      />
+      <View style={tailwind('flex-1')}>
         <Ionicons
           name={!muteSpeech ? 'volume-high' : 'volume-mute'}
           size={20}
@@ -164,13 +184,9 @@ const Event: React.FC<Props> = ({
           * Emergências resultantes de vendavais, enchentes, temporais e chuvas
           de granizo.
         </Text>
-      </Container>
-      <Button
-        label="CONFIRMAR"
-        type="primary"
-        onPress={confirm}
-        disabled={!location}
-      >
+      </View>
+
+      <Button label="CONFIRMAR" type="primary" onPress={handleValidateLocation}>
         <Ionicons
           name="checkmark-done"
           size={20}
