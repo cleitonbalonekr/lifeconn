@@ -54,4 +54,30 @@ const NotificationSpeedLimit = () => {
   });
 };
 
-export default { NotificationSpeedLimit, NotificationUserData };
+const NotificationCodeCall = () => {
+  Notification.scheduleNotificationAsync({
+    content: {
+      title: 'Código: HJ55',
+      body: 'Código HJ55',
+      priority: Notification.AndroidNotificationPriority.MAX,
+      data: {
+        route: 'home'
+      }
+    },
+    identifier: 'NotiCALL3',
+    trigger: {
+      seconds: 1
+    }
+  });
+  Notification.setNotificationChannelAsync('NotiCALL3', {
+    name: 'NotiCALL3',
+    importance: Notification.AndroidImportance.MAX,
+    lockscreenVisibility: Notification.AndroidNotificationVisibility.PUBLIC
+  });
+};
+
+export default {
+  NotificationSpeedLimit,
+  NotificationUserData,
+  NotificationCodeCall
+};

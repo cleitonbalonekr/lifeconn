@@ -8,8 +8,9 @@ import { useTailwind } from 'tailwind-rn/dist';
 import liliImg from '@/presentation/shared/assets/lili.gif';
 import Container from '@/presentation/shared/components/Container';
 import Button from '@/presentation/shared/components/form/button';
-import Accelerometer from '@/presentation/shared/hooks/backgroundServices/useAccelerometer';
-import Task from '@/presentation/shared/hooks/backgroundServices/useBackgroundService';
+import Accelerometer from '@/presentation/shared/services/accelerometer';
+import Task from '@/presentation/shared/services/backgroundServices';
+import registerTTS from '@/presentation/shared/services/tts';
 
 Task.runService();
 
@@ -43,7 +44,11 @@ const MonitorImpact: React.FC = () => {
           const info3 = `Estarei acionando as autoridades agora! `;
           Speech.speak(info3);
           setTimeout(() => {
-            navigation.navigate('CreateEvent');
+            registerTTS({
+              name: 'Aldair Camargo',
+              phone: '22 9 8 1 5 3 3 1 7 3',
+              token: 'H,,J,,5,,5'
+            });
           }, 5000);
         }, 60000);
       }, 60000);

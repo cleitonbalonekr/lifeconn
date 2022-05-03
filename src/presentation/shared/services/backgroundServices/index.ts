@@ -5,7 +5,7 @@ import * as TaskManager from 'expo-task-manager';
 import { reloadAsync } from 'expo-updates';
 import * as geolib from 'geolib';
 
-import Notification from './useNotification';
+import Notification from '../localnotifications';
 
 const TASK_NAME = 'lifeconn-service-background';
 
