@@ -1,6 +1,12 @@
 /* eslint-disable new-cap */
 import * as Speech from 'expo-speech';
 
+import { CallLocation } from '@/domain/models/Call';
+import {
+  phoneTextTTS,
+  codeTextTTS
+} from '@/presentation/shared/services/tts/formatTextSpeed';
+
 const totalvoice = require('totalvoice-node');
 
 const client = new totalvoice('access-token');
@@ -9,13 +15,17 @@ interface Props {
   name: string;
   phone: string;
   token: string;
+  location: CallLocation;
 }
 
-const registerTTS = ({ name, phone, token }: Props) => {
+const registerTTS = ({ name, phone, token, location }: Props) => {
   const text = `Olá atendente sou a assistente da plataforma laificom,
-  gostaria de solicitiar um resgate para ${name},
-  telefone ${phone}, localização: latitude xxxxxx, longitude: yyyyyyy,
-  para mais informações acesse a plataforma web laificom, e digite o código ${token}`;
+  gostaria de solicitar um resgate para ${name},
+  telefone ${phoneTextTTS(phone)},
+  localização: latitude ${codeTextTTS(String(location.latitude))},
+  longitude: ${codeTextTTS(String(location.longitude))},
+  para mais informações acesse a plataforma web laificom,
+  e digite o código ${codeTextTTS(token)}`;
 
   Speech.speak(text);
 

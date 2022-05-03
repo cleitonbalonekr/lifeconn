@@ -54,11 +54,11 @@ const NotificationSpeedLimit = () => {
   });
 };
 
-const NotificationCodeCall = () => {
+const NotificationCodeCall = (code: string) => {
   Notification.scheduleNotificationAsync({
     content: {
-      title: 'Código: HJ55',
-      body: 'Código HJ55',
+      title: code,
+      body: code,
       priority: Notification.AndroidNotificationPriority.MAX,
       data: {
         route: 'home'

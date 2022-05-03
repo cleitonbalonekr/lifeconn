@@ -8,6 +8,7 @@ import liliImg from '@/presentation/shared/assets/lili.gif';
 import Container from '@/presentation/shared/components/Container';
 import Notification from '@/presentation/shared/services/localnotifications';
 import callEmergency from '@/presentation/shared/services/phonecall';
+import { codeTextTTS } from '@/presentation/shared/services/tts/formatTextSpeed';
 
 const CreateEvent: React.FC = () => {
   const route = useRoute();
@@ -16,14 +17,14 @@ const CreateEvent: React.FC = () => {
 
   function handleTextVoice() {
     const info = `Atenção, informe o código,
-    ${token} durante a chamada!
+    ${codeTextTTS(token)} durante a chamada!
     Atenção, informe o código,
-    ${token} durante a chamada!
+    ${codeTextTTS(token)} durante a chamada!
     Atenção, informe o código,
-    ${token} durante a chamada!`;
+    ${codeTextTTS(token)} durante a chamada!`;
     Speech.speak(info);
     setTimeout(() => {
-      Notification.NotificationCodeCall();
+      Notification.NotificationCodeCall(token);
       callEmergency();
     }, 15000);
   }

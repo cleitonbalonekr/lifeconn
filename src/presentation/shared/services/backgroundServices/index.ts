@@ -13,6 +13,7 @@ const TASK_NAME = 'lifeconn-service-background';
   const activeAccelerometer = await AsyncStorage.getItem(
     '@activeAccelerometer'
   );
+  console.log(activeAccelerometer);
   if (activeAccelerometer === 'true') {
     const LIMIT_SPEED = 0;
 
@@ -73,22 +74,21 @@ const runService = async () => {
       stopOnTerminate: false
     });
   } else if (activeAccelerometer === null) {
-    await AsyncStorage.setItem('@activeAccelerometer', 'true');
+    await AsyncStorage.setItem('@activeAccelerometer', 'false');
   }
 };
 
-const register = async () => {
-  await Location.requestBackgroundPermissionsAsync();
-  await Location.requestForegroundPermissionsAsync();
-  await AsyncStorage.setItem('@activeAccelerometer', 'true');
-  reloadAsync();
+const register = async (unRegister: Boolean) => {
+  if (unRegister) {
+    await AsyncStorage.setItem('@activeAccelerometer', 'false');
+    TaskManager.unregisterTaskAsync(TASK_NAME);
+    BackgroundFetch.unregisterTaskAsync(TASK_NAME);
+  } else {
+    await Location.requestBackgroundPermissionsAsync();
+    await Location.requestForegroundPermissionsAsync();
+    await AsyncStorage.setItem('@activeAccelerometer', 'true');
+  }
+  await reloadAsync();
 };
 
-const unRegister = async () => {
-  await AsyncStorage.setItem('@activeAccelerometer', 'false');
-  TaskManager.unregisterTaskAsync(TASK_NAME);
-  BackgroundFetch.unregisterTaskAsync(TASK_NAME);
-  reloadAsync();
-};
-
-export default { register, unRegister, runService };
+export default { register, runService };

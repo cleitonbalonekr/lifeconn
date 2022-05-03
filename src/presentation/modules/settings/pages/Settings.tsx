@@ -14,6 +14,7 @@ import Input from '@/presentation/shared/components/form/input';
 import { useAuth } from '@/presentation/shared/context/auth';
 import useFeedbackMessage from '@/presentation/shared/hooks/useFeedbackMessage';
 import useInputState from '@/presentation/shared/hooks/useInputState';
+import Task from '@/presentation/shared/services/backgroundServices';
 
 interface Props {
   validation: Validation;
@@ -79,6 +80,7 @@ const Settings: React.FC<Props> = ({
       } else {
         const updatedUser = await updateUserInfo.update(payload, authUser.id);
         saveUserSate(updatedUser);
+        Task.register(!activeByAccelerometer.value);
         showSuccess({
           description: 'Dados atualizados com sucesso!'
         });
