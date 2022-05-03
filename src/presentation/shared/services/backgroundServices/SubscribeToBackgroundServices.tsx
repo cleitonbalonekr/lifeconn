@@ -5,7 +5,7 @@ import * as TaskManager from 'expo-task-manager';
 import * as geolib from 'geolib';
 import { useCallback, useEffect } from 'react';
 
-import Notification from '../localnotifications';
+import Notification from '../localNotifications';
 import { TASK_NAME } from './resources';
 
 const SubscribeToBackgroundServices: React.FC = () => {

@@ -6,7 +6,7 @@ import { useTailwind } from 'tailwind-rn/dist';
 
 import liliImg from '@/presentation/shared/assets/lili.gif';
 import Container from '@/presentation/shared/components/Container';
-import Notification from '@/presentation/shared/services/localnotifications';
+import Notification from '@/presentation/shared/services/localNotifications';
 import callEmergency from '@/presentation/shared/services/phonecall';
 import { codeTextTTS } from '@/presentation/shared/services/tts/formatTextSpeed';
 
