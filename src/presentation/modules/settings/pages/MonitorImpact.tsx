@@ -14,10 +14,7 @@ import Container from '@/presentation/shared/components/Container';
 import Button from '@/presentation/shared/components/form/button';
 import { useAuth } from '@/presentation/shared/context/auth';
 import Accelerometer from '@/presentation/shared/services/accelerometer';
-import Task from '@/presentation/shared/services/backgroundServices';
 import registerTTS from '@/presentation/shared/services/tts';
-
-Task.runService();
 
 interface Props {
   createCall: CreateCall;

@@ -9,6 +9,7 @@ import {
 import { NavigationContainer } from '@react-navigation/native';
 import AppLoading from 'expo-app-loading';
 import { StatusBar } from 'expo-status-bar';
+import { useEffect } from 'react';
 import * as React from 'react';
 import { LogBox } from 'react-native';
 import Toast from 'react-native-toast-message';
@@ -19,6 +20,7 @@ import 'react-native-get-random-values';
 import { MakeSubscribeToNotifications } from '@/main/factories/services/notification/subscribeToNotificationsFactory';
 import Routes from '@/main/routes/index';
 import { AuthProvider } from '@/presentation/shared/context/auth';
+import { SubscribeToBackgroundServices } from '@/presentation/shared/services/backgroundServices';
 import utilities from '@/presentation/shared/styles/tailwind.json';
 
 export default function App() {
@@ -42,6 +44,7 @@ export default function App() {
       <NavigationContainer>
         <TailwindProvider utilities={utilities}>
           <AuthProvider>
+            <SubscribeToBackgroundServices />
             <MakeSubscribeToNotifications />
             <Routes />
           </AuthProvider>
