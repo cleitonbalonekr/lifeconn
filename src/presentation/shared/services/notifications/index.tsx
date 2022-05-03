@@ -58,7 +58,6 @@ const SubscribeToNotifications = ({ saveNotificationToken }: Props) => {
   const handleNotificationResponse = (
     notification: Notifications.NotificationResponse
   ) => {
-    const { eventId } = notification.notification.request.content.data;
     navigation.navigate('Notifications');
   };
 
