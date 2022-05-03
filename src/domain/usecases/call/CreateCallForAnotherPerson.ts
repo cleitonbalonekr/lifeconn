@@ -17,5 +17,8 @@ export namespace CreateCallForAnotherPerson {
     };
   };
 
-  export type Result = string;
+  export type Result = {
+    token: string;
+    victimId: string | null;
+  };
 }

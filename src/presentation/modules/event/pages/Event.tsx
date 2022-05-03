@@ -83,16 +83,18 @@ const Event: React.FC<Props> = ({
           userId: authUser.id,
           location: location as CallLocation
         });
+        await sendContactsNotification.notifyContacts(authUser.id);
       } else {
-        token = await createCallForAnotherPerson.add(
-          {
-            location: location as CallLocation,
-            victim
-          },
+        const payload = { location: location as CallLocation, victim };
+        const response = await createCallForAnotherPerson.add(
+          payload,
           authUser.id
         );
+        token = response.token;
+        if (response.victimId)
+          await sendContactsNotification.notifyContacts(response.victimId);
       }
-      await sendContactsNotification.notifyContacts(authUser.id);
+
       navigation.navigate('CreateEvent', { token });
     } catch (error: any) {
       showError(error);
@@ -100,6 +102,11 @@ const Event: React.FC<Props> = ({
   }
 
   const getLocation = async () => {
+    await Location.requestBackgroundPermissionsAsync();
+    const { granted } = await Location.requestForegroundPermissionsAsync();
+    if (!granted) {
+      return;
+    }
     const { coords } = await Location.getCurrentPositionAsync({
       mayShowUserSettingsDialog: true
     });

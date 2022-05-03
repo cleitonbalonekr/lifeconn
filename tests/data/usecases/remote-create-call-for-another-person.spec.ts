@@ -161,6 +161,6 @@ describe('RemoteCreateCallForAnotherPerson', () => {
       'creatorId',
       creatorId
     );
-    expect(response).toEqual(tokenGeneratorSpy.response);
+    expect(response.token).toEqual(tokenGeneratorSpy.response);
   });
 });

@@ -56,7 +56,10 @@ export class RemoteCreateCallForAnotherPerson
         status: EventStatus.AUTHOR_CREATED,
         creatorId
       });
-      return call.token;
+      return {
+        token: call.token,
+        victimId: payload.userId
+      };
     } catch (error) {
       return catchErrorVerification(error);
     }

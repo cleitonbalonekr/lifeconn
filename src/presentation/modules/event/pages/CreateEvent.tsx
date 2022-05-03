@@ -1,3 +1,4 @@
+import { useRoute } from '@react-navigation/native';
 import * as Speech from 'expo-speech';
 import React, { useEffect, useState } from 'react';
 import { Text, Image } from 'react-native';
@@ -7,7 +8,8 @@ import liliImg from '@/presentation/shared/assets/lili.gif';
 import Container from '@/presentation/shared/components/Container';
 
 const CreateEvent: React.FC = () => {
-  const [token, setToken] = useState('H,,J,,5,,5');
+  const route = useRoute();
+  const { token } = route.params as { token: string };
   const tailwind = useTailwind();
 
   function handleTextVoice() {
