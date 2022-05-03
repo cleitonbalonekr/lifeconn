@@ -111,6 +111,16 @@
 			"marginBottom": 8
 		}
 	},
+	"mr-1": {
+		"style": {
+			"marginRight": 4
+		}
+	},
+	"ml-1": {
+		"style": {
+			"marginLeft": 4
+		}
+	},
 	"mt-12": {
 		"style": {
 			"marginTop": 48
@@ -139,16 +149,6 @@
 	"mt-2.5": {
 		"style": {
 			"marginTop": 10
-		}
-	},
-	"mr-1": {
-		"style": {
-			"marginRight": 4
-		}
-	},
-	"ml-1": {
-		"style": {
-			"marginLeft": 4
 		}
 	},
 	"mt-5": {
@@ -234,6 +234,16 @@
 	"w-48": {
 		"style": {
 			"width": 192
+		}
+	},
+	"w-24": {
+		"style": {
+			"width": 96
+		}
+	},
+	"w-40": {
+		"style": {
+			"width": 160
 		}
 	},
 	"flex-1": {

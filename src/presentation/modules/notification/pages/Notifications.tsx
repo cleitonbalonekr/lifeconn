@@ -93,7 +93,8 @@ const Notifications: React.FC<Props> = ({ loadCalls }) => {
   }
 
   function handleNavigationToDetails(item: Call) {
-    navigation.navigate('DetailsNotification', { notification: { ...item } });
+    const notification = JSON.parse(JSON.stringify(item));
+    navigation.navigate('DetailsNotification', { notification });
   }
 
   useEffect(() => {

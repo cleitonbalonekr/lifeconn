@@ -87,6 +87,14 @@
   margin-bottom: 0.5rem
 }
 
+.mr-1 {
+  margin-right: 0.25rem
+}
+
+.ml-1 {
+  margin-left: 0.25rem
+}
+
 .mt-12 {
   margin-top: 3rem
 }
@@ -109,14 +117,6 @@
 
 .mt-2\.5 {
   margin-top: 0.625rem
-}
-
-.mr-1 {
-  margin-right: 0.25rem
-}
-
-.ml-1 {
-  margin-left: 0.25rem
 }
 
 .mt-5 {
@@ -185,6 +185,14 @@
 
 .w-48 {
   width: 12rem
+}
+
+.w-24 {
+  width: 6rem
+}
+
+.w-40 {
+  width: 10rem
 }
 
 .flex-1 {

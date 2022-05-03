@@ -13,20 +13,27 @@ import { EventStatus } from '@/domain/models/CallEvent';
 import Container from '@/presentation/shared/components/Container';
 import Button from '@/presentation/shared/components/form/button';
 import Input from '@/presentation/shared/components/form/input';
+import useFeedbackMessage from '@/presentation/shared/hooks/useFeedbackMessage';
 
 import MedicalInfoElse from '../components/MedicalInfoElse';
 
+const NO_LOCATION = 'Não informado';
+
 const DetailsNotification: React.FC = () => {
   const tailwind = useTailwind();
+  const { showError } = useFeedbackMessage();
   const route = useRoute();
   const { notification } = route.params as { notification: Call };
   const user = notification.userId as AuthUser;
   const { location } = notification;
 
   function handleOpenMaps() {
-    const url = `https://www.google.pt/maps?q=${location.latitude},${location.longitude}`;
-
-    Linking.openURL(url);
+    if (location) {
+      const url = `https://www.google.pt/maps?q=${location.latitude},${location.longitude}`;
+      Linking.openURL(url);
+    } else {
+      showError('Localização não informada.');
+    }
   }
   function getNotificationStatus() {
     switch (notification.lastEvent?.status) {
@@ -42,7 +49,7 @@ const DetailsNotification: React.FC = () => {
     }
   }
   function formatDate() {
-    return format(notification.createdAt, 'dd/MM/yyyy  HH:mm', {
+    return format(new Date(notification.createdAt), 'dd/MM/yyyy  HH:mm', {
       locale: ptBR
     });
   }
@@ -57,7 +64,10 @@ const DetailsNotification: React.FC = () => {
         <View style={tailwind('rounded-full bg-slate-300 p-3')}>
           <Ionicons name="person-outline" size={20} />
         </View>
-        <Text style={tailwind('text-lg text-center px-2 font-ubuntu')}>
+        <Text
+          numberOfLines={2}
+          style={tailwind('text-lg  px-2 font-ubuntu w-40')}
+        >
           {user.fullName}
         </Text>
         <Text style={tailwind('text-center px-2 font-ubuntu')}>
@@ -80,14 +90,14 @@ const DetailsNotification: React.FC = () => {
             <Input
               editable
               label="Latitude"
-              value={String(location.latitude)}
+              value={String(location?.latitude || NO_LOCATION)}
             />
           </View>
           <View style={tailwind('flex-1 ml-1')}>
             <Input
               editable
               label="Longitude"
-              value={String(location.longitude)}
+              value={String(location?.longitude || NO_LOCATION)}
             />
           </View>
         </View>
