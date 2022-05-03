@@ -1,6 +1,7 @@
 /* eslint-disable new-cap */
 import * as Speech from 'expo-speech';
 
+import { CALLS_BALANCE_TOKEN } from '@/configs/index';
 import { CallLocation } from '@/domain/models/Call';
 import {
   phoneTextTTS,
@@ -9,16 +10,21 @@ import {
 
 const totalvoice = require('totalvoice-node');
 
-const client = new totalvoice('access-token');
-
 interface Props {
   name: string;
   phone: string;
   token: string;
   location: CallLocation;
+  totalVoiceToken?: string;
 }
 
-const registerTTS = ({ name, phone, token, location }: Props) => {
+const registerTTS = ({
+  name,
+  phone,
+  token,
+  location,
+  totalVoiceToken
+}: Props) => {
   const text = `Olá atendente sou a assistente da plataforma laificom,
   gostaria de solicitar um resgate para ${name},
   telefone ${phoneTextTTS(phone)},
@@ -28,6 +34,11 @@ const registerTTS = ({ name, phone, token, location }: Props) => {
   e digite o código ${codeTextTTS(token)}`;
 
   Speech.speak(text);
+
+  if (totalVoiceToken) console.log(totalVoiceToken);
+  else console.log(CALLS_BALANCE_TOKEN);
+
+  const client = new totalvoice('access-token');
 
   /* client.tts
     .enviar('22981533173', text, {

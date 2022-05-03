@@ -56,7 +56,8 @@ const MonitorImpact: React.FC<Props> = ({
         name: authUser.fullName ? authUser.fullName : authUser.email,
         phone: authUser.phoneNumber,
         token,
-        location: location as CallLocation
+        location: location as CallLocation,
+        totalVoiceToken: authUser.totalVoiceToken
       });
   }
 
