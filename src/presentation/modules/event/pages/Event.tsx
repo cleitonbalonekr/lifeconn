@@ -123,7 +123,8 @@ const Event: React.FC<Props> = ({
     }
     showWaiting('Obtendo localização');
     const { coords } = await Location.getCurrentPositionAsync({
-      mayShowUserSettingsDialog: true
+      mayShowUserSettingsDialog: true,
+      accuracy: Location.Accuracy.Balanced
     });
     setLocation({
       latitude: coords.latitude,
