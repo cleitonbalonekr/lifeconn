@@ -58,7 +58,10 @@ const SubscribeToNotifications = ({ saveNotificationToken }: Props) => {
   const handleNotificationResponse = (
     notification: Notifications.NotificationResponse
   ) => {
-    navigation.navigate('Notifications');
+    const route = notification?.notification.request.content.data.route;
+    if (route !== 'Home' && route !== 'MonitorImpact') {
+      navigation.navigate('Notifications');
+    }
   };
 
   useEffect(() => {

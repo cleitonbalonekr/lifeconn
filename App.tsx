@@ -47,8 +47,8 @@ export default function App() {
           <AuthProvider>
             <SubscribeToBackgroundServices />
             <MakeSubscribeToNotifications />
-            <LocalNotificationSubscriber />
             <Routes />
+            <LocalNotificationSubscriber />
           </AuthProvider>
         </TailwindProvider>
       </NavigationContainer>
