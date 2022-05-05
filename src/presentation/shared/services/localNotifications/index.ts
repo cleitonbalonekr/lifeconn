@@ -1,3 +1,4 @@
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as Notification from 'expo-notifications';
 
 Notification.setNotificationHandler({
@@ -10,11 +11,13 @@ Notification.setNotificationHandler({
   }
 });
 
-const NotificationUserData = () => {
+const NotificationUserData = async () => {
+  const userData = await AsyncStorage.getItem('@userDataNotification');
   Notification.scheduleNotificationAsync({
     content: {
       title: 'Meus Dados - Lifeconn',
-      body: `Meus dados: [Nome: Aldair Camargo / Tel.: (22) 98153-3173]`,
+      body: `#Nome: ${JSON.parse(String(userData)).name}
+      #Tel.: ${JSON.parse(String(userData)).phone}]`,
       priority: Notification.AndroidNotificationPriority.MAX,
       data: {
         route: 'Home'

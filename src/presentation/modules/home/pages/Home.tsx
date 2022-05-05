@@ -1,11 +1,13 @@
 /* eslint-disable react/jsx-curly-newline */
 import { FontAwesome5 } from '@expo/vector-icons';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation } from '@react-navigation/native';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { FlatList, Text, TouchableOpacity, View } from 'react-native';
 import { useTailwind } from 'tailwind-rn';
 
 import Container from '@/presentation/shared/components/Container';
+import { useAuth } from '@/presentation/shared/context/auth';
 
 import Header from '../components/Header';
 import HelpButton from '../components/HelpButton';
@@ -55,6 +57,7 @@ type Routes = 'Settings' | 'Notifications' | 'Donate' | 'Contacts' | 'Event';
 const Home: React.FC = () => {
   const tailwind = useTailwind();
   const navigation = useNavigation();
+  const { authUser } = useAuth();
   function handleNavigateTo(navigateTo: Routes) {
     navigation.navigate(navigateTo);
   }
@@ -63,6 +66,15 @@ const Home: React.FC = () => {
       fromHelpSomeoneElse: false
     });
   }
+
+  useEffect(() => {
+    (async () => {
+      await AsyncStorage.setItem(
+        '@userDataNotification',
+        `{"name":"${authUser.fullName}","phone":"${authUser.phoneNumber}"}`
+      );
+    })();
+  }, []);
 
   return (
     <Container>
