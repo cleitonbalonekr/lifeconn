@@ -28,6 +28,9 @@ const MonitorImpact: React.FC<Props> = ({
   const { authUser } = useAuth();
   const [statusAccelerometer, setStatusAccelerometer] = useState(false);
   const [statusContact, setStatusContact] = useState(false);
+  const [intervalTime, setIntervalTime] = useState<number>(
+    window.setInterval(() => {})
+  );
   const tailwind = useTailwind();
   const navigation = useNavigation();
   const [location, setLocation] = useState<CallLocation | null>(null);
@@ -73,6 +76,13 @@ const MonitorImpact: React.FC<Props> = ({
     });
   };
 
+  function handleCloseInterval() {
+    clearInterval(intervalTime);
+    setStatusContact(false);
+    Speech.speak(`Acionamento cancelado! `);
+    navigation.navigate('Home');
+  }
+
   useEffect(() => {
     handleTextVoice();
   }, []);
@@ -84,34 +94,21 @@ const MonitorImpact: React.FC<Props> = ({
       const info = [
         `Detectei um impacto, estarei acionando as autoridades em 2 minutos, caso queira cancelar clique em cancelar! `,
         `Estarei acionando as autoridades em 1 minuto, caso queira cancelar clique em cancelar! `,
-        `Estarei acionando as autoridades agora! `,
-        `Acionamento cancelado! `
+        `Estarei acionando as autoridades agora! `
       ];
       Speech.speak(info[0]);
-      setTimeout(() => {
-        if (statusContact) {
-          Speech.speak(info[1]);
-          setTimeout(() => {
-            if (statusContact) {
-              Speech.speak(info[2]);
-              setTimeout(() => {
-                if (statusContact) {
-                  handleEvent();
-                } else {
-                  Speech.speak(info[3]);
-                  navigation.navigate('Home');
-                }
-              }, 5000);
-            } else {
-              Speech.speak(info[3]);
-              navigation.navigate('Home');
-            }
-          }, 60000);
-        } else {
-          Speech.speak(info[3]);
-          navigation.navigate('Home');
-        }
-      }, 60000);
+      let aux = 1;
+      setIntervalTime(
+        window.setInterval(() => {
+          Speech.speak(info[aux]);
+          if (aux >= 2) {
+            setTimeout(() => {
+              handleEvent();
+            }, 5000);
+          }
+          aux += 1;
+        }, 60000)
+      );
     }
   }, [statusAccelerometer]);
 
@@ -130,7 +127,7 @@ const MonitorImpact: React.FC<Props> = ({
           type="danger"
           label="Cancelar acionamento"
           onPress={() => {
-            setStatusContact(false);
+            handleCloseInterval();
           }}
         >
           <Ionicons
