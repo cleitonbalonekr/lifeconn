@@ -42,6 +42,7 @@ const Event: React.FC<Props> = ({
 }) => {
   const { authUser } = useAuth();
   const route = useRoute();
+  const [loading, setLoading] = useState(false);
   const confirmNoLocationModalRef =
     useRef<ConfirmNoLocationModalRefProps>(null);
   const { showError, showWaiting, hide } = useFeedbackMessage();
@@ -91,6 +92,7 @@ const Event: React.FC<Props> = ({
 
   async function confirm() {
     try {
+      setLoading(true);
       const { fromHelpSomeoneElse, victim } = route.params as Params;
       let token: string;
       if (!fromHelpSomeoneElse) {
@@ -112,6 +114,9 @@ const Event: React.FC<Props> = ({
       navigation.navigate('CreateEvent', { token });
     } catch (error: any) {
       showError(error);
+    } finally {
+      setLoading(false);
+      confirmNoLocationModalRef.current?.handleCloseModal();
     }
   }
 
@@ -187,7 +192,12 @@ const Event: React.FC<Props> = ({
         </Text>
       </View>
 
-      <Button label="CONFIRMAR" type="primary" onPress={handleValidateLocation}>
+      <Button
+        label="CONFIRMAR"
+        type="primary"
+        onPress={handleValidateLocation}
+        loading={loading}
+      >
         <Ionicons
           name="checkmark-done"
           size={20}
