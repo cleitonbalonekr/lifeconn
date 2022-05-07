@@ -236,11 +236,6 @@
 			"width": 192
 		}
 	},
-	"w-24": {
-		"style": {
-			"width": 96
-		}
-	},
 	"w-40": {
 		"style": {
 			"width": 160
@@ -266,6 +261,11 @@
 	"items-start": {
 		"style": {
 			"alignItems": "flex-start"
+		}
+	},
+	"items-end": {
+		"style": {
+			"alignItems": "flex-end"
 		}
 	},
 	"items-center": {

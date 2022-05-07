@@ -11,6 +11,7 @@ import Container from '@/presentation/shared/components/Container';
 import Button from '@/presentation/shared/components/form/button';
 import ButtonOutline from '@/presentation/shared/components/form/buttonOutline';
 import Input from '@/presentation/shared/components/form/input';
+import ButtonLink from '@/presentation/shared/components/form/link';
 import { useAuth } from '@/presentation/shared/context/auth';
 import useFeedbackMessage from '@/presentation/shared/hooks/useFeedbackMessage';
 import useInputState from '@/presentation/shared/hooks/useInputState';
@@ -103,6 +104,10 @@ const Settings: React.FC<Props> = ({
     signOut();
   }
 
+  function handleNavigateToUseTerms() {
+    navigation.navigate('Term');
+  }
+
   return (
     <Container scroll>
       <View style={tailwind('flex-1')}>
@@ -174,6 +179,9 @@ const Settings: React.FC<Props> = ({
             style={tailwind('text-white')}
           />
         </Button>
+      </View>
+      <View style={tailwind('mt-3 items-end')}>
+        <ButtonLink label="Termos de uso" onPress={handleNavigateToUseTerms} />
       </View>
       <View style={tailwind('mt-5 items-start')}>
         <Button label="Sair" type="danger" onPress={handleLogoutUser}>

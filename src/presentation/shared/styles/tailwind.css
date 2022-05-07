@@ -187,10 +187,6 @@
   width: 12rem
 }
 
-.w-24 {
-  width: 6rem
-}
-
 .w-40 {
   width: 10rem
 }
@@ -209,6 +205,10 @@
 
 .items-start {
   align-items: flex-start
+}
+
+.items-end {
+  align-items: flex-end
 }
 
 .items-center {

@@ -77,7 +77,7 @@ const Term: React.FC = () => {
           onPress={handleStopTextVoice}
         />
         <Text style={tailwind('mb-2 text-center font-bold')}>
-          Atenção aos termos de uso, só aceite se estiver de acordo!
+          Atenção aos termos de uso!
         </Text>
         <Text>
           A aplicação lifeconn foi desenvolvida com objetivo de auxiliar e
@@ -147,7 +147,7 @@ const Term: React.FC = () => {
           optar.
         </Text>
       </Container>
-      <Button label="Eu aceito" type="primary" onPress={handleNavigateToHome}>
+      <Button label="Confirmar" type="primary" onPress={handleNavigateToHome}>
         <Ionicons
           name="checkmark-done"
           size={20}
