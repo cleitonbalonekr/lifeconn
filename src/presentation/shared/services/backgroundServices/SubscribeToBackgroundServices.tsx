@@ -5,10 +5,12 @@ import * as TaskManager from 'expo-task-manager';
 import * as geolib from 'geolib';
 import { useCallback, useEffect } from 'react';
 
+import { useAuth } from '../../context/auth';
 import Notification from '../localNotifications';
 import { TASK_NAME } from './resources';
 
 const SubscribeToBackgroundServices: React.FC = () => {
+  const { authUser } = useAuth();
   const runService = useCallback(async () => {
     const activeAccelerometer = await AsyncStorage.getItem(
       '@activeAccelerometer'
@@ -58,7 +60,10 @@ const SubscribeToBackgroundServices: React.FC = () => {
 
             if ((meter / intervalTimer / 1000) * 60 >= LIMIT_SPEED) {
               Notification.NotificationSpeedLimit();
-              Notification.NotificationUserData();
+              Notification.NotificationUserData(
+                authUser.fullName || authUser.email,
+                authUser.phoneNumber
+              );
             }
           }
         }
