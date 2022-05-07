@@ -5,6 +5,7 @@ import {
   DocumentData,
   getDoc,
   getDocs,
+  orderBy,
   query,
   QueryDocumentSnapshot,
   setDoc,
@@ -44,7 +45,8 @@ export class FirebaseCallRepository
     const callQuery = query(
       this.callsCollection,
       where('userId', '==', userId),
-      where('open', '==', true)
+      where('open', '==', true),
+      orderBy('createdAt', 'desc')
     );
     const user = await this.firebaseUserUtils.getUserToNotification(userId);
     const calls = await getDocs(callQuery);
@@ -71,7 +73,8 @@ export class FirebaseCallRepository
         const userContactQuery = query(
           this.callsCollection,
           where('userId', 'in', contactId),
-          where('open', '==', true)
+          where('open', '==', true),
+          orderBy('createdAt', 'desc')
         );
         const snap = await getDocs(userContactQuery);
         snaps.push(...snap.docs);
