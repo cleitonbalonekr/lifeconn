@@ -28,6 +28,7 @@ const Settings: React.FC<Props> = ({
   logoutUser
 }) => {
   const { signOut, authUser, saveUserSate } = useAuth();
+  const tailwind = useTailwind();
   const [loading, setLoading] = useState(false);
   const { showSuccess, showError } = useFeedbackMessage();
   const navigation = useNavigation();
@@ -55,8 +56,6 @@ const Settings: React.FC<Props> = ({
     totalVoiceToken.set(authUser.totalVoiceToken);
     activeByAccelerometer.set(authUser.impactActivation);
   });
-
-  const tailwind = useTailwind();
 
   async function updateUserData() {
     try {

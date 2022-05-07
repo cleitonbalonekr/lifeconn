@@ -9,7 +9,7 @@ export class RemoteUpdateUserInfo implements UpdateUserInfo {
   async update(params: UpdateUserInfo.Params, userId: string) {
     try {
       const payload = { ...params };
-      if (!payload.totalVoiceToken) {
+      if (payload.totalVoiceToken !== '' && !payload.totalVoiceToken) {
         delete payload.totalVoiceToken;
       }
 
