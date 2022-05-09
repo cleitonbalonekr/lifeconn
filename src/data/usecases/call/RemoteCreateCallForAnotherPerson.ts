@@ -1,11 +1,12 @@
 import { CheckAccountPhoneNumberRepository } from '@/data/protocols/account';
 import {
   AddCallEventRepository,
-  CreateCallRepository
+  CreateCallRepository,
+  VerifyCallAlreadyOpenRepository
 } from '@/data/protocols/call';
 import { TokenGenerator } from '@/data/protocols/hash/TokenGenerator';
 import { GetUserByIdRepository } from '@/data/protocols/user';
-import { UserNotFoundError } from '@/domain/errors';
+import { CallAlreadyOpenError, UserNotFoundError } from '@/domain/errors';
 import { catchErrorVerification } from '@/domain/errors/utils/catchErrorVerification';
 import { EventStatus } from '@/domain/models/CallEvent';
 import { CreateCallForAnotherPerson } from '@/domain/usecases/call';
@@ -18,7 +19,8 @@ export class RemoteCreateCallForAnotherPerson
     private readonly getVictimIdByPhoneRepository: CheckAccountPhoneNumberRepository,
     private readonly getUserByIdRepository: GetUserByIdRepository,
     private readonly createCallRepository: CreateCallRepository,
-    private readonly addCallEventRepository: AddCallEventRepository
+    private readonly addCallEventRepository: AddCallEventRepository,
+    private readonly verifyCallAlreadyOpenRepository: VerifyCallAlreadyOpenRepository
   ) {}
 
   async add(params: CreateCallForAnotherPerson.Params, creatorId: string) {
@@ -49,7 +51,15 @@ export class RemoteCreateCallForAnotherPerson
           payload.victimName = params.victim.fullName;
         }
       }
-
+      if (payload.userId) {
+        const isAlreadyOpenToUser =
+          await this.verifyCallAlreadyOpenRepository.hasCallOpen(
+            payload.userId
+          );
+        if (isAlreadyOpenToUser) {
+          throw new CallAlreadyOpenError();
+        }
+      }
       const call = await this.createCallRepository.create(payload);
       await this.addCallEventRepository.add({
         callId: call.id,

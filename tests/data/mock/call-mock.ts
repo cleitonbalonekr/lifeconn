@@ -5,7 +5,8 @@ import {
   AddCallEventRepository,
   CreateCallRepository,
   ListOpenCallsByUserRepository,
-  LoadContactsCallsRepository
+  LoadContactsCallsRepository,
+  VerifyCallAlreadyOpenRepository
 } from '@/data/protocols/call';
 import { TokenGenerator } from '@/data/protocols/hash/TokenGenerator';
 import { Call } from '@/domain/models/Call';
@@ -109,6 +110,20 @@ export class AddCallEventRepositorySpy implements AddCallEventRepository {
   async add(params: AddCallEventRepository.Params): Promise<CallEvent> {
     this.callCount += 1;
     this.params = params;
+    return this.response;
+  }
+}
+export class VerifyCallAlreadyOpenRepositorySpy
+  implements VerifyCallAlreadyOpenRepository
+{
+  public callCount = 0;
+
+  public params: AddCallEventRepository.Params | undefined;
+
+  public response = false;
+
+  async hasCallOpen(params: string): Promise<boolean> {
+    this.callCount += 1;
     return this.response;
   }
 }

@@ -21,6 +21,7 @@ export const makeRemoteCreateCallForAnotherPerson =
       firebaseAccountRepository,
       firebaseUserRepository,
       firebaseCallRepository,
-      firebaseCallEventRepository
+      firebaseCallEventRepository,
+      firebaseCallRepository
     );
   };

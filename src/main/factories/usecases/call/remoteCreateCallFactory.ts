@@ -13,6 +13,7 @@ export const makeRemoteCreateCall = (): CreateCall => {
 
   return new RemoteCreateCall(
     firebaseCallRepository,
+    firebaseCallRepository,
     nanoidTokenGenerator,
     firebaseCallEventRepository
   );

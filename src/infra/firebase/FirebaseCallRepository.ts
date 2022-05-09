@@ -5,6 +5,7 @@ import {
   DocumentData,
   getDoc,
   getDocs,
+  limit,
   orderBy,
   query,
   QueryDocumentSnapshot,
@@ -17,7 +18,8 @@ import { FirestoreInstance } from '@/configs/firebase';
 import {
   CreateCallRepository,
   ListOpenCallsByUserRepository,
-  LoadContactsCallsRepository
+  LoadContactsCallsRepository,
+  VerifyCallAlreadyOpenRepository
 } from '@/data/protocols/call';
 import { Call } from '@/domain/models/Call';
 
@@ -28,7 +30,8 @@ export class FirebaseCallRepository
   implements
     CreateCallRepository,
     ListOpenCallsByUserRepository,
-    LoadContactsCallsRepository
+    LoadContactsCallsRepository,
+    VerifyCallAlreadyOpenRepository
 {
   private callsCollection: CollectionReference;
 
@@ -37,6 +40,19 @@ export class FirebaseCallRepository
   constructor() {
     this.callsCollection = collection(FirestoreInstance, 'calls');
     this.firebaseUserUtils = new FirebaseUserUtils();
+  }
+
+  async hasCallOpen(
+    userId: VerifyCallAlreadyOpenRepository.Params
+  ): Promise<VerifyCallAlreadyOpenRepository.Result> {
+    const callQuery = query(
+      this.callsCollection,
+      where('userId', '==', userId),
+      where('open', '==', true),
+      limit(1)
+    );
+    const calls = await getDocs(callQuery);
+    return !calls.empty;
   }
 
   async listByUser(

@@ -123,4 +123,19 @@ describe('FirebaseCallRepository', () => {
       expect(call).toHaveLength(0);
     });
   });
+
+  describe('hasCallOpen', () => {
+    it('Should return true to no calls open by user', async () => {
+      const firebaseCallRepository = makeSut();
+      const userId = randomId();
+      const callData = {
+        ...makeFakeCallData(),
+        userId,
+        open: false
+      };
+      await makeCall(randomId(), callData);
+      const call = await firebaseCallRepository.hasCallOpen(userId);
+      expect(call).toBeFalsy();
+    });
+  });
 });

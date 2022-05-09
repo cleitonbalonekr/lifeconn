@@ -1,5 +1,9 @@
 import { RemoteCreateCallForAnotherPerson } from '@/data/usecases';
-import { UnexpectedError, UserNotFoundError } from '@/domain/errors';
+import {
+  CallAlreadyOpenError,
+  UnexpectedError,
+  UserNotFoundError
+} from '@/domain/errors';
 import { randomId, throwError } from '@/tests/shared/mocks';
 
 import { GetUserByIdRepositorySpy } from '../mock';
@@ -7,7 +11,8 @@ import {
   AddCallEventRepositorySpy,
   CreateCallRepositorySpy,
   makeLocation,
-  TokenGeneratorSpy
+  TokenGeneratorSpy,
+  VerifyCallAlreadyOpenRepositorySpy
 } from '../mock/call-mock';
 import {
   CheckAccountPhoneNumberRepositorySpy,
@@ -21,12 +26,15 @@ const makeSut = () => {
   const getUserByIdRepositorySpy = new GetUserByIdRepositorySpy();
   const createCallRepositorySpy = new CreateCallRepositorySpy();
   const addCallEventRepositorySpy = new AddCallEventRepositorySpy();
+  const verifyCallAlreadyOpenRepositorySpy =
+    new VerifyCallAlreadyOpenRepositorySpy();
   const remoteCreateCallForAnotherPerson = new RemoteCreateCallForAnotherPerson(
     tokenGeneratorSpy,
     checkAccountPhoneNumberRepositorySpy,
     getUserByIdRepositorySpy,
     createCallRepositorySpy,
-    addCallEventRepositorySpy
+    addCallEventRepositorySpy,
+    verifyCallAlreadyOpenRepositorySpy
   );
   return {
     remoteCreateCallForAnotherPerson,
@@ -34,7 +42,8 @@ const makeSut = () => {
     checkAccountPhoneNumberRepositorySpy,
     getUserByIdRepositorySpy,
     createCallRepositorySpy,
-    addCallEventRepositorySpy
+    addCallEventRepositorySpy,
+    verifyCallAlreadyOpenRepositorySpy
   };
 };
 
@@ -52,6 +61,31 @@ describe('RemoteCreateCallForAnotherPerson', () => {
       creatorId
     );
     await expect(promise).rejects.toThrow(new UnexpectedError());
+  });
+  it('it throw CallAlreadyOpenError if there is a open call to the user', async () => {
+    const {
+      remoteCreateCallForAnotherPerson,
+      verifyCallAlreadyOpenRepositorySpy,
+      checkAccountPhoneNumberRepositorySpy
+    } = makeSut();
+    const creatorId = randomId();
+    const victim = {
+      fullName: makeAddContactParams().nickname,
+      phoneNumber: makeAddContactParams().phoneNumber
+    };
+    verifyCallAlreadyOpenRepositorySpy.response = true;
+    checkAccountPhoneNumberRepositorySpy.response = {
+      phoneNumberInUse: true,
+      userId: randomId()
+    };
+    const promise = remoteCreateCallForAnotherPerson.add(
+      {
+        location: makeLocation(),
+        victim
+      },
+      creatorId
+    );
+    await expect(promise).rejects.toThrow(new CallAlreadyOpenError());
   });
   it('it throw UserNotFoundError if helper is not found', async () => {
     const { remoteCreateCallForAnotherPerson, getUserByIdRepositorySpy } =
