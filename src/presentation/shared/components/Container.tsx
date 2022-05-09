@@ -4,22 +4,29 @@ import { useTailwind } from 'tailwind-rn/dist';
 
 interface Props extends ViewProps {
   scroll?: boolean;
+  bgColor?: string;
 }
 
-const Container: React.FC<Props> = ({ children, scroll = false, ...rest }) => {
+const Container: React.FC<Props> = ({
+  children,
+  scroll = false,
+  bgColor,
+  ...rest
+}) => {
   const tailwind = useTailwind();
+  const backgroundColor = bgColor || 'bg-slate-100';
   return scroll ? (
-    <SafeAreaView style={tailwind('flex-1 bg-slate-100')}>
+    <SafeAreaView style={tailwind(`flex-1 ${backgroundColor}`)}>
       <ScrollView
-        style={tailwind('bg-slate-100')}
-        contentContainerStyle={tailwind('p-4 flex-grow  bg-slate-100')}
+        style={tailwind(`${backgroundColor}`)}
+        contentContainerStyle={tailwind(`p-4 flex-grow  ${backgroundColor}`)}
         {...rest}
       >
         {children}
       </ScrollView>
     </SafeAreaView>
   ) : (
-    <View style={tailwind('flex-1 p-4 bg-slate-100')} {...rest}>
+    <View style={tailwind(`flex-1 p-4 ${backgroundColor}`)} {...rest}>
       {children}
     </View>
   );

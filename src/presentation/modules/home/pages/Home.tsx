@@ -57,7 +57,6 @@ type Routes = 'Settings' | 'Notifications' | 'Donate' | 'Contacts' | 'Event';
 const Home: React.FC = () => {
   const tailwind = useTailwind();
   const navigation = useNavigation();
-  const { authUser } = useAuth();
   function handleNavigateTo(navigateTo: Routes) {
     navigation.navigate(navigateTo);
   }
@@ -66,15 +65,6 @@ const Home: React.FC = () => {
       fromHelpSomeoneElse: false
     });
   }
-
-  useEffect(() => {
-    (async () => {
-      await AsyncStorage.setItem(
-        '@userDataNotification',
-        `{"name":"${authUser.fullName}","phone":"${authUser.phoneNumber}"}`
-      );
-    })();
-  }, []);
 
   return (
     <Container>

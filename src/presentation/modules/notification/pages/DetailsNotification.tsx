@@ -3,7 +3,8 @@ import { useRoute } from '@react-navigation/native';
 import { format } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
 import * as Linking from 'expo-linking';
-import React from 'react';
+import * as Location from 'expo-location';
+import React, { useEffect, useState } from 'react';
 import { View, Text, FlatList } from 'react-native';
 import { useTailwind } from 'tailwind-rn';
 
@@ -21,6 +22,7 @@ const NO_LOCATION = 'Não informado';
 
 const DetailsNotification: React.FC = () => {
   const tailwind = useTailwind();
+  const [address, setAddress] = useState('');
   const { showError } = useFeedbackMessage();
   const route = useRoute();
   const { notification } = route.params as { notification: Call };
@@ -53,6 +55,25 @@ const DetailsNotification: React.FC = () => {
       locale: ptBR
     });
   }
+
+  async function getReverseLocation() {
+    if (address !== '') {
+      return;
+    }
+    if (!location) {
+      return;
+    }
+    const reverseLocation = await Location.reverseGeocodeAsync({
+      latitude: location.latitude,
+      longitude: location.longitude
+    });
+    const firstAddress = reverseLocation[0];
+    const formatAddress = `${firstAddress.street}, ${firstAddress.district} - ${firstAddress.subregion}`;
+    setAddress(formatAddress);
+  }
+  useEffect(() => {
+    getReverseLocation();
+  }, []);
 
   return (
     <Container scroll>
@@ -101,6 +122,7 @@ const DetailsNotification: React.FC = () => {
             />
           </View>
         </View>
+        <Input editable label="Endereço aproximado" value={address} />
       </View>
       <View style={tailwind('flex-1 py-4')}>
         <Text style={tailwind('text-lg font-ubuntu')}>Informações médicas</Text>

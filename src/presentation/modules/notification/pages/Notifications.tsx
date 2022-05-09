@@ -120,7 +120,11 @@ const Notifications: React.FC<Props> = ({ loadCalls }) => {
             onPress={() => handleNavigationToDetails(item)}
           >
             <Ionicons
-              name="alert-circle-outline"
+              name={
+                (item.userId as AuthUser).id === authUser.id
+                  ? 'person-circle-outline'
+                  : 'alert-circle-outline'
+              }
               style={tailwind('text-yellow-600')}
               size={32}
             />

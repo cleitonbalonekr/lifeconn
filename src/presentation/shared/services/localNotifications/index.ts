@@ -11,13 +11,12 @@ Notification.setNotificationHandler({
   }
 });
 
-const NotificationUserData = async () => {
-  const userData = await AsyncStorage.getItem('@userDataNotification');
+const NotificationUserData = async (fullName: string, phoneNumber: string) => {
   Notification.scheduleNotificationAsync({
     content: {
       title: 'Meus Dados - Lifeconn',
-      body: `#Nome: ${JSON.parse(String(userData)).name}
-      #Tel.: ${JSON.parse(String(userData)).phone}]`,
+      body: `#Nome: ${fullName}
+      #Tel.: ${phoneNumber}]`,
       priority: Notification.AndroidNotificationPriority.MAX,
       data: {
         route: 'Home'

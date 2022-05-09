@@ -127,6 +127,10 @@
   margin-bottom: 0.375rem
 }
 
+.mt-6 {
+  margin-top: 1.5rem
+}
+
 .flex {
   display: flex
 }
@@ -187,10 +191,6 @@
   width: 12rem
 }
 
-.w-24 {
-  width: 6rem
-}
-
 .w-40 {
   width: 10rem
 }
@@ -209,6 +209,10 @@
 
 .items-start {
   align-items: flex-start
+}
+
+.items-end {
+  align-items: flex-end
 }
 
 .items-center {
