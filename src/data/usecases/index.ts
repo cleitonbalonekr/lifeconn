@@ -5,3 +5,4 @@ export * from './account';
 export * from './RemoteLoadCallsBalance';
 export * from './notifications';
 export * from './call';
+export * from './message';
