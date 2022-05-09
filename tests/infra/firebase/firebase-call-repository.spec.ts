@@ -138,4 +138,51 @@ describe('FirebaseCallRepository', () => {
       expect(call).toBeFalsy();
     });
   });
+  describe('CloseCall', () => {
+    it('Should return false to a inexistent call', async () => {
+      const firebaseCallRepository = makeSut();
+      const userId = randomId();
+      const callId = randomId();
+      const callData = {
+        ...makeFakeCallData(),
+        userId,
+        open: false
+      };
+      await makeCall(randomId(), callData);
+      const call = await firebaseCallRepository.closeCall({ userId, callId });
+      expect(call).toBeFalsy();
+    });
+    it('Should return false to userId different form call', async () => {
+      const firebaseCallRepository = makeSut();
+      const userId = randomId();
+      const callId = randomId();
+      const callData = {
+        ...makeFakeCallData(),
+        userId,
+        open: false
+      };
+      await makeCall(callId, callData);
+      const call = await firebaseCallRepository.closeCall({
+        userId: randomId(),
+        callId
+      });
+      expect(call).toBeFalsy();
+    });
+    it('Should return true and close call', async () => {
+      const firebaseCallRepository = makeSut();
+      const userId = randomId();
+      const callId = randomId();
+      const callData = {
+        ...makeFakeCallData(),
+        userId,
+        open: true
+      };
+      await makeCall(callId, callData);
+      const call = await firebaseCallRepository.closeCall({
+        userId,
+        callId
+      });
+      expect(call).toBeTruthy();
+    });
+  });
 });

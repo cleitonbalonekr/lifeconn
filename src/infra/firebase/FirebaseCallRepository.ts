@@ -11,6 +11,7 @@ import {
   QueryDocumentSnapshot,
   setDoc,
   Timestamp,
+  updateDoc,
   where
 } from 'firebase/firestore';
 
@@ -19,7 +20,8 @@ import {
   CreateCallRepository,
   ListOpenCallsByUserRepository,
   LoadContactsCallsRepository,
-  VerifyCallAlreadyOpenRepository
+  VerifyCallAlreadyOpenRepository,
+  CloseCallRepository
 } from '@/data/protocols/call';
 import { Call } from '@/domain/models/Call';
 
@@ -31,7 +33,8 @@ export class FirebaseCallRepository
     CreateCallRepository,
     ListOpenCallsByUserRepository,
     LoadContactsCallsRepository,
-    VerifyCallAlreadyOpenRepository
+    VerifyCallAlreadyOpenRepository,
+    CloseCallRepository
 {
   private callsCollection: CollectionReference;
 
@@ -40,6 +43,24 @@ export class FirebaseCallRepository
   constructor() {
     this.callsCollection = collection(FirestoreInstance, 'calls');
     this.firebaseUserUtils = new FirebaseUserUtils();
+  }
+
+  async closeCall({
+    callId,
+    userId
+  }: CloseCallRepository.Params): Promise<boolean> {
+    const docRef = doc(this.callsCollection, callId);
+    const call = await getDoc(docRef);
+    if (!call.exists()) return false;
+    if (call.data()?.userId !== userId) {
+      return false;
+    }
+
+    await updateDoc(docRef, {
+      open: false
+    });
+
+    return true;
   }
 
   async hasCallOpen(
