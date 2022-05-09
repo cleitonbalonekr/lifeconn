@@ -1,5 +1,6 @@
 import { AuthUser } from './AuthUser';
 import { CallEvent } from './CallEvent';
+import { Message } from './Message';
 
 export interface Call {
   id: string;
@@ -16,6 +17,7 @@ export interface Call {
     fullName: string;
     phoneNumber: string;
   };
+  messages: Message[];
 }
 
 export type CallLocation = {
