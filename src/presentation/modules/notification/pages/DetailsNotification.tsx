@@ -1,29 +1,41 @@
 import { Ionicons } from '@expo/vector-icons';
-import { useRoute } from '@react-navigation/native';
+import { useNavigation, useRoute } from '@react-navigation/native';
 import { format } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
 import * as Linking from 'expo-linking';
 import * as Location from 'expo-location';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { View, Text, FlatList } from 'react-native';
 import { useTailwind } from 'tailwind-rn';
 
 import { AuthUser } from '@/domain/models';
 import { Call } from '@/domain/models/Call';
 import { EventStatus } from '@/domain/models/CallEvent';
+import { CloseCall } from '@/domain/usecases';
 import Container from '@/presentation/shared/components/Container';
 import Button from '@/presentation/shared/components/form/button';
 import Input from '@/presentation/shared/components/form/input';
+import LoadingOverlay, {
+  LoadingOverlayRefProps
+} from '@/presentation/shared/components/LoadingOverlay';
+import { useAuth } from '@/presentation/shared/context/auth';
 import useFeedbackMessage from '@/presentation/shared/hooks/useFeedbackMessage';
 
 import MedicalInfoElse from '../components/MedicalInfoElse';
 
 const NO_LOCATION = 'Não informado';
 
-const DetailsNotification: React.FC = () => {
+interface Props {
+  closeCall: CloseCall;
+}
+
+const DetailsNotification: React.FC<Props> = ({ closeCall }) => {
   const tailwind = useTailwind();
+  const navigation = useNavigation();
+  const { authUser } = useAuth();
   const [address, setAddress] = useState('');
-  const { showError } = useFeedbackMessage();
+  const loadingOverlayRef = useRef<LoadingOverlayRefProps>(null);
+  const { showError, showSuccess } = useFeedbackMessage();
   const route = useRoute();
   const { notification } = route.params as { notification: Call };
   const user = notification.userId as AuthUser;
@@ -37,9 +49,25 @@ const DetailsNotification: React.FC = () => {
       showError('Localização não informada.');
     }
   }
+  async function handleCloseCall() {
+    try {
+      loadingOverlayRef.current?.showLoading();
+      await closeCall.close({
+        userId: user.id,
+        callId: notification.id
+      });
+      showSuccess({ description: 'Chamado fechado com sucesso.' });
+      loadingOverlayRef.current?.hideLoading();
+      navigation.navigate('Home');
+    } catch (error: any) {
+      showError(error);
+    } finally {
+      loadingOverlayRef.current?.hideLoading();
+    }
+  }
   function getNotificationStatus() {
     switch (notification.lastEvent?.status) {
-      case EventStatus.AUTHOR_CANCELLED:
+      case EventStatus.AUTHOR_CREATED:
         return 'Criado pela vítima';
       case EventStatus.ORG_VIEWED:
         return 'Visualizado';
@@ -68,7 +96,13 @@ const DetailsNotification: React.FC = () => {
       longitude: location.longitude
     });
     const firstAddress = reverseLocation[0];
-    const formatAddress = `${firstAddress.street}, ${firstAddress.district} - ${firstAddress.subregion}`;
+
+    if (!firstAddress.street) {
+      return;
+    }
+    const formatAddress = `${firstAddress.street || ''}, ${
+      firstAddress.district || ''
+    } - ${firstAddress.city || firstAddress.subregion}`;
     setAddress(formatAddress);
   }
   useEffect(() => {
@@ -77,6 +111,7 @@ const DetailsNotification: React.FC = () => {
 
   return (
     <Container scroll>
+      <LoadingOverlay ref={loadingOverlayRef} />
       <View
         style={tailwind(
           'flex flex-row justify-between border-b border-gray-300 items-center py-4 '
@@ -91,7 +126,8 @@ const DetailsNotification: React.FC = () => {
         >
           {user.fullName}
         </Text>
-        <Text style={tailwind('text-center px-2 font-ubuntu')}>
+        <Text style={tailwind('text-center px-2 font-ubuntu-bold')}>
+          STATUS {'\n'}
           {getNotificationStatus()}
         </Text>
       </View>
@@ -150,14 +186,23 @@ const DetailsNotification: React.FC = () => {
           )}
         />
       </View>
-      <View style={tailwind('flex-1 justify-end')}>
-        <Button label="Traçar rota" type="primary" onPress={handleOpenMaps}>
-          <Ionicons
-            name="navigate-outline"
-            size={20}
-            style={tailwind('text-white')}
-          />
-        </Button>
+      <View style={tailwind('flex-1 flex-row justify-end mb-3')}>
+        <View style={tailwind('flex-1')}>
+          <Button label="Traçar rota" type="primary" onPress={handleOpenMaps}>
+            <Ionicons
+              name="navigate-outline"
+              size={20}
+              style={tailwind('text-white')}
+            />
+          </Button>
+        </View>
+        {authUser.id === user.id && (
+          <View style={tailwind('ml-1 w-2/5')}>
+            <Button label="Cancelar" type="danger" onPress={handleCloseCall}>
+              <Ionicons name="trash" size={20} style={tailwind('text-white')} />
+            </Button>
+          </View>
+        )}
       </View>
     </Container>
   );

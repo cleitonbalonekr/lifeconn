@@ -121,6 +121,11 @@
 			"marginLeft": 4
 		}
 	},
+	"mt-6": {
+		"style": {
+			"marginTop": 24
+		}
+	},
 	"mt-12": {
 		"style": {
 			"marginTop": 48
@@ -159,11 +164,6 @@
 	"mb-1.5": {
 		"style": {
 			"marginBottom": 6
-		}
-	},
-	"mt-6": {
-		"style": {
-			"marginTop": 24
 		}
 	},
 	"flex": {
@@ -244,6 +244,21 @@
 	"w-40": {
 		"style": {
 			"width": 160
+		}
+	},
+	"w-8": {
+		"style": {
+			"width": 32
+		}
+	},
+	"w-6": {
+		"style": {
+			"width": 24
+		}
+	},
+	"w-2/5": {
+		"style": {
+			"width": "40%"
 		}
 	},
 	"flex-1": {
