@@ -36,7 +36,8 @@ export const makeFakeCallData = () => {
     createdAt: new Date(),
     events: [lastCallEvent],
     lastEvent: lastCallEvent,
-    open: true
+    open: true,
+    messages: []
   };
 };
 
