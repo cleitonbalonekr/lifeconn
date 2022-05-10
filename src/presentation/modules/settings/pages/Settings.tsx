@@ -1,8 +1,8 @@
-import { Ionicons } from '@expo/vector-icons';
+import { Ionicons, FontAwesome5 } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import * as Linking from 'expo-linking';
 import React, { useState } from 'react';
-import { Switch, Text, View } from 'react-native';
+import { Switch, Text, TouchableOpacity, View } from 'react-native';
 import { useTailwind } from 'tailwind-rn/dist';
 
 import { LogoutUser, UpdateUserInfo } from '@/domain/usecases';
@@ -143,55 +143,58 @@ const Settings: React.FC<Props> = ({
           onChangeText={totalVoiceToken.set}
           error={totalVoiceToken.error}
         />
-        <ButtonOutline
-          label="Plataforma TotalVoice"
-          type="warning"
-          onPress={handleOpenTotalVoice}
-        >
-          <Ionicons name="link" size={20} style={tailwind('text-yellow-600')} />
-        </ButtonOutline>
-        <View style={tailwind('mt-2')}>
-          <ButtonOutline
-            label="Informações médicas"
-            type="primary"
-            onPress={handleNavigateToMedicalInfo}
-          >
-            <Ionicons
-              name="heart-outline"
-              size={20}
-              style={tailwind('text-blue-600')}
-            />
-          </ButtonOutline>
-        </View>
-        <View
-          style={tailwind('flex-1 flex-row justify-start items-center mb-2')}
-        >
-          <Switch
-            value={activeByAccelerometer.value}
-            onValueChange={activeByAccelerometer.set}
-            style={tailwind(' mr-2')}
-          />
-          <Text style={tailwind('text-lg font-ubuntu')}>
-            Ativação por impacto
-          </Text>
-        </View>
-        {activeByAccelerometer.value ? (
-          <View style={tailwind('mb-2')}>
+        <View style={tailwind('flex-row justify-between my-3')}>
+          <View style={tailwind('flex-1 mr-1')}>
             <ButtonOutline
-              label="Avançado"
-              type="success"
-              onPress={handleNavigateToAdvanced}
+              label="Plataforma TotalVoice"
+              type="warning"
+              onPress={handleOpenTotalVoice}
             >
               <Ionicons
-                name="ellipsis-vertical"
+                name="link"
                 size={20}
-                style={tailwind('text-green-600')}
+                style={tailwind('text-yellow-600')}
               />
             </ButtonOutline>
           </View>
-        ) : (
-          <></>
-        )}
+          <View style={tailwind('flex-1 ml-1')}>
+            <ButtonOutline
+              label="Informações médicas"
+              type="primary"
+              onPress={handleNavigateToMedicalInfo}
+            >
+              <Ionicons
+                name="heart-outline"
+                size={20}
+                style={tailwind('text-blue-600')}
+              />
+            </ButtonOutline>
+          </View>
+        </View>
+        <View
+          style={tailwind('flex-1 flex-row justify-between items-center my-3')}
+        >
+          <View style={tailwind('flex-1 flex-row')}>
+            <Switch
+              value={activeByAccelerometer.value}
+              onValueChange={activeByAccelerometer.set}
+              style={tailwind(' mr-2')}
+            />
+            <Text style={tailwind('text-lg font-ubuntu')}>
+              Ativação por impacto
+            </Text>
+          </View>
+          {activeByAccelerometer.value && (
+            <TouchableOpacity
+              style={tailwind('items-center')}
+              onPress={handleNavigateToAdvanced}
+            >
+              <FontAwesome5 name="cog" size={20} />
+              <Text style={tailwind('text-sm font-ubuntu')}>Avançado</Text>
+            </TouchableOpacity>
+          )}
+        </View>
+
         <Button label="Salvar" onPress={updateUserData} loading={loading}>
           <Ionicons
             name="save-outline"
