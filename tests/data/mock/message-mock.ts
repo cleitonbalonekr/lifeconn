@@ -3,7 +3,8 @@ import faker from '@faker-js/faker';
 
 import {
   CreateMessageRepository,
-  LoadCallMessageRepository
+  LoadCallMessageRepository,
+  ListenMessagesRepository
 } from '@/data/protocols/message';
 import { randomId } from '@/tests/shared/mocks';
 
@@ -35,6 +36,18 @@ export class LoadCallMessageRepositorySpy implements LoadCallMessageRepository {
   async loadMessages(
     callId: string
   ): Promise<LoadCallMessageRepository.Result> {
+    this.callCount += 1;
+    return this.response;
+  }
+}
+export class ListenMessagesRepositorySpy implements ListenMessagesRepository {
+  public callCount = 0;
+
+  public response: ListenMessagesRepository.Result = () => {};
+
+  subscribe(
+    callId: ListenMessagesRepository.Params
+  ): ListenMessagesRepository.Result {
     this.callCount += 1;
     return this.response;
   }
