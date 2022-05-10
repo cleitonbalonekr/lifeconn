@@ -57,7 +57,9 @@ export type AppStackParamList = {
   CreateEvent: {
     token: string;
   };
-  Chat: undefined;
+  Chat: {
+    callId: string;
+  };
 };
 
 declare global {

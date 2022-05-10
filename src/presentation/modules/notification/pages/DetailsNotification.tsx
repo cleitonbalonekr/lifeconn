@@ -4,7 +4,7 @@ import { format } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
 import * as Linking from 'expo-linking';
 import * as Location from 'expo-location';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { View, Text, FlatList } from 'react-native';
 import { useTailwind } from 'tailwind-rn';
 
@@ -51,7 +51,9 @@ const DetailsNotification: React.FC<Props> = ({ closeCall }) => {
     }
   }
   function handleChat() {
-    navigation.navigate('Chat');
+    navigation.navigate('Chat', {
+      callId: notification.id
+    });
   }
   async function handleCloseCall() {
     try {
@@ -113,6 +115,10 @@ const DetailsNotification: React.FC<Props> = ({ closeCall }) => {
     getReverseLocation();
   }, []);
 
+  const owner = useMemo(() => {
+    return authUser.id === user.id;
+  }, [authUser, user]);
+
   return (
     <Container scroll>
       <LoadingOverlay ref={loadingOverlayRef} />
@@ -163,13 +169,15 @@ const DetailsNotification: React.FC<Props> = ({ closeCall }) => {
           </View>
         </View>
         <Input editable label="Endereço aproximado" value={address} />
-        <ButtonOutline label="Mensagens" type="warning" onPress={handleChat}>
-          <Ionicons
-            name="chatbubbles"
-            size={20}
-            style={tailwind('text-yellow-600')}
-          />
-        </ButtonOutline>
+        {owner && (
+          <ButtonOutline label="Mensagens" type="warning" onPress={handleChat}>
+            <Ionicons
+              name="chatbubbles"
+              size={20}
+              style={tailwind('text-yellow-600')}
+            />
+          </ButtonOutline>
+        )}
       </View>
       <View style={tailwind('flex-1 py-4')}>
         <Text style={tailwind('text-lg font-ubuntu')}>Informações médicas</Text>
@@ -207,7 +215,7 @@ const DetailsNotification: React.FC<Props> = ({ closeCall }) => {
             />
           </Button>
         </View>
-        {authUser.id === user.id && (
+        {owner && (
           <View style={tailwind('ml-1 w-2/5')}>
             <Button label="Cancelar" type="danger" onPress={handleCloseCall}>
               <Ionicons name="trash" size={20} style={tailwind('text-white')} />

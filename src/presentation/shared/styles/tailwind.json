@@ -283,6 +283,11 @@
 			"flexGrow": 1
 		}
 	},
+	"flex-grow-0": {
+		"style": {
+			"flexGrow": 0
+		}
+	},
 	"flex-row": {
 		"style": {
 			"flexDirection": "row"

@@ -7,7 +7,7 @@ export class RemoteSubscribeToMessages implements SubscribeToMessages {
     private readonly listenMessagesRepository: ListenMessagesRepository
   ) {}
 
-  async subscribe(params: SubscribeToMessages.Params) {
+  subscribe(params: SubscribeToMessages.Params) {
     try {
       const unsubscribe = this.listenMessagesRepository.subscribe(params);
       return unsubscribe;

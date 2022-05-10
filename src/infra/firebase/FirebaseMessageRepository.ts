@@ -47,7 +47,8 @@ export class FirebaseMessageRepository
       (snapshot) => {
         const messages = snapshot.docs.map((document) => ({
           id: document.id,
-          ...document.data()
+          ...document.data(),
+          createdAt: (document.data().createdAt as Timestamp).toDate()
         })) as Message[];
         successCallback(messages);
       },
@@ -70,7 +71,8 @@ export class FirebaseMessageRepository
 
     const formatMessages = messages.docs.map((message) => ({
       id: message.id,
-      ...message.data()
+      ...message.data(),
+      createdAt: (message.data().createdAt as Timestamp).toDate()
     }));
 
     return formatMessages as Message[];

@@ -1,9 +1,7 @@
 import { Message } from '@/domain/models';
 
 export interface SubscribeToMessages {
-  subscribe: (
-    params: SubscribeToMessages.Params
-  ) => Promise<SubscribeToMessages.Model>;
+  subscribe: (params: SubscribeToMessages.Params) => SubscribeToMessages.Model;
 }
 
 export namespace SubscribeToMessages {
