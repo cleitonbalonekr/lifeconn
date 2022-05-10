@@ -175,19 +175,23 @@ const Settings: React.FC<Props> = ({
             Ativação por impacto
           </Text>
         </View>
-        <View style={tailwind('mb-2')}>
-          <ButtonOutline
-            label="Avançado"
-            type="success"
-            onPress={handleNavigateToAdvanced}
-          >
-            <Ionicons
-              name="ellipsis-vertical"
-              size={20}
-              style={tailwind('text-green-600')}
-            />
-          </ButtonOutline>
-        </View>
+        {activeByAccelerometer.value ? (
+          <View style={tailwind('mb-2')}>
+            <ButtonOutline
+              label="Avançado"
+              type="success"
+              onPress={handleNavigateToAdvanced}
+            >
+              <Ionicons
+                name="ellipsis-vertical"
+                size={20}
+                style={tailwind('text-green-600')}
+              />
+            </ButtonOutline>
+          </View>
+        ) : (
+          <></>
+        )}
         <Button label="Salvar" onPress={updateUserData} loading={loading}>
           <Ionicons
             name="save-outline"
