@@ -14,6 +14,7 @@ import { EventStatus } from '@/domain/models/CallEvent';
 import { CloseCall } from '@/domain/usecases';
 import Container from '@/presentation/shared/components/Container';
 import Button from '@/presentation/shared/components/form/button';
+import ButtonOutline from '@/presentation/shared/components/form/buttonOutline';
 import Input from '@/presentation/shared/components/form/input';
 import LoadingOverlay, {
   LoadingOverlayRefProps
@@ -48,6 +49,9 @@ const DetailsNotification: React.FC<Props> = ({ closeCall }) => {
     } else {
       showError('Localização não informada.');
     }
+  }
+  function handleChat() {
+    navigation.navigate('Chat');
   }
   async function handleCloseCall() {
     try {
@@ -159,6 +163,13 @@ const DetailsNotification: React.FC<Props> = ({ closeCall }) => {
           </View>
         </View>
         <Input editable label="Endereço aproximado" value={address} />
+        <ButtonOutline label="Mensagens" type="warning" onPress={handleChat}>
+          <Ionicons
+            name="chatbubbles"
+            size={20}
+            style={tailwind('text-yellow-600')}
+          />
+        </ButtonOutline>
       </View>
       <View style={tailwind('flex-1 py-4')}>
         <Text style={tailwind('text-lg font-ubuntu')}>Informações médicas</Text>
