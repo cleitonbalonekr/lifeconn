@@ -1,13 +1,11 @@
 /* eslint-disable react/jsx-curly-newline */
 import { FontAwesome5 } from '@expo/vector-icons';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation } from '@react-navigation/native';
-import React, { useEffect } from 'react';
+import React from 'react';
 import { FlatList, Text, TouchableOpacity, View } from 'react-native';
 import { useTailwind } from 'tailwind-rn';
 
 import Container from '@/presentation/shared/components/Container';
-import { useAuth } from '@/presentation/shared/context/auth';
 
 import Header from '../components/Header';
 import HelpButton from '../components/HelpButton';
@@ -21,9 +19,10 @@ const OPTIONS_LIST = [
   },
   {
     id: '2',
-    icon: 'comments',
-    label: 'Mensagem',
-    navigateTo: 'Chat'
+    icon: '',
+    label: '',
+    navigateTo: '',
+    hidden: true
   },
   {
     id: '3',
@@ -51,13 +50,7 @@ const OPTIONS_LIST = [
   }
 ];
 
-type Routes =
-  | 'Settings'
-  | 'Notifications'
-  | 'Donate'
-  | 'Contacts'
-  | 'Event'
-  | 'Chat';
+type Routes = 'Settings' | 'Notifications' | 'Donate' | 'Contacts' | 'Event';
 
 const Home: React.FC = () => {
   const tailwind = useTailwind();
@@ -89,7 +82,9 @@ const Home: React.FC = () => {
               style={tailwind(
                 'px-2 py-3 mx-2 w-28 items-center justify-center'
               )}
-              onPress={() => handleNavigateTo(item.navigateTo as Routes)}
+              onPress={() =>
+                !item.hidden ? handleNavigateTo(item.navigateTo as Routes) : {}
+              }
             >
               <FontAwesome5
                 name={item.icon}

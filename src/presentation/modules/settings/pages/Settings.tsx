@@ -143,8 +143,8 @@ const Settings: React.FC<Props> = ({
           onChangeText={totalVoiceToken.set}
           error={totalVoiceToken.error}
         />
-        <View style={tailwind('flex-row justify-between my-3')}>
-          <View style={tailwind('flex-1 mr-1')}>
+        <View style={tailwind('my-3')}>
+          <View style={tailwind('flex-1 mb-1')}>
             <ButtonOutline
               label="Plataforma TotalVoice"
               type="warning"
@@ -157,7 +157,7 @@ const Settings: React.FC<Props> = ({
               />
             </ButtonOutline>
           </View>
-          <View style={tailwind('flex-1 ml-1')}>
+          <View style={tailwind('flex-1 mt-1')}>
             <ButtonOutline
               label="Informações médicas"
               type="primary"
@@ -174,7 +174,7 @@ const Settings: React.FC<Props> = ({
         <View
           style={tailwind('flex-1 flex-row justify-between items-center my-3')}
         >
-          <View style={tailwind('flex-1 flex-row')}>
+          <View style={tailwind('flex-1 flex-row items-center')}>
             <Switch
               value={activeByAccelerometer.value}
               onValueChange={activeByAccelerometer.set}
