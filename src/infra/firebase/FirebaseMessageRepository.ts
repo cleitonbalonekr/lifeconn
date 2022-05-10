@@ -5,6 +5,7 @@ import {
   getDoc,
   getDocs,
   onSnapshot,
+  orderBy,
   query,
   setDoc,
   Timestamp
@@ -42,7 +43,7 @@ export class FirebaseMessageRepository
       'messages'
     );
     const unsubscribe = onSnapshot(
-      messageCollection,
+      query(messageCollection, orderBy('createdAt', 'desc')),
       (snapshot) => {
         const messages = snapshot.docs.map((document) => ({
           id: document.id,
@@ -63,7 +64,9 @@ export class FirebaseMessageRepository
       callId,
       'messages'
     );
-    const messages = await getDocs(query(messageCollection));
+    const messages = await getDocs(
+      query(messageCollection, orderBy('createdAt', 'desc'))
+    );
 
     const formatMessages = messages.docs.map((message) => ({
       id: message.id,
