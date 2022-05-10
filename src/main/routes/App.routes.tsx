@@ -24,7 +24,8 @@ import {
 import {
   MakeSettings,
   MakeMedicalInfo,
-  MakeMonitorImpact
+  MakeMonitorImpact,
+  MakeAdvanced
 } from '@/main/factories/pages/settings';
 
 export type AppStackParamList = {
@@ -32,6 +33,7 @@ export type AppStackParamList = {
   HelpSomeoneElse: undefined;
   Term: undefined;
   Settings: undefined;
+  Advanced: undefined;
   MedicalInfo: undefined;
   MonitorImpact: undefined;
   Notifications: undefined;
@@ -101,6 +103,14 @@ export function AppRoutes() {
         }}
         name="Settings"
         component={MakeSettings}
+      />
+      <Stack.Screen
+        options={{
+          headerShown: true,
+          title: 'Avançado'
+        }}
+        name="Advanced"
+        component={MakeAdvanced}
       />
       <Stack.Screen
         options={{

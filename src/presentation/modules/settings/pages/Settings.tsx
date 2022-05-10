@@ -99,6 +99,9 @@ const Settings: React.FC<Props> = ({
   function handleNavigateToMedicalInfo() {
     navigation.navigate('MedicalInfo');
   }
+  function handleNavigateToAdvanced() {
+    navigation.navigate('Advanced');
+  }
   function handleLogoutUser() {
     logoutUser.signOut();
     signOut();
@@ -171,6 +174,19 @@ const Settings: React.FC<Props> = ({
           <Text style={tailwind('text-lg font-ubuntu')}>
             Ativação por impacto
           </Text>
+        </View>
+        <View style={tailwind('mb-2')}>
+          <ButtonOutline
+            label="Avançado"
+            type="success"
+            onPress={handleNavigateToAdvanced}
+          >
+            <Ionicons
+              name="ellipsis-vertical"
+              size={20}
+              style={tailwind('text-green-600')}
+            />
+          </ButtonOutline>
         </View>
         <Button label="Salvar" onPress={updateUserData} loading={loading}>
           <Ionicons

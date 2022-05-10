@@ -1,4 +1,5 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { format } from 'date-fns';
 import * as BackgroundFetch from 'expo-background-fetch';
 import * as Location from 'expo-location';
 import * as TaskManager from 'expo-task-manager';
@@ -29,9 +30,10 @@ const SubscribeToBackgroundServices: React.FC = () => {
     const activeAccelerometer = await AsyncStorage.getItem(
       '@activeAccelerometer'
     );
-    console.log(activeAccelerometer);
     if (activeAccelerometer === 'true') {
-      const LIMIT_SPEED = 0;
+      const LIMIT_SPEED = await AsyncStorage.getItem('@speedAccelerometer');
+
+      await AsyncStorage.setItem('@logBackgroundRun', 'Em execução');
 
       TaskManager.defineTask(TASK_NAME, async () => {
         const location = await Location.getCurrentPositionAsync({
@@ -58,7 +60,24 @@ const SubscribeToBackgroundServices: React.FC = () => {
               new Date(Number(JSON.parse(didTimer).timestamp)).getMinutes() -
               new Date(location.timestamp).getMinutes();
 
-            if ((meter / intervalTimer / 1000) * 60 >= LIMIT_SPEED) {
+            await AsyncStorage.setItem(
+              '@logBackgroundTask',
+              `Em execução - ${format(new Date(), 'dd/MM/yyyy HH:mm:ss')}`
+            );
+
+            await AsyncStorage.setItem(
+              '@logBackgroundSpeed',
+              `Em execução:
+              ${(meter / intervalTimer / 1000) * 60} Km/h - ${format(
+                new Date(),
+                'dd/MM/yyyy HH:mm:ss'
+              )}`
+            );
+
+            if (
+              (meter / intervalTimer / 1000) * 60 >=
+              (LIMIT_SPEED ? Number(LIMIT_SPEED) : 50)
+            ) {
               Notification.NotificationSpeedLimit();
               Notification.NotificationUserData(
                 authUser.fullName || authUser.email,
@@ -83,6 +102,9 @@ const SubscribeToBackgroundServices: React.FC = () => {
   }, []);
 
   const runBackgroundService = useCallback(async () => {
+    await AsyncStorage.setItem('@logBackgroundRun', 'Parado');
+    await AsyncStorage.setItem('@logBackgroundTask', 'Nenhuma');
+    await AsyncStorage.setItem('@logBackgroundSpeed', 'Nenhuma');
     await subscribeToBackgroundService();
     await runService();
   }, [subscribeToBackgroundService, runService]);
