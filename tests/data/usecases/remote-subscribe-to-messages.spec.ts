@@ -28,18 +28,18 @@ describe('RemoteLoadCallMessage', () => {
       errorCallback: jest.fn()
     };
 
-    const promise = remoteLoadCalls.subscribe(params);
+    const subscribe = () => remoteLoadCalls.subscribe(params);
 
-    await expect(promise).rejects.toThrow(new UnexpectedError());
+    expect(subscribe).toThrow(new UnexpectedError());
   });
-  it('Should call listenMessagesRepositorySpy and return an array of Message ', async () => {
+  it('Should call listenMessagesRepositorySpy and return an array of Message ', () => {
     const { remoteLoadCalls, listenMessagesRepositorySpy } = makeSut();
     const params = {
       callId: randomId(),
       successCallback: jest.fn(),
       errorCallback: jest.fn()
     };
-    await remoteLoadCalls.subscribe(params);
+    remoteLoadCalls.subscribe(params);
     expect(listenMessagesRepositorySpy.callCount).toBe(1);
   });
 });
