@@ -195,14 +195,6 @@
   width: 10rem
 }
 
-.w-8 {
-  width: 2rem
-}
-
-.w-6 {
-  width: 1.5rem
-}
-
 .w-2\/5 {
   width: 40%
 }
@@ -554,6 +546,16 @@
 .text-blue-500 {
   --tw-text-opacity: 1;
   color: rgb(59 130 246 / var(--tw-text-opacity))
+}
+
+.text-lime-400 {
+  --tw-text-opacity: 1;
+  color: rgb(163 230 53 / var(--tw-text-opacity))
+}
+
+.text-green-400 {
+  --tw-text-opacity: 1;
+  color: rgb(74 222 128 / var(--tw-text-opacity))
 }
 
 .text-opacity-80 {

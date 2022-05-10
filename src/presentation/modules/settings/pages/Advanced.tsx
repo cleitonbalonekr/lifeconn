@@ -1,3 +1,4 @@
+import { Ionicons } from '@expo/vector-icons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import React, { useState, useEffect } from 'react';
 import { Text, View } from 'react-native';
@@ -42,34 +43,59 @@ const Advanced: React.FC = () => {
   return (
     <Container scroll>
       <View style={tailwind('flex-1')}>
-        <Text style={tailwind('text-lg font-bold')}>
-          Velocidade de monitoramento: {speed} Km/h
-        </Text>
-        <Range
-          maximumValue={400}
-          minimumValue={0}
-          step={5}
-          onValueChange={(e) => {
-            setSpeed(e);
-          }}
-        />
-        <Text style={tailwind('text-lg font-bold mt-2 mb-2')}>
-          Log de execução background
-        </Text>
-        <Text style={tailwind('text-sm')}>{`Execução - ${logBackground}`}</Text>
-        <Text style={tailwind('text-sm')}>{`Última tarefa: ${logTask}`}</Text>
-        <Text style={tailwind('text-lg font-bold mt-2 mb-2')}>
-          Log de execução velocidade
-        </Text>
-        <Text style={tailwind('text-sm')}>
-          {`Útilma execução - ${logSpeed}`}
-        </Text>
-        <Text style={tailwind('text-lg font-bold mt-2 mb-2')}>
-          Log de execução acelerômetro
-        </Text>
-        <Text style={tailwind('text-sm')}>
-          {`Útilma execução - ${logAccelerometer}`}
-        </Text>
+        <View style={tailwind('bg-slate-300 p-2 rounded-md')}>
+          <Text style={tailwind('text-lg font-bold')}>
+            Velocidade de monitoramento: {speed} Km/h
+          </Text>
+          <Range
+            maximumValue={400}
+            minimumValue={0}
+            step={5}
+            value={speed}
+            onValueChange={(e) => {
+              setSpeed(e);
+            }}
+          />
+          <Text style={tailwind('text-sm text-blue-600')}>
+            <Ionicons name="ios-car" size={20} />- Sugestão de 50km/h para
+            carros
+          </Text>
+          <Text style={tailwind('text-sm text-blue-600')}>
+            <Ionicons name="ios-bicycle" size={20} />- Sugestão de 30km/h para
+            motos
+          </Text>
+          <Text style={tailwind('text-sm text-blue-600')}>
+            <Ionicons name="ios-walk" size={20} />- Sugestão de 10km/h para
+            pedestres
+          </Text>
+        </View>
+        <View style={tailwind('bg-slate-300 p-2 mt-2 rounded-md')}>
+          <Text style={tailwind('text-lg font-bold mt-2 mb-2')}>
+            Log de execução - background
+          </Text>
+          <Text style={tailwind('text-sm text-green-600')}>
+            {`Execução - ${logBackground}`}
+          </Text>
+          <Text style={tailwind('text-sm text-green-600')}>
+            {`Última tarefa: ${logTask}`}
+          </Text>
+        </View>
+        <View style={tailwind('bg-slate-300 p-2 mt-2 rounded-md')}>
+          <Text style={tailwind('text-lg font-bold mt-2 mb-2')}>
+            Log de execução - velocidade
+          </Text>
+          <Text style={tailwind('text-sm text-green-600')}>
+            {`Útilma execução - ${logSpeed}`}
+          </Text>
+        </View>
+        <View style={tailwind('bg-slate-300 p-2 mt-2 rounded-md')}>
+          <Text style={tailwind('text-lg font-bold mt-2 mb-2')}>
+            Log de execução - acelerômetro
+          </Text>
+          <Text style={tailwind('text-sm text-green-600')}>
+            {`Útilma execução - ${logAccelerometer}`}
+          </Text>
+        </View>
       </View>
     </Container>
   );
