@@ -6,7 +6,7 @@ export interface Call {
   id: string;
   userId: string | AuthUser | null;
   token: string;
-  location: CallLocation;
+  location: Call.Location;
   createdAt: Date;
   events: CallEvent[];
   lastEvent: CallEvent;
@@ -18,9 +18,12 @@ export interface Call {
     phoneNumber: string;
   };
   messages: Message[];
+  photos: string[];
 }
 
-export type CallLocation = {
-  latitude: number;
-  longitude: number;
-};
+export namespace Call {
+  export type Location = {
+    latitude: number;
+    longitude: number;
+  };
+}

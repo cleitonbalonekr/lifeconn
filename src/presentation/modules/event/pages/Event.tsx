@@ -7,7 +7,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { Text, View } from 'react-native';
 import { useTailwind } from 'tailwind-rn/dist';
 
-import { CallLocation } from '@/domain/models/Call';
+import { Call } from '@/domain/models/Call';
 import {
   CreateCall,
   CreateCallForAnotherPerson,
@@ -47,7 +47,7 @@ const Event: React.FC<Props> = ({
     useRef<ConfirmNoLocationModalRefProps>(null);
   const { showError, showWaiting, hide } = useFeedbackMessage();
   const [muteSpeech, setMuteSpeech] = useState(true);
-  const [location, setLocation] = useState<CallLocation | null>(null);
+  const [location, setLocation] = useState<Call.Location | null>(null);
   const tailwind = useTailwind();
   const navigation = useNavigation();
 

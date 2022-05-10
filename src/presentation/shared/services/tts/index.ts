@@ -2,7 +2,7 @@
 import * as Speech from 'expo-speech';
 
 import { CALLS_BALANCE_TOKEN } from '@/configs/index';
-import { CallLocation } from '@/domain/models/Call';
+import { Call } from '@/domain/models/Call';
 import {
   phoneTextTTS,
   codeTextTTS
@@ -14,7 +14,7 @@ interface Props {
   name: string;
   phone: string;
   token: string;
-  location: CallLocation;
+  location: Call.Location;
   totalVoiceToken?: string;
 }
 

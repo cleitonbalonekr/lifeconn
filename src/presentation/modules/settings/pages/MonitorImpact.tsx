@@ -7,7 +7,7 @@ import React, { useEffect, useState } from 'react';
 import { Text, Image } from 'react-native';
 import { useTailwind } from 'tailwind-rn/dist';
 
-import { CallLocation } from '@/domain/models/Call';
+import { Call } from '@/domain/models/Call';
 import { CreateCall, SendContactsNotification } from '@/domain/usecases';
 import liliImg from '@/presentation/shared/assets/lili.gif';
 import Container from '@/presentation/shared/components/Container';
@@ -33,7 +33,7 @@ const MonitorImpact: React.FC<Props> = ({
   );
   const tailwind = useTailwind();
   const navigation = useNavigation();
-  const [location, setLocation] = useState<CallLocation | null>(null);
+  const [location, setLocation] = useState<Call.Location | null>(null);
 
   Accelerometer.register(setStatusAccelerometer);
 
@@ -47,7 +47,7 @@ const MonitorImpact: React.FC<Props> = ({
     let token: string;
     token = await createCall.add({
       userId: authUser.id,
-      location: location as CallLocation
+      location: location as Call.Location
     });
     await sendContactsNotification.notifyContacts(authUser.id);
 
@@ -56,7 +56,7 @@ const MonitorImpact: React.FC<Props> = ({
         name: authUser.fullName ? authUser.fullName : authUser.email,
         phone: authUser.phoneNumber,
         token,
-        location: location as CallLocation,
+        location: location as Call.Location,
         totalVoiceToken: authUser.totalVoiceToken
       });
   }
