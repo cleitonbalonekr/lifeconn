@@ -21,10 +21,9 @@ const OPTIONS_LIST = [
   },
   {
     id: '2',
-    icon: '',
-    label: '',
-    navigateTo: '',
-    hidden: true
+    icon: 'comments',
+    label: 'Messagem',
+    navigateTo: 'Chat'
   },
   {
     id: '3',
@@ -52,7 +51,13 @@ const OPTIONS_LIST = [
   }
 ];
 
-type Routes = 'Settings' | 'Notifications' | 'Donate' | 'Contacts' | 'Event';
+type Routes =
+  | 'Settings'
+  | 'Notifications'
+  | 'Donate'
+  | 'Contacts'
+  | 'Event'
+  | 'Chat';
 
 const Home: React.FC = () => {
   const tailwind = useTailwind();
@@ -84,9 +89,7 @@ const Home: React.FC = () => {
               style={tailwind(
                 'px-2 py-3 mx-2 w-28 items-center justify-center'
               )}
-              onPress={() =>
-                !item.hidden ? handleNavigateTo(item.navigateTo as Routes) : {}
-              }
+              onPress={() => handleNavigateTo(item.navigateTo as Routes)}
             >
               <FontAwesome5
                 name={item.icon}

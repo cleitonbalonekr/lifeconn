@@ -4,6 +4,7 @@ import React from 'react';
 import { useTailwind } from 'tailwind-rn/dist';
 
 import { Call } from '@/domain/models/Call';
+import { MakeChat } from '@/main/factories/pages/chat';
 import {
   MakeContacts,
   MakeCreateContacts,
@@ -56,6 +57,7 @@ export type AppStackParamList = {
   CreateEvent: {
     token: string;
   };
+  Chat: undefined;
 };
 
 declare global {
@@ -198,6 +200,14 @@ export function AppRoutes() {
         }}
         name="CreateEvent"
         component={MakeCreateEvent}
+      />
+      <Stack.Screen
+        options={{
+          headerShown: true,
+          title: 'Messagens'
+        }}
+        name="Chat"
+        component={MakeChat}
       />
     </Stack.Navigator>
   );
