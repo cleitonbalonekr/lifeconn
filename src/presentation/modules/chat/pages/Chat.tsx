@@ -21,6 +21,10 @@ import { useAuth } from '@/presentation/shared/context/auth';
 import useFeedbackMessage from '@/presentation/shared/hooks/useFeedbackMessage';
 import useInputState from '@/presentation/shared/hooks/useInputState';
 
+import MediaAttach, {
+  MediaAttachModalRefProps
+} from '../components/MediaAttach';
+
 interface Props {
   sendMessage: CreateMessage;
   subscribeToMessages: SubscribeToMessages;
@@ -41,6 +45,7 @@ const Chat: React.FC<Props> = ({
   const { callId } = route.params as { callId: string };
   const [messages, setMessages] = useState<Message[]>([]);
   const loadingOverlayRef = useRef<LoadingOverlayRefProps>(null);
+  const mediaAttachRef = useRef<MediaAttachModalRefProps>(null);
   const { showError } = useFeedbackMessage();
 
   async function loadInitialMessages() {
@@ -69,6 +74,10 @@ const Chat: React.FC<Props> = ({
     }
   }
 
+  function handleOpenMediaOption() {
+    mediaAttachRef.current?.handleToggleModal();
+  }
+
   const formatDate = (date: Date) => {
     return format(date, 'dd/MM/yyyy HH:mm');
   };
@@ -92,6 +101,11 @@ const Chat: React.FC<Props> = ({
 
   return (
     <Container>
+      <MediaAttach
+        sendMessage={sendMessage}
+        callId={callId}
+        ref={mediaAttachRef}
+      />
       <LoadingOverlay ref={loadingOverlayRef} />
       <View style={tailwind('flex-1')}>
         <Text style={tailwind('font-bold mb-12 italic')}>
@@ -133,6 +147,12 @@ const Chat: React.FC<Props> = ({
             onChangeText={messageContent.set}
           />
         </View>
+        <Ionicons
+          name="attach-outline"
+          size={36}
+          style={tailwind('text-black')}
+          onPress={handleOpenMediaOption}
+        />
         <View style={tailwind('items-center justify-center ml-1 ')}>
           <Button onPress={handleSendMessage}>
             <Ionicons name="send" size={20} style={tailwind('text-white')} />
