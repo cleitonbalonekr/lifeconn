@@ -204,7 +204,7 @@ export function AppRoutes() {
       <Stack.Screen
         options={{
           headerShown: true,
-          title: 'Messagens'
+          title: 'Mensagens'
         }}
         name="Chat"
         component={MakeChat}

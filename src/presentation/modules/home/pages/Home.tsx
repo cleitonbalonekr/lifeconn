@@ -22,7 +22,7 @@ const OPTIONS_LIST = [
   {
     id: '2',
     icon: 'comments',
-    label: 'Messagem',
+    label: 'Mensagem',
     navigateTo: 'Chat'
   },
   {
