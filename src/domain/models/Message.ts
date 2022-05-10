@@ -3,4 +3,5 @@ export interface Message {
   isPhoto: boolean;
   content: string;
   createdAt: Date;
+  from: string;
 }

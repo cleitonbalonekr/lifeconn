@@ -10,6 +10,7 @@ import { randomId } from '@/tests/shared/mocks';
 
 export const makeFakeMessage = () => ({
   id: randomId(),
+  from: randomId(),
   isPhoto: false,
   content: faker.lorem.sentence(),
   createdAt: new Date()

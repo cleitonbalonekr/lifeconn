@@ -11,6 +11,7 @@ export namespace CreateMessageRepository {
   export type Params = {
     isPhoto: boolean;
     content: string;
+    from: string;
   };
   export type Result = Message | null;
 }
