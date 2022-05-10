@@ -22,6 +22,7 @@ export interface Call {
 }
 
 export namespace Call {
+  export const CALL_PHOTO_LIMIT = 3;
   export type Location = {
     latitude: number;
     longitude: number;
