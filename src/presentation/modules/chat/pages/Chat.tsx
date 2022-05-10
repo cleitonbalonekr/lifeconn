@@ -33,13 +33,13 @@ const Chat: React.FC = () => {
           </Text>
         </View>
       </View>
-      <View style={tailwind('flex flex-row justify-center')}>
-        <View style={tailwind('w-4/6')}>
+      <View style={tailwind('flex-row justify-center items-center')}>
+        <View style={tailwind('flex-1')}>
           <Input placeholder="Escrever mensagem" />
         </View>
-        <View style={tailwind('flex justify-center')}>
+        <View style={tailwind('items-center justify-center ml-1 ')}>
           <Button>
-            <Ionicons name="send" size={15} style={tailwind('text-white')} />
+            <Ionicons name="send" size={20} style={tailwind('text-white')} />
           </Button>
         </View>
       </View>
