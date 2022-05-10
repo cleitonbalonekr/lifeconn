@@ -1,6 +1,10 @@
+/* eslint-disable max-classes-per-file */
 import faker from '@faker-js/faker';
 
-import { CreateMessageRepository } from '@/data/protocols/message';
+import {
+  CreateMessageRepository,
+  LoadCallMessageRepository
+} from '@/data/protocols/message';
 import { randomId } from '@/tests/shared/mocks';
 
 export const makeFakeMessage = () => ({
@@ -19,6 +23,18 @@ export class CreateMessageRepositorySpy implements CreateMessageRepository {
     params: CreateMessageRepository.Params,
     callId: string
   ): Promise<CreateMessageRepository.Result> {
+    this.callCount += 1;
+    return this.response;
+  }
+}
+export class LoadCallMessageRepositorySpy implements LoadCallMessageRepository {
+  public callCount = 0;
+
+  public response: LoadCallMessageRepository.Result = [makeFakeMessage()];
+
+  async loadMessages(
+    callId: string
+  ): Promise<LoadCallMessageRepository.Result> {
     this.callCount += 1;
     return this.response;
   }
