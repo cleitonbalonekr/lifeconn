@@ -80,8 +80,8 @@ const SubscribeToBackgroundServices: React.FC = () => {
             ) {
               Notification.NotificationSpeedLimit();
               Notification.NotificationUserData(
-                authUser.fullName || authUser.email,
-                authUser.phoneNumber
+                authUser?.fullName || authUser?.email,
+                authUser?.phoneNumber
               );
             }
           }

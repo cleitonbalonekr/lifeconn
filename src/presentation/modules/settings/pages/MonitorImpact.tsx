@@ -4,7 +4,7 @@ import { useNavigation } from '@react-navigation/native';
 import * as Location from 'expo-location';
 import * as Speech from 'expo-speech';
 import React, { useEffect, useState } from 'react';
-import { Text, Image } from 'react-native';
+import { Text, Image, Vibration } from 'react-native';
 import { useTailwind } from 'tailwind-rn/dist';
 
 import { Call } from '@/domain/models/Call';
@@ -79,6 +79,7 @@ const MonitorImpact: React.FC<Props> = ({
   function handleCloseInterval() {
     clearInterval(intervalTime);
     setStatusContact(false);
+    Vibration.cancel();
     Speech.speak(`Acionamento cancelado! `);
     navigation.navigate('Home');
   }
@@ -98,11 +99,13 @@ const MonitorImpact: React.FC<Props> = ({
       ];
       Speech.speak(info[0]);
       let aux = 1;
+      Vibration.vibrate([2000, 1000], true);
       setIntervalTime(
         window.setInterval(() => {
           Speech.speak(info[aux]);
           if (aux >= 2) {
             setTimeout(() => {
+              Vibration.cancel();
               handleEvent();
             }, 5000);
           }

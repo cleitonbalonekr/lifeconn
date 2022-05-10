@@ -16,7 +16,7 @@ const NotificationUserData = async (fullName: string, phoneNumber: string) => {
     content: {
       title: 'Meus Dados - Lifeconn',
       body: `#Nome: ${fullName}
-      #Tel.: ${phoneNumber}]`,
+      #Tel.: ${phoneNumber}`,
       priority: Notification.AndroidNotificationPriority.MAX,
       data: {
         route: 'Home'
