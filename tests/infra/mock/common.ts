@@ -1,7 +1,7 @@
 import { collection, doc, setDoc } from 'firebase/firestore';
 
 import { FirestoreInstance } from '@/configs/firebase';
-import { fakeId } from '@/tests/shared/mocks';
+import { fakeId, randomId } from '@/tests/shared/mocks';
 
 export const getUserDoc = (userId = fakeId) => {
   const userCollection = collection(FirestoreInstance, 'users');
@@ -16,6 +16,7 @@ export const makeUser = async (userId: string, userData: any) => {
     id: userId
   });
 };
+
 export const getCallDoc = (callId = fakeId) => {
   const callCollection = collection(FirestoreInstance, 'calls');
   const callDoc = doc(callCollection, callId);
@@ -40,4 +41,15 @@ export const makeContact = async (
     ...contactData
   });
   return contactDoc;
+};
+export const makeMessage = async (
+  callId: string,
+  messageData: any,
+  messageId = randomId()
+) => {
+  const messageDoc = getCallDoc(`${callId}/messages/${messageId}`);
+  await setDoc(messageDoc, {
+    ...messageData
+  });
+  return messageDoc;
 };
