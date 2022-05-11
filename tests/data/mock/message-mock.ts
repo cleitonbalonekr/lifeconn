@@ -1,10 +1,13 @@
 /* eslint-disable max-classes-per-file */
 import faker from '@faker-js/faker';
 
+import { SaveCallFileUrlRepository } from '@/data/protocols/call';
+import { UploadFileRepository } from '@/data/protocols/fileStorage';
 import {
   CreateMessageRepository,
   LoadCallMessageRepository,
-  ListenMessagesRepository
+  ListenMessagesRepository,
+  VerifyFileLimitRepository
 } from '@/data/protocols/message';
 import { randomId } from '@/tests/shared/mocks';
 
@@ -51,5 +54,38 @@ export class ListenMessagesRepositorySpy implements ListenMessagesRepository {
   ): ListenMessagesRepository.Result {
     this.callCount += 1;
     return this.response;
+  }
+}
+
+export class VerifyFileLimitRepositorySpy implements VerifyFileLimitRepository {
+  public callCount = 0;
+
+  public response: VerifyFileLimitRepository.Result = false;
+
+  async isFull(callId: VerifyFileLimitRepository.Params) {
+    this.callCount += 1;
+    return this.response;
+  }
+}
+
+export class UploadFileRepositorySpy implements UploadFileRepository {
+  public callCount = 0;
+
+  public response: UploadFileRepository.Result = faker.image.imageUrl();
+
+  async storeFile(params: UploadFileRepository.Params) {
+    this.callCount += 1;
+    return this.response;
+  }
+}
+export class SaveCallFileUrlRepositorySpy implements SaveCallFileUrlRepository {
+  public callCount = 0;
+
+  public params: SaveCallFileUrlRepository.Params =
+    {} as SaveCallFileUrlRepository.Params;
+
+  async addFileUrl(params: SaveCallFileUrlRepository.Params) {
+    this.callCount += 1;
+    this.params = params;
   }
 }
