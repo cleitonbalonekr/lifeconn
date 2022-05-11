@@ -16,20 +16,35 @@ import { FirestoreInstance } from '@/configs/firebase';
 import {
   CreateMessageRepository,
   LoadCallMessageRepository,
-  ListenMessagesRepository
+  ListenMessagesRepository,
+  VerifyFileLimitRepository
 } from '@/data/protocols/message';
-import { Message } from '@/domain/models';
+import { Call, Message } from '@/domain/models';
 
 export class FirebaseMessageRepository
   implements
     CreateMessageRepository,
     LoadCallMessageRepository,
-    ListenMessagesRepository
+    ListenMessagesRepository,
+    VerifyFileLimitRepository
 {
   private callsCollection: CollectionReference;
 
   constructor() {
     this.callsCollection = collection(FirestoreInstance, 'calls');
+  }
+
+  async isFilesFull(callId: string): Promise<VerifyFileLimitRepository.Result> {
+    const callRef = doc(this.callsCollection, callId);
+    const call = await getDoc(callRef);
+    if (!call.exists() || !call.data()) {
+      return null;
+    }
+    const callData = call.data() as Call;
+    if (callData.files.length >= Call.CALL_FILE_LIMIT) {
+      return true;
+    }
+    return false;
   }
 
   subscribe({

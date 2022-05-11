@@ -70,4 +70,34 @@ describe('FirebaseMessageRepository', () => {
       expect(messages).toHaveLength(1);
     });
   });
+  describe.only('isFull', () => {
+    it('should return NULL when call does not exists', async () => {
+      const sut = makeSut();
+      const callId = randomId();
+      const response = await sut.isFilesFull(callId);
+      expect(response).toBeNull();
+    });
+    it('should return TRUE when file array contains CALL_FILE_LIMIT', async () => {
+      const sut = makeSut();
+      const params = makeFakeCallEventParams();
+      const { callId } = params;
+      await makeCall(callId, {
+        ...makeFakeCallParams(),
+        files: ['fakeFile1', 'fakeFile2', 'fakeFile3']
+      });
+      const response = await sut.isFilesFull(callId);
+      expect(response).toBeTruthy();
+    });
+    it('should return FALSE when file array is under CALL_FILE_LIMIT', async () => {
+      const sut = makeSut();
+      const params = makeFakeCallEventParams();
+      const { callId } = params;
+      await makeCall(callId, {
+        ...makeFakeCallParams(),
+        files: ['fakeFile1', 'fakeFile2']
+      });
+      const response = await sut.isFilesFull(callId);
+      expect(response).toBeFalsy();
+    });
+  });
 });
