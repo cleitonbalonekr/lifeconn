@@ -7,6 +7,7 @@ import * as geolib from 'geolib';
 import { useCallback, useEffect } from 'react';
 
 import { useAuth } from '../../context/auth';
+import isConnected from '../isConnect';
 import Notification from '../localNotifications';
 import { TASK_NAME } from './resources';
 
@@ -36,6 +37,8 @@ const SubscribeToBackgroundServices: React.FC = () => {
       await AsyncStorage.setItem('@logBackgroundRun', 'Em execução');
 
       TaskManager.defineTask(TASK_NAME, async () => {
+        isConnected();
+
         const location = await Location.getCurrentPositionAsync({
           accuracy: Location.Accuracy.Balanced
         });

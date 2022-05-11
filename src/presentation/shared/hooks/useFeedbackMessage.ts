@@ -40,11 +40,22 @@ const useFeedbackMessage = () => {
       onPress: () => Toast.hide()
     });
   }
+  function showWarning(message: string) {
+    Toast.show({
+      type: 'error',
+      text1: 'Atenção',
+      text2: message,
+      autoHide: false,
+      position: 'top',
+      bottomOffset: height * 0.12,
+      onPress: () => Toast.hide()
+    });
+  }
   function hide() {
     Toast.hide();
   }
 
-  return { showSuccess, showError, showWaiting, hide };
+  return { showSuccess, showError, showWaiting, showWarning, hide };
 };
 
 export default useFeedbackMessage;

@@ -78,8 +78,31 @@ const NotificationCodeCall = (code: string) => {
   });
 };
 
+const NotificationIsConnected = () => {
+  Notification.scheduleNotificationAsync({
+    content: {
+      title: 'Offline - Lifeconn',
+      body: 'Você está offline, algumas funções estarão indisponíveis no momento!',
+      priority: Notification.AndroidNotificationPriority.MAX,
+      data: {
+        route: 'Advanced'
+      }
+    },
+    identifier: 'NotiCALL4',
+    trigger: {
+      seconds: 1
+    }
+  });
+  Notification.setNotificationChannelAsync('NotiCALL4', {
+    name: 'NotiCALL4',
+    importance: Notification.AndroidImportance.MAX,
+    lockscreenVisibility: Notification.AndroidNotificationVisibility.PUBLIC
+  });
+};
+
 export default {
   NotificationSpeedLimit,
   NotificationUserData,
-  NotificationCodeCall
+  NotificationCodeCall,
+  NotificationIsConnected
 };
