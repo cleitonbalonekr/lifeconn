@@ -18,11 +18,11 @@ export interface Call {
     phoneNumber: string;
   };
   messages: Message[];
-  photos: string[];
+  files: string[];
 }
 
 export namespace Call {
-  export const CALL_PHOTO_LIMIT = 3;
+  export const CALL_FILE_LIMIT = 3;
   export type Location = {
     latitude: number;
     longitude: number;

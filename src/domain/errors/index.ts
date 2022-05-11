@@ -9,3 +9,4 @@ export * from './ContactNotFoundError';
 export * from './InvalidContactError';
 export * from './CallAlreadyOpenError';
 export * from './InvalidCallError';
+export * from './MaxFilesExceedError';
