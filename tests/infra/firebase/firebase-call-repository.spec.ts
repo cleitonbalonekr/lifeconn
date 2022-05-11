@@ -1,3 +1,6 @@
+import faker from '@faker-js/faker';
+import { getDoc } from 'firebase/firestore';
+
 import { FirebaseCallRepository } from '@/infra/firebase';
 import { makeFakeCallData } from '@/tests/data/mock/call-mock';
 import { makeFakeContact } from '@/tests/data/mock/contact-mock';
@@ -8,7 +11,7 @@ import {
   setupEmulators
 } from '@/tests/utils/firebase-emulator';
 
-import { makeCall } from '../mock';
+import { getCallDoc, makeCall } from '../mock';
 import { makeFakeCallParams } from '../mock/call-mock';
 
 const makeSut = () => {
@@ -183,6 +186,44 @@ describe('FirebaseCallRepository', () => {
         callId
       });
       expect(call).toBeTruthy();
+    });
+  });
+  describe('addFileUrl', () => {
+    const fileUrl = faker.image.imageUrl();
+    it('Should create an array and add the element', async () => {
+      const firebaseCallRepository = makeSut();
+      const userId = randomId();
+      const callId = randomId();
+      const callData = {
+        ...makeFakeCallData(),
+        userId,
+        open: false
+      };
+      await makeCall(callId, callData);
+      await firebaseCallRepository.addFileUrl({ fileUrl, callId });
+      const callDoc = getCallDoc(callId);
+      const call = await getDoc(callDoc);
+
+      expect(call.data()?.files).toHaveLength(1);
+      expect(call.data()?.files).toContain(fileUrl);
+    });
+    it('Should add the fileUrl at the end of file array', async () => {
+      const firebaseCallRepository = makeSut();
+      const userId = randomId();
+      const callId = randomId();
+      const callData = {
+        ...makeFakeCallData(),
+        userId,
+        files: ['fakeFile1'],
+        open: false
+      };
+      await makeCall(callId, callData);
+      await firebaseCallRepository.addFileUrl({ fileUrl, callId });
+      const callDoc = getCallDoc(callId);
+      const call = await getDoc(callDoc);
+
+      expect(call.data()?.files).toHaveLength(2);
+      expect(call.data()?.files).toContain(fileUrl);
     });
   });
 });

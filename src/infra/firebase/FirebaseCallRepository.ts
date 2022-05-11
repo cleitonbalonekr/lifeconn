@@ -1,4 +1,5 @@
 import {
+  arrayUnion,
   collection,
   CollectionReference,
   doc,
@@ -21,7 +22,8 @@ import {
   ListOpenCallsByUserRepository,
   LoadContactsCallsRepository,
   VerifyCallAlreadyOpenRepository,
-  CloseCallRepository
+  CloseCallRepository,
+  SaveCallFileUrlRepository
 } from '@/data/protocols/call';
 import { Call } from '@/domain/models/Call';
 
@@ -34,7 +36,8 @@ export class FirebaseCallRepository
     ListOpenCallsByUserRepository,
     LoadContactsCallsRepository,
     VerifyCallAlreadyOpenRepository,
-    CloseCallRepository
+    CloseCallRepository,
+    SaveCallFileUrlRepository
 {
   private callsCollection: CollectionReference;
 
@@ -43,6 +46,13 @@ export class FirebaseCallRepository
   constructor() {
     this.callsCollection = collection(FirestoreInstance, 'calls');
     this.firebaseUserUtils = new FirebaseUserUtils();
+  }
+
+  async addFileUrl(params: SaveCallFileUrlRepository.Params): Promise<void> {
+    const callDoc = doc(this.callsCollection, params.callId);
+    await updateDoc(callDoc, {
+      files: arrayUnion(params.fileUrl)
+    });
   }
 
   async closeCall({
