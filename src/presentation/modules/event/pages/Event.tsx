@@ -17,6 +17,8 @@ import Container from '@/presentation/shared/components/Container';
 import Button from '@/presentation/shared/components/form/button';
 import { useAuth } from '@/presentation/shared/context/auth';
 import useFeedbackMessage from '@/presentation/shared/hooks/useFeedbackMessage';
+import isConnected from '@/presentation/shared/services/isConnect';
+import callEmergency from '@/presentation/shared/services/phonecall';
 
 import ConfirmNoLocationModal, {
   ConfirmNoLocationModalRefProps
@@ -92,26 +94,34 @@ const Event: React.FC<Props> = ({
 
   async function confirm() {
     try {
-      setLoading(true);
-      const { fromHelpSomeoneElse, victim } = route.params as Params;
-      let token: string;
-      if (!fromHelpSomeoneElse) {
-        token = await createCall.add({
-          userId: authUser.id,
-          location
-        });
-        await sendContactsNotification.notifyContacts(authUser.id);
+      const state = await isConnected();
+      if (state) {
+        setLoading(true);
+        const { fromHelpSomeoneElse, victim } = route.params as Params;
+        let token: string;
+        if (!fromHelpSomeoneElse) {
+          token = await createCall.add({
+            userId: authUser.id,
+            location
+          });
+          await sendContactsNotification.notifyContacts(authUser.id);
+        } else {
+          const payload = { location, victim };
+          const response = await createCallForAnotherPerson.add(
+            payload,
+            authUser.id
+          );
+          token = response.token;
+          if (response.victimId)
+            await sendContactsNotification.notifyContacts(response.victimId);
+        }
+        navigation.navigate('CreateEvent', { token });
       } else {
-        const payload = { location, victim };
-        const response = await createCallForAnotherPerson.add(
-          payload,
-          authUser.id
-        );
-        token = response.token;
-        if (response.victimId)
-          await sendContactsNotification.notifyContacts(response.victimId);
+        Speech.speak(`Você está sem conexão com a internet,
+        prosseguiremos com a comunicação convencional`);
+        navigation.navigate('Home');
+        callEmergency();
       }
-      navigation.navigate('CreateEvent', { token });
     } catch (error: any) {
       showError(error);
     } finally {

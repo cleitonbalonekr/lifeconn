@@ -6,5 +6,5 @@ export interface VerifyFileLimitRepository {
 
 export namespace VerifyFileLimitRepository {
   export type Params = string;
-  export type Result = boolean;
+  export type Result = boolean | null;
 }

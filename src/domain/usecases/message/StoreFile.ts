@@ -4,7 +4,7 @@ export interface StoreFile {
 
 export namespace StoreFile {
   export type Params = {
-    file: File;
+    fileUri: string;
     callId: string;
   };
   export type Result = string;

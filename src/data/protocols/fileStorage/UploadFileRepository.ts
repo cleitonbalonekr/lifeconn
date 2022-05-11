@@ -7,7 +7,7 @@ export interface UploadFileRepository {
 export namespace UploadFileRepository {
   export type Params = {
     callId: string;
-    file: File;
+    fileUri: string;
   };
   export type Result = string;
 }

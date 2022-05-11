@@ -21,6 +21,7 @@ import { MakeSubscribeToNotifications } from '@/main/factories/services/notifica
 import Routes from '@/main/routes/index';
 import { AuthProvider } from '@/presentation/shared/context/auth';
 import { SubscribeToBackgroundServices } from '@/presentation/shared/services/backgroundServices';
+import NetConnectSubscriber from '@/presentation/shared/services/isConnect/NetConnectSubscrive';
 import LocalNotificationSubscriber from '@/presentation/shared/services/localNotifications/LocalNotificationSubscrive';
 import utilities from '@/presentation/shared/styles/tailwind.json';
 
@@ -47,6 +48,7 @@ export default function App() {
           <AuthProvider>
             <SubscribeToBackgroundServices />
             <MakeSubscribeToNotifications />
+            <NetConnectSubscriber />
             <Routes />
             <LocalNotificationSubscriber />
           </AuthProvider>

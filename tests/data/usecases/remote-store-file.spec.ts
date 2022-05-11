@@ -30,7 +30,7 @@ const makeSut = () => {
 describe('RemoteStoreFile', () => {
   const params = {
     callId: randomId(),
-    file: '' as unknown as File
+    fileUri: 'file'
   };
   it('should throw MaxFilesExceedError when verifyFileLimitRepository return true', async () => {
     const { sut, verifyFileLimitRepositorySpy } = makeSut();
@@ -39,7 +39,15 @@ describe('RemoteStoreFile', () => {
     expect(verifyFileLimitRepositorySpy.callCount).toBe(1);
     await expect(promise).rejects.toThrow(new MaxFilesExceedError());
   });
-  it('should throw UnexpectedError ', async () => {
+  it('should throw UnexpectedError verifyFileLimitRepositorySpy return null ', async () => {
+    const { sut, verifyFileLimitRepositorySpy } = makeSut();
+    verifyFileLimitRepositorySpy.response = null;
+
+    const promise = sut.store(params);
+
+    await expect(promise).rejects.toThrow(new UnexpectedError());
+  });
+  it('should throw UnexpectedError when some unexpected erro happens ', async () => {
     const { sut, verifyFileLimitRepositorySpy } = makeSut();
     jest
       .spyOn(verifyFileLimitRepositorySpy, 'isFull')

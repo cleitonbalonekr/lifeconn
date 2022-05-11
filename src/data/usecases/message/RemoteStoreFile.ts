@@ -1,7 +1,7 @@
 import { SaveCallFileUrlRepository } from '@/data/protocols/call';
 import { UploadFileRepository } from '@/data/protocols/fileStorage';
 import { VerifyFileLimitRepository } from '@/data/protocols/message';
-import { MaxFilesExceedError } from '@/domain/errors';
+import { MaxFilesExceedError, UnexpectedError } from '@/domain/errors';
 import { catchErrorVerification } from '@/domain/errors/utils/catchErrorVerification';
 import { StoreFile } from '@/domain/usecases';
 
@@ -17,6 +17,9 @@ export class RemoteStoreFile implements StoreFile {
       const isExceedMaxFiles = await this.verifyFileLimitRepository.isFull(
         params.callId
       );
+      if (isExceedMaxFiles === null) {
+        throw new UnexpectedError();
+      }
       if (isExceedMaxFiles) {
         throw new MaxFilesExceedError();
       }
