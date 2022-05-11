@@ -122,15 +122,19 @@ const Chat: React.FC<Props> = ({
             <>
               {item.from === authUser.id ? (
                 <View style={tailwind('bg-teal-200 rounded-lg p-2 ml-24 mb-2')}>
-                  <Text style={tailwind('text-sm mb-2')}>{item.content}</Text>
-                  <Text style={tailwind('text-xs')}>
+                  <Text style={tailwind('text-sm mb-2 font-ubuntu')}>
+                    {item.content}
+                  </Text>
+                  <Text style={tailwind('text-xs font-ubuntu')}>
                     {`${formatDate(item.createdAt)}`}
                   </Text>
                 </View>
               ) : (
                 <View style={tailwind('bg-gray-200 rounded-lg p-2 mr-24 mb-2')}>
-                  <Text style={tailwind('text-sm mb-2')}>{item.content}</Text>
-                  <Text style={tailwind('text-xs')}>
+                  <Text style={tailwind('text-sm mb-2 font-ubuntu')}>
+                    {item.content}
+                  </Text>
+                  <Text style={tailwind('text-xs font-ubuntu')}>
                     {`${formatDate(item.createdAt)}`}
                   </Text>
                 </View>

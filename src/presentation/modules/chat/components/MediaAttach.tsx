@@ -92,22 +92,26 @@ const MediaAttach: React.ForwardRefRenderFunction<
         >
           <View
             style={tailwind(
-              'flex-row justify-between m-6 bg-white rounded-md p-6 w-3/5 h-28 '
+              'flex-row justify-around m-6 bg-white rounded-md p-6 w-3/5 h-28 '
             )}
           >
             <TouchableOpacity
-              style={tailwind('flex items-center ')}
+              style={tailwind('flex items-center')}
               onPress={handleOpenCamera}
             >
-              <Ionicons name="camera-outline" size={30} color="black" />
-              <Text>Abrir camera</Text>
+              <View style={tailwind('bg-red-600 rounded-full px-3 py-2.5')}>
+                <Ionicons name="camera" size={26} color="white" />
+              </View>
+              <Text style={tailwind('font-ubuntu-medium')}>Câmera</Text>
             </TouchableOpacity>
             <TouchableOpacity
               style={tailwind('flex items-center ')}
               onPress={handleOpenGallery}
             >
-              <Ionicons name="albums-outline" size={30} color="black" />
-              <Text>Abrir galeria</Text>
+              <View style={tailwind('bg-yellow-600 rounded-full px-3 py-2.5')}>
+                <Ionicons name="albums" size={26} color="white" />
+              </View>
+              <Text style={tailwind('font-ubuntu-medium')}>Galeria</Text>
             </TouchableOpacity>
           </View>
         </MotiView>
