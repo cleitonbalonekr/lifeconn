@@ -59,7 +59,7 @@ const SubscribeToNotifications = ({ saveNotificationToken }: Props) => {
     notification: Notifications.NotificationResponse
   ) => {
     const route = notification?.notification.request.content.data.route;
-    if (route !== 'Home' && route !== 'MonitorImpact') {
+    if (route !== 'Home' && route !== 'MonitorImpact' && route !== 'Advanced') {
       navigation.navigate('Notifications');
     }
   };

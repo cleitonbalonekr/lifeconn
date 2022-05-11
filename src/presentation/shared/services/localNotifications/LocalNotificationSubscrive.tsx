@@ -7,7 +7,7 @@ const LocalNotificationSubscriber: React.FC = () => {
   const notification = Notifications.useLastNotificationResponse();
   useEffect(() => {
     const route = notification?.notification.request.content.data.route;
-    if (route === 'MonitorImpact' || route === 'Home') {
+    if (route === 'MonitorImpact' || route === 'Home' || route === 'Advanced') {
       navigation.navigate(route);
     }
   }, [notification]);

@@ -14,6 +14,7 @@ import Container from '@/presentation/shared/components/Container';
 import Button from '@/presentation/shared/components/form/button';
 import { useAuth } from '@/presentation/shared/context/auth';
 import Accelerometer from '@/presentation/shared/services/accelerometer';
+import isConnected from '@/presentation/shared/services/isConnect';
 import registerTTS from '@/presentation/shared/services/tts';
 
 interface Props {
@@ -31,6 +32,9 @@ const MonitorImpact: React.FC<Props> = ({
   const [intervalTime, setIntervalTime] = useState<number>(
     window.setInterval(() => {})
   );
+  const [intervalTime2, setIntervalTime2] = useState<number>(
+    window.setInterval(() => {})
+  );
   const tailwind = useTailwind();
   const navigation = useNavigation();
   const [location, setLocation] = useState<Call.Location | null>(null);
@@ -43,22 +47,33 @@ const MonitorImpact: React.FC<Props> = ({
   }
 
   async function handleEvent() {
-    getLocation();
-    let token: string;
-    token = await createCall.add({
-      userId: authUser.id,
-      location: location as Call.Location
-    });
-    await sendContactsNotification.notifyContacts(authUser.id);
-
-    if (location)
-      registerTTS({
-        name: authUser.fullName ? authUser.fullName : authUser.email,
-        phone: authUser.phoneNumber,
-        token,
-        location: location as Call.Location,
-        totalVoiceToken: authUser.totalVoiceToken
+    const state = await isConnected();
+    if (state) {
+      getLocation();
+      let token: string;
+      token = await createCall.add({
+        userId: authUser.id,
+        location: location as Call.Location
       });
+      await sendContactsNotification.notifyContacts(authUser.id);
+
+      if (location)
+        registerTTS({
+          name: authUser.fullName ? authUser.fullName : authUser.email,
+          phone: authUser.phoneNumber,
+          token,
+          location: location as Call.Location,
+          totalVoiceToken: authUser.totalVoiceToken
+        });
+    } else {
+      Speech.speak(`Você está sem conexão com a internet, 
+      tentaremos novamente em 1 minuto!`);
+      setIntervalTime2(
+        window.setTimeout(() => {
+          handleEvent();
+        }, 60000)
+      );
+    }
   }
 
   const getLocation = async () => {
@@ -78,6 +93,7 @@ const MonitorImpact: React.FC<Props> = ({
 
   function handleCloseInterval() {
     clearInterval(intervalTime);
+    clearTimeout(intervalTime2);
     setStatusContact(false);
     Vibration.cancel();
     Speech.speak(`Acionamento cancelado! `);
