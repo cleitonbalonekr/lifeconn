@@ -2,14 +2,20 @@ import axios from 'axios';
 import { deleteApp } from 'firebase/app';
 import { connectAuthEmulator } from 'firebase/auth';
 import { connectFirestoreEmulator } from 'firebase/firestore';
+import { connectStorageEmulator } from 'firebase/storage';
 
-import app, { FirestoreInstance, AuthInstance } from '@/configs/firebase';
+import app, {
+  FirestoreInstance,
+  AuthInstance,
+  StorageInstance
+} from '@/configs/firebase';
 
 export function setupEmulators() {
   connectFirestoreEmulator(FirestoreInstance, 'localhost', 8080);
   connectAuthEmulator(AuthInstance, 'http://127.0.0.1:9099', {
     disableWarnings: true
   });
+  connectStorageEmulator(StorageInstance, 'localhost', 8001);
   return 'ok';
 }
 export async function closeFirebase() {
