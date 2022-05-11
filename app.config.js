@@ -40,6 +40,15 @@ export default {
       firebaseAppId: process.env.FIREBASE_APP_ID,
       firebaseMeasureId: process.env.FIREBASE_MEASUREMENT_ID,
       zenviaToken: process.env.ZENVIA_TOKEN
-    }
+    },
+    plugins: [
+      [
+        'expo-image-picker',
+        {
+          photosPermission:
+            'O aplicativo acessa suas fotos para poder compartilha-las com os bombeiros.'
+        }
+      ]
+    ]
   }
 };
