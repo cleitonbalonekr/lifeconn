@@ -1,5 +1,5 @@
 export interface VerifyFileLimitRepository {
-  isFull(
+  isFilesFull(
     callId: VerifyFileLimitRepository.Params
   ): Promise<VerifyFileLimitRepository.Result>;
 }

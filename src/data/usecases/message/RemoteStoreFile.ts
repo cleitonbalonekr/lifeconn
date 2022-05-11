@@ -14,7 +14,7 @@ export class RemoteStoreFile implements StoreFile {
 
   async store(params: StoreFile.Params) {
     try {
-      const isExceedMaxFiles = await this.verifyFileLimitRepository.isFull(
+      const isExceedMaxFiles = await this.verifyFileLimitRepository.isFilesFull(
         params.callId
       );
       if (isExceedMaxFiles === null) {

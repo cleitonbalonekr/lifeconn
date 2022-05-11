@@ -50,7 +50,7 @@ describe('RemoteStoreFile', () => {
   it('should throw UnexpectedError when some unexpected erro happens ', async () => {
     const { sut, verifyFileLimitRepositorySpy } = makeSut();
     jest
-      .spyOn(verifyFileLimitRepositorySpy, 'isFull')
+      .spyOn(verifyFileLimitRepositorySpy, 'isFilesFull')
       .mockImplementationOnce(throwError);
 
     const promise = sut.store(params);

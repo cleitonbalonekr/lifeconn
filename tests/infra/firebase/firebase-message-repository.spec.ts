@@ -30,7 +30,8 @@ describe('FirebaseMessageRepository', () => {
       const callId = randomId();
       const messageParams = {
         isPhoto: false,
-        content: makeFakeMessage().content
+        content: makeFakeMessage().content,
+        from: randomId()
       };
       const response = await sut.add(messageParams, callId);
       expect(response).toBeNull();
@@ -42,7 +43,8 @@ describe('FirebaseMessageRepository', () => {
       await makeCall(params.callId, makeFakeCallParams());
       const messageParams = {
         isPhoto: false,
-        content: makeFakeMessage().content
+        content: makeFakeMessage().content,
+        from: randomId()
       };
       const response = await sut.add(messageParams, params.callId);
       expect(response).toHaveProperty('id');
@@ -70,7 +72,7 @@ describe('FirebaseMessageRepository', () => {
       expect(messages).toHaveLength(1);
     });
   });
-  describe.only('isFull', () => {
+  describe('isFull', () => {
     it('should return NULL when call does not exists', async () => {
       const sut = makeSut();
       const callId = randomId();

@@ -62,7 +62,7 @@ export class VerifyFileLimitRepositorySpy implements VerifyFileLimitRepository {
 
   public response: VerifyFileLimitRepository.Result = false;
 
-  async isFull(callId: VerifyFileLimitRepository.Params) {
+  async isFilesFull(callId: VerifyFileLimitRepository.Params) {
     this.callCount += 1;
     return this.response;
   }
