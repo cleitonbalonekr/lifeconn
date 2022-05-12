@@ -71,6 +71,21 @@ const Advanced: React.FC = () => {
         </View>
         <View style={tailwind('bg-slate-300 p-2 mt-2 rounded-md')}>
           <Text style={tailwind('text-lg font-bold mt-2 mb-2')}>
+            Funcionamento Offline
+          </Text>
+          <Text style={tailwind('text-sm text-green-600')}>
+            {`* Geolocalização poderá não funcionar corretamente.
+* Criação de eventos ficará indisponível.
+* Notificação de familiares ficará indisponível.
+* Chat ficará indisponível.
+* Na detecção por acelerômetro a aplicação persistirá
+até que consiga conexão ou a solicitação seja cancelada.
+* Nas demais solicitações a aplicação irá encaminhar
+para a comunicação tradicional com as autoridades.`}
+          </Text>
+        </View>
+        <View style={tailwind('bg-slate-300 p-2 mt-2 rounded-md')}>
+          <Text style={tailwind('text-lg font-bold mt-2 mb-2')}>
             Log de execução - background
           </Text>
           <Text style={tailwind('text-sm text-green-600')}>

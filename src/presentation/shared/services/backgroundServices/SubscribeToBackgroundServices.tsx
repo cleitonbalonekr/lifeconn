@@ -6,13 +6,11 @@ import * as TaskManager from 'expo-task-manager';
 import * as geolib from 'geolib';
 import { useCallback, useEffect } from 'react';
 
-import { useAuth } from '../../context/auth';
 import isConnected from '../isConnect';
 import Notification from '../localNotifications';
 import { TASK_NAME } from './resources';
 
 const SubscribeToBackgroundServices: React.FC = () => {
-  const { authUser } = useAuth();
   const runService = useCallback(async () => {
     const activeAccelerometer = await AsyncStorage.getItem(
       '@activeAccelerometer'
@@ -82,9 +80,11 @@ const SubscribeToBackgroundServices: React.FC = () => {
               (LIMIT_SPEED ? Number(LIMIT_SPEED) : 50)
             ) {
               Notification.NotificationSpeedLimit();
+              const authUser = await AsyncStorage.getItem('@lifeconn-AuthUser');
+              const formatUser = JSON.parse(String(authUser));
               Notification.NotificationUserData(
-                authUser?.fullName || authUser?.email,
-                authUser?.phoneNumber
+                formatUser.fullName,
+                formatUser.phoneNumber
               );
             }
           }

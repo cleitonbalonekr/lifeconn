@@ -4,7 +4,7 @@ import { useNavigation } from '@react-navigation/native';
 import * as Location from 'expo-location';
 import * as Speech from 'expo-speech';
 import React, { useEffect, useState } from 'react';
-import { Text, Image, Vibration } from 'react-native';
+import { Text, Image, View, Vibration } from 'react-native';
 import { useTailwind } from 'tailwind-rn/dist';
 
 import { Call } from '@/domain/models/Call';
@@ -100,6 +100,10 @@ const MonitorImpact: React.FC<Props> = ({
     navigation.navigate('Home');
   }
 
+  function handleNavigateToHome() {
+    navigation.navigate('Home');
+  }
+
   useEffect(() => {
     handleTextVoice();
   }, []);
@@ -156,7 +160,9 @@ const MonitorImpact: React.FC<Props> = ({
           />
         </Button>
       ) : (
-        <></>
+        <View style={tailwind('mt-6')}>
+          <Button label="Voltar" onPress={handleNavigateToHome} />
+        </View>
       )}
     </Container>
   );
