@@ -2,13 +2,14 @@ import { Ionicons } from '@expo/vector-icons';
 import { useRoute } from '@react-navigation/native';
 import { format } from 'date-fns';
 import React, { useEffect, useRef, useState } from 'react';
-import { FlatList, Keyboard, Text, View } from 'react-native';
+import { FlatList, Image, Keyboard, Text, View } from 'react-native';
 import { useTailwind } from 'tailwind-rn/dist';
 
 import { Message } from '@/domain/models';
 import {
   CreateMessage,
   LoadCallMessage,
+  StoreFile,
   SubscribeToMessages
 } from '@/domain/usecases';
 import Container from '@/presentation/shared/components/Container';
@@ -21,20 +22,24 @@ import { useAuth } from '@/presentation/shared/context/auth';
 import useFeedbackMessage from '@/presentation/shared/hooks/useFeedbackMessage';
 import useInputState from '@/presentation/shared/hooks/useInputState';
 
+import ImageMessage from '../components/ImageMessage';
 import MediaAttach, {
   MediaAttachModalRefProps
 } from '../components/MediaAttach';
+import MessageContent from '../components/MessageContent';
 
 interface Props {
   sendMessage: CreateMessage;
   subscribeToMessages: SubscribeToMessages;
   loadMessages: LoadCallMessage;
+  storeFile: StoreFile;
 }
 
 const Chat: React.FC<Props> = ({
   sendMessage,
   subscribeToMessages,
-  loadMessages
+  loadMessages,
+  storeFile
 }) => {
   const { authUser } = useAuth();
   const route = useRoute();
@@ -103,8 +108,10 @@ const Chat: React.FC<Props> = ({
     <Container>
       <MediaAttach
         sendMessage={sendMessage}
+        storeFile={storeFile}
         callId={callId}
         ref={mediaAttachRef}
+        loadingOverlayRef={loadingOverlayRef}
       />
       <LoadingOverlay ref={loadingOverlayRef} />
       <View style={tailwind('flex-1')}>
@@ -120,24 +127,14 @@ const Chat: React.FC<Props> = ({
           keyExtractor={(item) => item.id}
           renderItem={({ item }) => (
             <>
-              {item.from === authUser.id ? (
-                <View style={tailwind('bg-teal-200 rounded-lg p-2 ml-24 mb-2')}>
-                  <Text style={tailwind('text-sm mb-2 font-ubuntu')}>
-                    {item.content}
-                  </Text>
-                  <Text style={tailwind('text-xs font-ubuntu')}>
-                    {`${formatDate(item.createdAt)}`}
-                  </Text>
-                </View>
+              {item.isPhoto ? (
+                <ImageMessage uri={item.content} />
               ) : (
-                <View style={tailwind('bg-gray-200 rounded-lg p-2 mr-24 mb-2')}>
-                  <Text style={tailwind('text-sm mb-2 font-ubuntu')}>
-                    {item.content}
-                  </Text>
-                  <Text style={tailwind('text-xs font-ubuntu')}>
-                    {`${formatDate(item.createdAt)}`}
-                  </Text>
-                </View>
+                <MessageContent
+                  content={item.content}
+                  createdAt={item.createdAt}
+                  received={item.from !== authUser.id}
+                />
               )}
             </>
           )}

@@ -1,3 +1,4 @@
+import axios from 'axios';
 import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
 import { v4 as uuidv4 } from 'uuid';
 
@@ -12,26 +13,20 @@ export class FirebaseStoreRepository implements UploadFileRepository {
     const fileRef = ref(StorageInstance, filename);
     const blob = await this.convertUriToBlob(params.fileUri);
     const result = await uploadBytes(fileRef, blob);
-    blob.close();
     const fileUrl = await getDownloadURL(result.ref);
 
     return fileUrl;
   }
 
-  private async convertUriToBlob(uri: string) {
-    const blob = await new Promise((resolve, reject) => {
-      const xhr = new XMLHttpRequest();
-      xhr.onload = function () {
-        resolve(xhr.response);
-      };
-      xhr.onerror = function (e) {
-        console.log(e);
-        reject(new TypeError('Network request failed'));
-      };
-      xhr.responseType = 'blob';
-      xhr.open('GET', uri, true);
-      xhr.send(null);
+  public async convertUriToBlob(uri: string) {
+    const response = await axios.get<Blob>(uri, {
+      responseType: 'blob'
     });
-    return blob as any;
+    const blob = response.data;
+    const file = new File([blob], uuidv4(), {
+      type: blob.type
+    });
+
+    return file;
   }
 }

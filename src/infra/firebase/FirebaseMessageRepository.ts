@@ -41,6 +41,7 @@ export class FirebaseMessageRepository
       return null;
     }
     const callData = call.data() as Call;
+    if (!callData.files) return false;
     if (callData.files.length >= Call.CALL_FILE_LIMIT) {
       return true;
     }

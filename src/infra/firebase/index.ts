@@ -6,3 +6,4 @@ export * from './FirebaseCallRepository';
 export * from './FirebaseCallEventRepository';
 export * from './FirebaseCallEventRepository';
 export * from './FirebaseMessageRepository';
+export * from './FirebaseStorageRepository';

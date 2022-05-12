@@ -5,7 +5,8 @@ import React, { forwardRef, useImperativeHandle, useState } from 'react';
 import { Modal, Pressable, Text, TouchableOpacity, View } from 'react-native';
 import { useTailwind } from 'tailwind-rn';
 
-import { CreateMessage } from '@/domain/usecases';
+import { CreateMessage, StoreFile } from '@/domain/usecases';
+import { LoadingOverlayRefProps } from '@/presentation/shared/components/LoadingOverlay';
 import { useAuth } from '@/presentation/shared/context/auth';
 import useFeedbackMessage from '@/presentation/shared/hooks/useFeedbackMessage';
 
@@ -17,13 +18,15 @@ export interface MediaAttachModalRefProps {
 
 interface Props {
   sendMessage: CreateMessage;
+  storeFile: StoreFile;
   callId: string;
+  loadingOverlayRef: React.RefObject<LoadingOverlayRefProps>;
 }
 
 const MediaAttach: React.ForwardRefRenderFunction<
   MediaAttachModalRefProps,
   Props
-> = ({ sendMessage, callId }, ref) => {
+> = ({ sendMessage, storeFile, callId, loadingOverlayRef }, ref) => {
   const tailwind = useTailwind();
   const { authUser } = useAuth();
   const { showError } = useFeedbackMessage();
@@ -38,18 +41,43 @@ const MediaAttach: React.ForwardRefRenderFunction<
   });
 
   const handleOpenCamera = async () => {
-    const response = await ImagePicker.launchCameraAsync({
-      allowsEditing: true,
-      quality: 0
-    });
-    console.log('launchCameraAsync', response);
+    try {
+      const response = await ImagePicker.launchCameraAsync({
+        allowsEditing: true,
+        aspect: [4, 3],
+        quality: 0.5
+      });
+      loadingOverlayRef.current?.showLoading();
+
+      const fileUrl = await storeFile.store({
+        callId,
+        fileUri: (response as any).uri as string
+      });
+      handleSendMessage(fileUrl);
+    } catch (error: any) {
+      showError(error);
+    } finally {
+      loadingOverlayRef.current?.hideLoading();
+    }
   };
   const handleOpenGallery = async () => {
-    const response = await ImagePicker.launchImageLibraryAsync({
-      allowsEditing: true,
-      quality: 0
-    });
-    console.log('launchImageLibraryAsync', response);
+    try {
+      const response = await ImagePicker.launchImageLibraryAsync({
+        allowsEditing: true,
+        aspect: [4, 3],
+        quality: 0.5
+      });
+      loadingOverlayRef.current?.showLoading();
+      const fileUrl = await storeFile.store({
+        callId,
+        fileUri: (response as any).uri as string
+      });
+      handleSendMessage(fileUrl);
+    } catch (error: any) {
+      showError(error);
+    } finally {
+      loadingOverlayRef.current?.hideLoading();
+    }
   };
 
   async function handleSendMessage(messageUrl: string) {
@@ -62,6 +90,8 @@ const MediaAttach: React.ForwardRefRenderFunction<
       await sendMessage.create(payload, callId);
     } catch (error: any) {
       showError(error);
+    } finally {
+      handleCloseModal();
     }
   }
 

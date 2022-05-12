@@ -7,6 +7,7 @@ import {
   makeRemoteLoadCallMessage,
   makeRemoteSubscribeToMessages
 } from '../../usecases';
+import { makeRemoteStoreFile } from '../../usecases/messages/remoteStoreFileFactory';
 
 export const MakeChat: React.FC = () => {
   return (
@@ -14,6 +15,7 @@ export const MakeChat: React.FC = () => {
       sendMessage={makeRemoteCreateMessage()}
       loadMessages={makeRemoteLoadCallMessage()}
       subscribeToMessages={makeRemoteSubscribeToMessages()}
+      storeFile={makeRemoteStoreFile()}
     />
   );
 };
