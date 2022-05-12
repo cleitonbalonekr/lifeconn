@@ -17,7 +17,9 @@ export function setupEmulators() {
   connectAuthEmulator(AuthInstance, 'http://127.0.0.1:9099', {
     disableWarnings: true
   });
-  connectStorageEmulator(StorageInstance, 'localhost', 8001);
+  connectStorageEmulator(StorageInstance, 'localhost', 8001, {
+    mockUserToken: 'Bearer owner'
+  });
   return 'ok';
 }
 export async function closeFirebase() {

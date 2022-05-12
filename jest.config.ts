@@ -7,6 +7,10 @@ export default {
     '!<rootDir>/src/**/index.ts',
     '!**/*.d.ts'
   ],
+  // testEnvironment: 'jsdom',
+  // testEnvironmentOptions: {
+  //   browsers: ['chrome', 'firefox', 'safari']
+  // },
   coverageDirectory: 'coverage',
   clearMocks: true,
   collectCoverage: false,
