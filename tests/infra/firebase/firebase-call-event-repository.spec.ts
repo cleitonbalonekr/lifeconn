@@ -1,6 +1,5 @@
 import { getDoc } from 'firebase/firestore';
 
-import { EventStatus } from '@/domain/models/CallEvent';
 import { FirebaseCallEventRepository } from '@/infra/firebase';
 import {
   cleanEmulators,
