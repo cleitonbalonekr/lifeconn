@@ -9,6 +9,7 @@ import {
   VerifyCallAlreadyOpenRepository,
   CloseCallRepository
 } from '@/data/protocols/call';
+import { RemoveCallFilesRepository } from '@/data/protocols/fileStorage';
 import { TokenGenerator } from '@/data/protocols/hash/TokenGenerator';
 import { Call } from '@/domain/models/Call';
 import { CallEvent, EventStatus } from '@/domain/models/CallEvent';
@@ -37,7 +38,8 @@ export const makeFakeCallData = () => {
     events: [lastCallEvent],
     lastEvent: lastCallEvent,
     open: true,
-    messages: []
+    messages: [],
+    files: []
   };
 };
 
@@ -137,5 +139,14 @@ export class CloseCallRepositorySpy implements CloseCallRepository {
   async closeCall(callId: CloseCallRepository.Params): Promise<boolean> {
     this.callCount += 1;
     return this.response;
+  }
+}
+export class RemoveCallFilesRepositorySpy implements RemoveCallFilesRepository {
+  callCount = 0;
+
+  public response = true;
+
+  async removeFile(path: RemoveCallFilesRepository.Params) {
+    this.callCount += 1;
   }
 }

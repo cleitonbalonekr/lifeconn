@@ -5,20 +5,24 @@ import { randomId, throwError } from '@/tests/shared/mocks';
 
 import {
   AddCallEventRepositorySpy,
-  CloseCallRepositorySpy
+  CloseCallRepositorySpy,
+  RemoveCallFilesRepositorySpy
 } from '../mock/call-mock';
 
 const makeSut = () => {
   const closeCallRepositorySpy = new CloseCallRepositorySpy();
   const addCallEventRepositorySpy = new AddCallEventRepositorySpy();
+  const removeCallFilesRepositorySpy = new RemoveCallFilesRepositorySpy();
   const remoteCloseCall = new RemoteCloseCall(
     closeCallRepositorySpy,
-    addCallEventRepositorySpy
+    addCallEventRepositorySpy,
+    removeCallFilesRepositorySpy
   );
   return {
     remoteCloseCall,
     closeCallRepositorySpy,
-    addCallEventRepositorySpy
+    addCallEventRepositorySpy,
+    removeCallFilesRepositorySpy
   };
 };
 
@@ -47,7 +51,8 @@ describe('RemoteCloseCall', () => {
     const {
       remoteCloseCall,
       closeCallRepositorySpy,
-      addCallEventRepositorySpy
+      addCallEventRepositorySpy,
+      removeCallFilesRepositorySpy
     } = makeSut();
 
     await remoteCloseCall.close({
@@ -56,5 +61,6 @@ describe('RemoteCloseCall', () => {
     });
     expect(closeCallRepositorySpy.callCount).toBe(1);
     expect(addCallEventRepositorySpy.callCount).toBe(1);
+    expect(removeCallFilesRepositorySpy.callCount).toBe(1);
   });
 });

@@ -15,7 +15,7 @@ const MessageContent: React.FC<Props> = ({ received, content, createdAt }) => {
   };
   return (
     <>
-      {received ? (
+      {!received ? (
         <View style={tailwind('bg-teal-200 rounded-lg p-2 ml-24 mb-2')}>
           <Text style={tailwind('text-sm mb-2 font-ubuntu')}>{content}</Text>
           <Text style={tailwind('text-xs font-ubuntu')}>

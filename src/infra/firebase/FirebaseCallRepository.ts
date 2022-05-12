@@ -67,7 +67,8 @@ export class FirebaseCallRepository
     }
 
     await updateDoc(docRef, {
-      open: false
+      open: false,
+      files: []
     });
 
     return true;
