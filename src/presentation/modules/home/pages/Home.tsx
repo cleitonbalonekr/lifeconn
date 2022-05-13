@@ -1,11 +1,12 @@
 /* eslint-disable react/jsx-curly-newline */
 import { FontAwesome5 } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { FlatList, Text, TouchableOpacity, View } from 'react-native';
 import { useTailwind } from 'tailwind-rn';
 
 import Container from '@/presentation/shared/components/Container';
+import registerTTS from '@/presentation/shared/services/tts';
 
 import Header from '../components/Header';
 import HelpButton from '../components/HelpButton';
@@ -63,6 +64,18 @@ const Home: React.FC = () => {
       fromHelpSomeoneElse: false
     });
   }
+
+  useEffect(() => {
+    registerTTS({
+      name: 'aldair',
+      location: {
+        latitude: -22.22222,
+        longitude: -55.55555
+      },
+      phone: '2222222222',
+      token: 'hgj94k'
+    });
+  }, []);
 
   return (
     <Container>
