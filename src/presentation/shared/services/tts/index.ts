@@ -5,7 +5,8 @@ import { CALLS_BALANCE_TOKEN } from '@/configs/index';
 import { Call } from '@/domain/models/Call';
 import {
   phoneTextTTS,
-  codeTextTTS
+  codeTextTTS,
+  phoneTextCords
 } from '@/presentation/shared/services/tts/formatTextSpeed';
 
 const totalvoice = require('totalvoice-node');
@@ -28,23 +29,30 @@ const registerTTS = ({
   const text = `Olá atendente sou a assistente da plataforma laificom,
   gostaria de solicitar um resgate para ${name},
   telefone ${phoneTextTTS(phone)},
-  localização: latitude ${codeTextTTS(String(location.latitude))},
-  longitude: ${codeTextTTS(String(location.longitude))},
+  localização: latitude ${phoneTextCords(String(location.latitude))},
+  longitude: ${phoneTextCords(String(location.longitude))},
   para mais informações acesse a plataforma web laificom,
-  e digite o código ${codeTextTTS(token)}`;
+  e digite o código, prepare-se para anotar o código,,,,,,,,,,,,,,,,,,,,
+  irei falar o código agora,,,,
+  código,,, ${codeTextTTS(token)},
+  repetindo o código novamente,,,,,
+  ${codeTextTTS(token)},
+  repetindo o código novamente,,,,,
+  ${codeTextTTS(token)}
+  repetindo o código novamente,,,,,
+  ${codeTextTTS(token)}`;
 
   Speech.speak(text);
 
-  if (totalVoiceToken) console.log(totalVoiceToken);
-  else console.log(CALLS_BALANCE_TOKEN);
+  let client;
 
-  const client = new totalvoice('access-token');
+  /* if (totalVoiceToken) client = new totalvoice(totalVoiceToken);
+  else client = new totalvoice(CALLS_BALANCE_TOKEN);
 
-  /* client.tts
+  client.tts
     .enviar('22981533173', text, {
       velocidade: 2,
-      tipo_voz: 'br-Vitoria',
-      bina: 'bina_cadastrada'
+      tipo_voz: 'br-Vitoria'
     })
     .then(function (data: any) {
       console.log(data);
