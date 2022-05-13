@@ -44,9 +44,9 @@ const registerTTS = ({
 
   Speech.speak(text);
 
-  /* let client;
+  let client;
 
-  if (totalVoiceToken) client = new totalvoice(totalVoiceToken);
+  /* if (totalVoiceToken) client = new totalvoice(totalVoiceToken);
   else client = new totalvoice(CALLS_BALANCE_TOKEN);
 
   client.tts
