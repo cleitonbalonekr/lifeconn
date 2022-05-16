@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { Text, View } from 'react-native';
 import { useTailwind } from 'tailwind-rn/dist';
 
+import { CALL_NUMBER_EMERGENCY } from '@/configs/index';
 import Container from '@/presentation/shared/components/Container';
 import Range from '@/presentation/shared/components/form/range';
 
@@ -82,6 +83,14 @@ const Advanced: React.FC = () => {
 até que consiga conexão ou a solicitação seja cancelada.
 * Nas demais solicitações a aplicação irá encaminhar
 para a comunicação tradicional com as autoridades.`}
+          </Text>
+        </View>
+        <View style={tailwind('bg-slate-300 p-2 mt-2 rounded-md')}>
+          <Text style={tailwind('text-lg font-bold mt-2 mb-2')}>
+            Telefone de emergência
+          </Text>
+          <Text style={tailwind('text-sm text-green-600')}>
+            {`Telefone configurado: ${CALL_NUMBER_EMERGENCY}`}
           </Text>
         </View>
         <View style={tailwind('bg-slate-300 p-2 mt-2 rounded-md')}>

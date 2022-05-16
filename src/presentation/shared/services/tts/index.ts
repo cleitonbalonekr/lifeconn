@@ -1,7 +1,5 @@
 /* eslint-disable new-cap */
-import * as Speech from 'expo-speech';
-
-import { CALLS_BALANCE_TOKEN } from '@/configs/index';
+import { CALLS_BALANCE_TOKEN, CALL_NUMBER_EMERGENCY } from '@/configs/index';
 import { Call } from '@/domain/models/Call';
 import {
   phoneTextTTS,
@@ -19,7 +17,7 @@ interface Props {
   totalVoiceToken?: string;
 }
 
-const registerTTS = ({
+const registerTTS = async ({
   name,
   phone,
   token,
@@ -42,24 +40,17 @@ const registerTTS = ({
   repetindo o código novamente,,,,,
   ${codeTextTTS(token)}`;
 
-  Speech.speak(text);
-
   let client;
 
-  /* if (totalVoiceToken) client = new totalvoice(totalVoiceToken);
+  if (totalVoiceToken) client = new totalvoice(totalVoiceToken);
   else client = new totalvoice(CALLS_BALANCE_TOKEN);
 
-  client.tts
-    .enviar('22981533173', text, {
-      velocidade: 2,
-      tipo_voz: 'br-Vitoria'
-    })
-    .then(function (data: any) {
-      console.log(data);
-    })
-    .catch(function (error: any) {
-      console.log('Erro: ', error);
-    }); */
+  const result = await client.tts.enviar(CALL_NUMBER_EMERGENCY, text, {
+    velocidade: 2,
+    tipo_voz: 'br-Vitoria'
+  });
+
+  return result.data;
 };
 
 export default registerTTS;

@@ -184,15 +184,13 @@ const Settings: React.FC<Props> = ({
               Ativação por impacto
             </Text>
           </View>
-          {activeByAccelerometer.value && (
-            <TouchableOpacity
-              style={tailwind('items-center')}
-              onPress={handleNavigateToAdvanced}
-            >
-              <FontAwesome5 name="cog" size={20} />
-              <Text style={tailwind('text-sm font-ubuntu')}>Avançado</Text>
-            </TouchableOpacity>
-          )}
+          <TouchableOpacity
+            style={tailwind('items-center')}
+            onPress={handleNavigateToAdvanced}
+          >
+            <FontAwesome5 name="cog" size={20} />
+            <Text style={tailwind('text-sm font-ubuntu')}>Avançado</Text>
+          </TouchableOpacity>
         </View>
 
         <Button label="Salvar" onPress={updateUserData} loading={loading}>
