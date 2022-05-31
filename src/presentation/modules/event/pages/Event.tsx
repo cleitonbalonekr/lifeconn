@@ -19,6 +19,7 @@ import { useAuth } from '@/presentation/shared/context/auth';
 import useFeedbackMessage from '@/presentation/shared/hooks/useFeedbackMessage';
 import isConnected from '@/presentation/shared/services/isConnect';
 import callEmergency from '@/presentation/shared/services/phonecall';
+import registerTTS from '@/presentation/shared/services/tts';
 
 import ConfirmNoLocationModal, {
   ConfirmNoLocationModalRefProps
@@ -47,8 +48,8 @@ const Event: React.FC<Props> = ({
   const [loading, setLoading] = useState(false);
   const confirmNoLocationModalRef =
     useRef<ConfirmNoLocationModalRefProps>(null);
-  const { showError, showWaiting, hide } = useFeedbackMessage();
-  const [muteSpeech, setMuteSpeech] = useState(true);
+  const { showError, showSuccess, showWaiting, hide } = useFeedbackMessage();
+  const [muteSpeech, setMuteSpeech] = useState(false);
   const [location, setLocation] = useState<Call.Location | null>(null);
   const tailwind = useTailwind();
   const navigation = useNavigation();
@@ -80,6 +81,45 @@ const Event: React.FC<Props> = ({
       handleStopTextVoice();
     } else {
       handleTextVoice();
+    }
+  }
+
+  function noConnection() {
+    Speech.speak(`Você está sem conexão com a internet,
+    prosseguiremos com a comunicação convencional`);
+    navigation.navigate('Home');
+    callEmergency();
+  }
+
+  async function sendTTS() {
+    try {
+      const state = await isConnected();
+      if (state) {
+        const token = await createCall.add({
+          userId: authUser.id,
+          location: location as Call.Location
+        });
+        await sendContactsNotification.notifyContacts(authUser.id);
+        if (location)
+          try {
+            await registerTTS({
+              name: authUser.fullName || authUser.email,
+              phone: authUser.phoneNumber,
+              token,
+              location: location as Call.Location,
+              totalVoiceToken: authUser.totalVoiceToken
+            });
+            showSuccess({
+              description: 'Chamada criada com sucesso!'
+            });
+          } catch (error: any) {
+            showError(error);
+          }
+      } else {
+        noConnection();
+      }
+    } catch (error: any) {
+      showError(error);
     }
   }
 
@@ -117,10 +157,7 @@ const Event: React.FC<Props> = ({
         }
         navigation.navigate('CreateEvent', { token });
       } else {
-        Speech.speak(`Você está sem conexão com a internet,
-        prosseguiremos com a comunicação convencional`);
-        navigation.navigate('Home');
-        callEmergency();
+        noConnection();
       }
     } catch (error: any) {
       showError(error);
@@ -202,18 +239,37 @@ const Event: React.FC<Props> = ({
         </Text>
       </View>
 
-      <Button
-        label="CONFIRMAR"
-        type="primary"
-        onPress={handleValidateLocation}
-        loading={loading}
+      <View style={tailwind('mb-3 flex-row')}>
+        <View style={tailwind('flex-1 mr-1')}>
+          <Button
+            label="Envia texto com áudio"
+            type="primary"
+            onPress={sendTTS}
+            loading={loading}
+          >
+            <Ionicons name="send" size={20} style={tailwind('text-white')} />
+          </Button>
+        </View>
+        <View style={tailwind('flex-1 ml-1')}>
+          <Button
+            label="CONFIRMAR"
+            type="success"
+            onPress={handleValidateLocation}
+            loading={loading}
+          >
+            <Ionicons
+              name="checkmark-done"
+              size={20}
+              style={tailwind('text-white')}
+            />
+          </Button>
+        </View>
+      </View>
+      <Text
+        style={tailwind('mb-3 text-orange-700 font-bold text-lg text-center')}
       >
-        <Ionicons
-          name="checkmark-done"
-          size={20}
-          style={tailwind('text-white')}
-        />
-      </Button>
+        Atenção só use a opção de texto com áudio caso não consiga falar
+      </Text>
     </Container>
   );
 };
