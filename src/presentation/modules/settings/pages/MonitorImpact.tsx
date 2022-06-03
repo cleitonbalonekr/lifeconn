@@ -13,6 +13,7 @@ import liliImg from '@/presentation/shared/assets/lili.gif';
 import Container from '@/presentation/shared/components/Container';
 import Button from '@/presentation/shared/components/form/button';
 import { useAuth } from '@/presentation/shared/context/auth';
+import useFeedbackMessage from '@/presentation/shared/hooks/useFeedbackMessage';
 import Accelerometer from '@/presentation/shared/services/accelerometer';
 import isConnected from '@/presentation/shared/services/isConnect';
 import registerTTS from '@/presentation/shared/services/tts';
@@ -27,6 +28,7 @@ const MonitorImpact: React.FC<Props> = ({
   sendContactsNotification
 }) => {
   const { authUser } = useAuth();
+  const { showSuccess, showError } = useFeedbackMessage();
   const [statusAccelerometer, setStatusAccelerometer] = useState(false);
   const [statusContact, setStatusContact] = useState(false);
   const [intervalTime, setIntervalTime] = useState<number>(
@@ -58,13 +60,20 @@ const MonitorImpact: React.FC<Props> = ({
       await sendContactsNotification.notifyContacts(authUser.id);
 
       if (location)
-        registerTTS({
-          name: authUser.fullName ? authUser.fullName : authUser.email,
-          phone: authUser.phoneNumber,
-          token,
-          location: location as Call.Location,
-          totalVoiceToken: authUser.totalVoiceToken
-        });
+        try {
+          await registerTTS({
+            name: authUser.fullName ? authUser.fullName : authUser.email,
+            phone: authUser.phoneNumber,
+            token,
+            location: location as Call.Location,
+            totalVoiceToken: authUser.totalVoiceToken
+          });
+          showSuccess({
+            description: 'Chamada criada com sucesso!'
+          });
+        } catch (error: any) {
+          showError(error);
+        }
     } else {
       Speech.speak(`Você está sem conexão com a internet, 
       tentaremos novamente em 1 minuto!`);

@@ -39,7 +39,8 @@ export default {
       firebaseMessagingSenderId: process.env.FIREBASE_MESSAGING_SENDER_ID,
       firebaseAppId: process.env.FIREBASE_APP_ID,
       firebaseMeasureId: process.env.FIREBASE_MEASUREMENT_ID,
-      zenviaToken: process.env.ZENVIA_TOKEN
+      zenviaToken: process.env.ZENVIA_TOKEN,
+      callNumberEmergency: process.env.CALL_NUMBER_EMERGENCY
     },
     plugins: [
       [
