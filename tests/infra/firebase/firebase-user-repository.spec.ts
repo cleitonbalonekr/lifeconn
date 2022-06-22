@@ -3,7 +3,7 @@ import { setDoc } from 'firebase/firestore';
 
 import { AuthInstance } from '@/configs/firebase';
 import { FirebaseUserRepository } from '@/infra/firebase/FirebaseUserRepository';
-import { makeAddContactParams } from '@/tests/data/mock/contact-mock';
+import { makeAddContactParams } from '@/tests/domain/mock/contact-mock';
 import { fakeId, randomId } from '@/tests/shared/mocks';
 import {
   cleanEmulators,

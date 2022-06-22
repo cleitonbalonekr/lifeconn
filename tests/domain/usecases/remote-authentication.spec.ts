@@ -1,6 +1,6 @@
-import { RemoteAuthentication } from '@/data/usecases';
 import { InvalidCredentialsError, UnexpectedError } from '@/domain/errors';
 import { UserNotFoundError } from '@/domain/errors/UserNotFoundError';
+import { Authentication } from '@/domain/usecases';
 import { throwError } from '@/tests/shared/mocks';
 
 import {
@@ -13,7 +13,7 @@ const makeSut = () => {
   const signInWithEmailAndPasswordRepositorySpy =
     new SignInWithEmailAndPasswordRepositorySpy();
   const getUserInfoByAuthRepositorySpy = new GetUserInfoByAuthRepositorySpy();
-  const remoteAuthentication = new RemoteAuthentication(
+  const remoteAuthentication = new Authentication(
     signInWithEmailAndPasswordRepositorySpy,
     getUserInfoByAuthRepositorySpy
   );

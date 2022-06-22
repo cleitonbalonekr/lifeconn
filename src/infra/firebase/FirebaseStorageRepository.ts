@@ -12,7 +12,7 @@ import { StorageInstance } from '@/configs/firebase';
 import {
   UploadFileRepository,
   RemoveCallFilesRepository
-} from '@/data/protocols/fileStorage';
+} from '@/domain/protocols/fileStorage';
 
 export class FirebaseStoreRepository
   implements UploadFileRepository, RemoveCallFilesRepository

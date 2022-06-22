@@ -13,7 +13,7 @@ import {
   SendEmailToRecoveryPassword,
   SignOutRepository,
   AddUserIdToExistentContactRepository
-} from '@/data/protocols/account';
+} from '@/domain/protocols/db/account';
 
 import { FirebaseUserUtils } from './FirebaseUserUtils';
 

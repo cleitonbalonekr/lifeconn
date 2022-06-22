@@ -3,7 +3,7 @@ import faker from '@faker-js/faker';
 import { HttpStatusCode } from '@/data/protocols/http';
 import { RemoteLoadCallsBalance } from '@/data/usecases';
 import { UnexpectedError } from '@/domain/errors';
-import { HttpClientSpy } from '@/tests/data/mock';
+import { HttpClientSpy } from '@/tests/domain/mock';
 
 type SutTypes = {
   sut: RemoteLoadCallsBalance;

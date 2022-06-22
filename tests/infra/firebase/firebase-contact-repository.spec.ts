@@ -1,7 +1,7 @@
 import { setDoc } from 'firebase/firestore';
 
 import { FirebaseContactRepository } from '@/infra/firebase';
-import { makeAddContactParams } from '@/tests/data/mock/contact-mock';
+import { makeAddContactParams } from '@/tests/domain/mock/contact-mock';
 import { fakeId, randomId } from '@/tests/shared/mocks';
 import {
   cleanEmulators,

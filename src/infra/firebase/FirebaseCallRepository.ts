@@ -17,6 +17,7 @@ import {
 } from 'firebase/firestore';
 
 import { FirestoreInstance } from '@/configs/firebase';
+import { Call } from '@/domain/models/Call';
 import {
   CreateCallRepository,
   ListOpenCallsByUserRepository,
@@ -24,8 +25,7 @@ import {
   VerifyCallAlreadyOpenRepository,
   CloseCallRepository,
   SaveCallFileUrlRepository
-} from '@/data/protocols/call';
-import { Call } from '@/domain/models/Call';
+} from '@/domain/protocols/db/call';
 
 import { FirebaseUserUtils } from './FirebaseUserUtils';
 import { chunkArray } from './utils/chunkArray';

@@ -1,9 +1,25 @@
-export interface ResetPassword {
-  recovery: (email: ResetPassword.Params) => Promise<ResetPassword.Model>;
-}
+import { UserNotFoundError } from '@/domain/errors';
+import { catchErrorVerification } from '@/domain/errors/utils/catchErrorVerification';
+import { SendEmailToRecoveryPassword } from '@/domain/protocols/db/account';
 
-export namespace ResetPassword {
-  export type Params = string;
+export type ResetPasswordParams = string;
 
-  export type Model = boolean;
+export type ResetPasswordModel = boolean;
+
+export class ResetPassword {
+  constructor(
+    private readonly sendEmailToRecoveryPassword: SendEmailToRecoveryPassword
+  ) {}
+
+  async recovery(email: ResetPasswordParams) {
+    try {
+      const response = await this.sendEmailToRecoveryPassword.sendEmail(email);
+      if (!response) {
+        throw new UserNotFoundError();
+      }
+      return response;
+    } catch (error) {
+      return catchErrorVerification(error);
+    }
+  }
 }

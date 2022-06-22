@@ -8,13 +8,13 @@ import {
 } from 'firebase/firestore';
 
 import { FirestoreInstance } from '@/configs/firebase';
+import { AuthUser } from '@/domain/models';
 import {
   AddContactRepository,
   AddExistentContactRepository,
   VerifyContactExistToUserRepository,
   RemoteRemoveContactRepository
-} from '@/data/protocols/user/contact';
-import { AuthUser } from '@/domain/models';
+} from '@/domain/protocols/db/user/contact';
 
 import { FirebaseUserUtils } from './FirebaseUserUtils';
 

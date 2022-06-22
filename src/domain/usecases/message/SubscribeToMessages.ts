@@ -1,14 +1,25 @@
+import { catchErrorVerification } from '@/domain/errors/utils/catchErrorVerification';
 import { Message } from '@/domain/models';
+import { ListenMessagesRepository } from '@/domain/protocols/db/message';
 
-export interface SubscribeToMessages {
-  subscribe: (params: SubscribeToMessages.Params) => SubscribeToMessages.Model;
-}
+export type SubscribeToMessagesParams = {
+  callId: string;
+  successCallback(messages: Message[]): void;
+  errorCallback(error: any): void;
+};
+export type SubscribeToMessagesModel = () => void;
 
-export namespace SubscribeToMessages {
-  export type Params = {
-    callId: string;
-    successCallback(messages: Message[]): void;
-    errorCallback(error: any): void;
-  };
-  export type Model = () => void;
+export class SubscribeToMessages {
+  constructor(
+    private readonly listenMessagesRepository: ListenMessagesRepository
+  ) {}
+
+  subscribe(params: SubscribeToMessagesParams) {
+    try {
+      const unsubscribe = this.listenMessagesRepository.subscribe(params);
+      return unsubscribe;
+    } catch (error) {
+      return catchErrorVerification(error);
+    }
+  }
 }

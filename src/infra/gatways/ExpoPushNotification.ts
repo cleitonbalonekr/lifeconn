@@ -1,5 +1,5 @@
-import { SendPushNotification } from '@/data/gateways/notification';
-import { HttpClient, HttpStatusCode } from '@/data/protocols/http';
+import { HttpClient, HttpStatusCode } from '@/domain/protocols/http';
+import { SendPushNotification } from '@/domain/protocols/notification';
 
 export class ExpoPushNotification implements SendPushNotification {
   constructor(private readonly httpClient: HttpClient<void>) {}

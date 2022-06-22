@@ -10,8 +10,8 @@ import {
 import { v4 as uuidv4 } from 'uuid';
 
 import { FirestoreInstance } from '@/configs/firebase';
-import { AddCallEventRepository } from '@/data/protocols/call';
 import { CallEvent } from '@/domain/models/CallEvent';
+import { AddCallEventRepository } from '@/domain/protocols/db/call';
 
 export class FirebaseCallEventRepository implements AddCallEventRepository {
   private callsCollection: CollectionReference;

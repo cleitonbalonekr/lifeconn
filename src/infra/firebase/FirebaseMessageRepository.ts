@@ -13,13 +13,13 @@ import {
 import { v4 as uuidv4 } from 'uuid';
 
 import { FirestoreInstance } from '@/configs/firebase';
+import { Call, Message } from '@/domain/models';
 import {
   CreateMessageRepository,
   LoadCallMessageRepository,
   ListenMessagesRepository,
   VerifyFileLimitRepository
-} from '@/data/protocols/message';
-import { Call, Message } from '@/domain/models';
+} from '@/domain/protocols/db/message';
 
 export class FirebaseMessageRepository
   implements

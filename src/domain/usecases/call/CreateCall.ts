@@ -1,15 +1,52 @@
-export interface CreateCall {
-  add: (params: CreateCall.Params) => Promise<CreateCall.Result>;
-}
+import { CallAlreadyOpenError } from '@/domain/errors';
+import { catchErrorVerification } from '@/domain/errors/utils/catchErrorVerification';
+import { EventStatus } from '@/domain/models/CallEvent';
+import {
+  AddCallEventRepository,
+  CreateCallRepository,
+  VerifyCallAlreadyOpenRepository
+} from '@/domain/protocols/db/call';
+import { TokenGenerator } from '@/domain/protocols/hash/TokenGenerator';
 
-export namespace CreateCall {
-  export type Params = {
-    userId: string;
-    location: {
-      latitude: number;
-      longitude: number;
-    } | null;
-  };
+export type CreateCallParams = {
+  userId: string;
+  location: {
+    latitude: number;
+    longitude: number;
+  } | null;
+};
 
-  export type Result = string;
+export type CreateCallResult = string;
+
+export class CreateCall {
+  constructor(
+    private readonly createCallRepository: CreateCallRepository,
+    private readonly verifyCallAlreadyOpenRepository: VerifyCallAlreadyOpenRepository,
+    private readonly tokenGenerator: TokenGenerator,
+    private readonly addCallEventRepository: AddCallEventRepository
+  ) {}
+
+  async add(params: CreateCallParams) {
+    try {
+      const token = this.tokenGenerator.generate();
+      const payload = {
+        ...params,
+        token
+      };
+      const isAlreadyOpenToUser =
+        await this.verifyCallAlreadyOpenRepository.hasCallOpen(payload.userId);
+      if (isAlreadyOpenToUser) {
+        throw new CallAlreadyOpenError();
+      }
+      const call = await this.createCallRepository.create(payload);
+      await this.addCallEventRepository.add({
+        callId: call.id,
+        status: EventStatus.AUTHOR_CREATED,
+        creatorId: params.userId
+      });
+      return call.token;
+    } catch (error) {
+      return catchErrorVerification(error);
+    }
+  }
 }

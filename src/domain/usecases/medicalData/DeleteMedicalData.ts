@@ -1,14 +1,30 @@
+import { MedicalDataNotFound } from '@/domain/errors';
+import { catchErrorVerification } from '@/domain/errors/utils/catchErrorVerification';
 import { AuthUser } from '@/domain/models';
+import { DeleteUserMedicalDataRepository } from '@/domain/protocols/db/user';
 
-export interface DeleteMedicalData {
-  remove: (
-    medicalDataId: DeleteMedicalData.Params,
-    userId: string
-  ) => Promise<DeleteMedicalData.Model>;
-}
+export type DeleteMedicalDataParams = string;
 
-export namespace DeleteMedicalData {
-  export type Params = string;
+export type DeleteMedicalDataModel = AuthUser;
 
-  export type Model = AuthUser;
+export class DeleteMedicalData {
+  constructor(
+    private readonly deleteUserMedicalDataRepository: DeleteUserMedicalDataRepository
+  ) {}
+
+  async remove(medicalDataId: DeleteMedicalDataParams, userId: string) {
+    try {
+      const response =
+        await this.deleteUserMedicalDataRepository.removeMedicalData(
+          medicalDataId,
+          userId
+        );
+      if (!response) {
+        throw new MedicalDataNotFound();
+      }
+      return response;
+    } catch (error) {
+      return catchErrorVerification(error);
+    }
+  }
 }

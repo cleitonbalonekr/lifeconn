@@ -1,6 +1,6 @@
 import { HttpStatusCode } from '@/data/protocols/http';
 import { ExpoPushNotification } from '@/infra/gatways/ExpoPushNotification';
-import { HttpClientSpy } from '@/tests/data/mock';
+import { HttpClientSpy } from '@/tests/domain/mock';
 
 const makeSut = () => {
   const httpClientSpy = new HttpClientSpy();

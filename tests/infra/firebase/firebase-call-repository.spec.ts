@@ -2,8 +2,8 @@ import faker from '@faker-js/faker';
 import { getDoc } from 'firebase/firestore';
 
 import { FirebaseCallRepository } from '@/infra/firebase';
-import { makeFakeCallData } from '@/tests/data/mock/call-mock';
-import { makeFakeContact } from '@/tests/data/mock/contact-mock';
+import { makeFakeCallData } from '@/tests/domain/mock/call-mock';
+import { makeFakeContact } from '@/tests/domain/mock/contact-mock';
 import { randomId } from '@/tests/shared/mocks';
 import {
   cleanEmulators,

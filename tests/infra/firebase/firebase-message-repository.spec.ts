@@ -1,5 +1,5 @@
 import { FirebaseMessageRepository } from '@/infra/firebase';
-import { makeFakeMessage } from '@/tests/data/mock/message-mock';
+import { makeFakeMessage } from '@/tests/domain/mock/message-mock';
 import { randomId } from '@/tests/shared/mocks';
 import {
   cleanEmulators,

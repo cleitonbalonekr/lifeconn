@@ -1,7 +1,7 @@
 import faker from '@faker-js/faker';
 
 import { EventStatus } from '@/domain/models/CallEvent';
-import { makeLocation } from '@/tests/data/mock/call-mock';
+import { makeLocation } from '@/tests/domain/mock/call-mock';
 import { randomId } from '@/tests/shared/mocks';
 
 export const makeFakeCallParams = () => {

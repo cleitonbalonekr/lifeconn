@@ -14,14 +14,14 @@ import {
 } from 'firebase/firestore';
 
 import app, { FirestoreInstance } from '@/configs/firebase';
+import { AuthUser } from '@/domain/models';
 import {
   GetUserByIdRepository,
   UpdateUserInfoRepository,
   UpdateNotificationTokenRepository,
   GetUserContactsNotificationToken
-} from '@/data/protocols/user';
-import { AuthUser } from '@/domain/models';
-import { UpdateUserInfo } from '@/domain/usecases';
+} from '@/domain/protocols/db/user';
+import { UpdateUserInfoParams } from '@/domain/usecases';
 
 import { FirebaseUserUtils } from './FirebaseUserUtils';
 import { chunkArray } from './utils/chunkArray';
@@ -93,7 +93,7 @@ export class FirebaseUserRepository
   }
 
   async updateUser(
-    params: UpdateUserInfo.Params,
+    params: UpdateUserInfoParams,
     userId: string
   ): Promise<UpdateUserInfoRepository.Result> {
     const payload = { ...params };
