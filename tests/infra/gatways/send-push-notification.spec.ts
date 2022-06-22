@@ -1,4 +1,4 @@
-import { HttpStatusCode } from '@/data/protocols/http';
+import { HttpStatusCode } from '@/domain/protocols/http';
 import { ExpoPushNotification } from '@/infra/gatways/ExpoPushNotification';
 import { HttpClientSpy } from '@/tests/domain/mock';
 

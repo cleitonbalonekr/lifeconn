@@ -8,7 +8,7 @@ import {
   UpdateUserMedicalDataRepository,
   DeleteUserMedicalDataRepository,
   UpdateNotificationTokenRepository
-} from '@/data/protocols/user';
+} from '@/domain/protocols/db/user';
 
 import { getFakeAuthUser } from './auth-mock';
 

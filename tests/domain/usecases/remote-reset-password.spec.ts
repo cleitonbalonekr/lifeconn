@@ -1,5 +1,5 @@
-import { RemoteResetPassword } from '@/data/usecases';
 import { UnexpectedError, UserNotFoundError } from '@/domain/errors';
+import { ResetPassword } from '@/domain/usecases';
 import { throwError } from '@/tests/shared/mocks';
 
 import {
@@ -9,9 +9,7 @@ import {
 
 const makeSut = () => {
   const sendEmailToRecoveryPasswordSpy = new SendEmailToRecoveryPasswordSpy();
-  const remoteResetPassword = new RemoteResetPassword(
-    sendEmailToRecoveryPasswordSpy
-  );
+  const remoteResetPassword = new ResetPassword(sendEmailToRecoveryPasswordSpy);
   return {
     remoteResetPassword,
     sendEmailToRecoveryPasswordSpy

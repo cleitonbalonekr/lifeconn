@@ -1,5 +1,5 @@
-import { RemoteLoadCalls } from '@/data/usecases/call';
 import { UnexpectedError } from '@/domain/errors';
+import { LoadCalls } from '@/domain/usecases/call';
 import { randomId, throwError } from '@/tests/shared/mocks';
 
 import {
@@ -12,7 +12,7 @@ const makeSut = () => {
   const listOpenCallsByUserRepositorySpy =
     new ListOpenCallsByUserRepositorySpy();
   const loadContactsCallsRepositorySpy = new LoadContactsCallsRepositorySpy();
-  const remoteLoadCalls = new RemoteLoadCalls(
+  const remoteLoadCalls = new LoadCalls(
     listOpenCallsByUserRepositorySpy,
     loadContactsCallsRepositorySpy
   );

@@ -1,10 +1,10 @@
-import { RemoteAddContact } from '@/data/usecases';
 import {
   ContactAlreadyAddedError,
   ContactNotFoundError,
   InvalidContactError,
   UnexpectedError
 } from '@/domain/errors';
+import { AddContact } from '@/domain/usecases';
 import { fakeId, randomId, throwError } from '@/tests/shared/mocks';
 
 import {
@@ -22,7 +22,7 @@ const makeSut = () => {
   const addContactRepositorySpy = new AddContactRepositorySpy();
   const verifyContactExistToUserRepositorySpy =
     new VerifyContactExistToUserRepositorySpy();
-  const remoteAddContact = new RemoteAddContact(
+  const remoteAddContact = new AddContact(
     checkAccountPhoneNumberRepositorySpy,
     verifyContactExistToUserRepositorySpy,
     addExistentContactRepositorySpy,

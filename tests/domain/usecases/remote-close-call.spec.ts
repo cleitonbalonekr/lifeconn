@@ -1,6 +1,6 @@
-import { RemoteCloseCall } from '@/data/usecases/call';
 import { UnexpectedError } from '@/domain/errors';
 import { InvalidCallError } from '@/domain/errors/InvalidCallError';
+import { CloseCall } from '@/domain/usecases/call';
 import { randomId, throwError } from '@/tests/shared/mocks';
 
 import {
@@ -13,7 +13,7 @@ const makeSut = () => {
   const closeCallRepositorySpy = new CloseCallRepositorySpy();
   const addCallEventRepositorySpy = new AddCallEventRepositorySpy();
   const removeCallFilesRepositorySpy = new RemoveCallFilesRepositorySpy();
-  const remoteCloseCall = new RemoteCloseCall(
+  const remoteCloseCall = new CloseCall(
     closeCallRepositorySpy,
     addCallEventRepositorySpy,
     removeCallFilesRepositorySpy

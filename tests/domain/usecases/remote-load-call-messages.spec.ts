@@ -1,5 +1,5 @@
-import { RemoteLoadCallMessage } from '@/data/usecases';
 import { UnexpectedError } from '@/domain/errors';
+import { LoadCallMessage } from '@/domain/usecases';
 import { randomId, throwError } from '@/tests/shared/mocks';
 
 import { LoadContactsCallsRepositorySpy } from '../mock/call-mock';
@@ -8,9 +8,7 @@ import { LoadCallMessageRepositorySpy } from '../mock/message-mock';
 
 const makeSut = () => {
   const loadCallMessageRepositorySpy = new LoadCallMessageRepositorySpy();
-  const remoteLoadCalls = new RemoteLoadCallMessage(
-    loadCallMessageRepositorySpy
-  );
+  const remoteLoadCalls = new LoadCallMessage(loadCallMessageRepositorySpy);
   return {
     remoteLoadCalls,
     loadCallMessageRepositorySpy

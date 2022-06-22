@@ -1,5 +1,5 @@
-import { RemoteUpdateUserInfo } from '@/data/usecases';
 import { UserNotFoundError } from '@/domain/errors';
+import { UpdateUserInfo } from '@/domain/usecases';
 import { fakeId } from '@/tests/shared/mocks';
 
 import {
@@ -9,9 +9,7 @@ import {
 
 const makeSut = () => {
   const updateUserInfoRepositorySpy = new UpdateUserInfoRepositorySpy();
-  const remoteUpdateUserInfo = new RemoteUpdateUserInfo(
-    updateUserInfoRepositorySpy
-  );
+  const remoteUpdateUserInfo = new UpdateUserInfo(updateUserInfoRepositorySpy);
   return {
     remoteUpdateUserInfo,
     updateUserInfoRepositorySpy

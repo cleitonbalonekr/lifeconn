@@ -1,14 +1,14 @@
 /* eslint-disable max-classes-per-file */
 import faker from '@faker-js/faker';
 
+import { Contact, MedicalData } from '@/domain/models';
 import {
   AddAccountRepository,
   AddAccountToExistenteUserRepository,
   CheckAccountByEmailRepository,
   CheckAccountPhoneNumberRepository,
   AddUserIdToExistentContactRepository
-} from '@/data/protocols/account';
-import { Contact, MedicalData } from '@/domain/models';
+} from '@/domain/protocols/db/account';
 
 export const fakeUseRegisterData = () => ({
   email: faker.internet.email(),

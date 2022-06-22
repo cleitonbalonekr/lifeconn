@@ -1,6 +1,6 @@
 /* eslint-disable max-classes-per-file */
-import { SendPushNotification } from '@/data/gateways/notification';
-import { GetUserContactsNotificationToken } from '@/data/protocols/user';
+import { GetUserContactsNotificationToken } from '@/domain/protocols/db/user';
+import { SendPushNotification } from '@/domain/protocols/notification';
 
 export class GetUserContactsNotificationTokenSpy
   implements GetUserContactsNotificationToken

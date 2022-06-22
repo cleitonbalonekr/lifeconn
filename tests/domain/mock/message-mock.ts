@@ -1,14 +1,14 @@
 /* eslint-disable max-classes-per-file */
 import faker from '@faker-js/faker';
 
-import { SaveCallFileUrlRepository } from '@/data/protocols/call';
-import { UploadFileRepository } from '@/data/protocols/fileStorage';
+import { SaveCallFileUrlRepository } from '@/domain/protocols/db/call';
 import {
   CreateMessageRepository,
   LoadCallMessageRepository,
   ListenMessagesRepository,
   VerifyFileLimitRepository
-} from '@/data/protocols/message';
+} from '@/domain/protocols/db/message';
+import { UploadFileRepository } from '@/domain/protocols/fileStorage';
 import { randomId } from '@/tests/shared/mocks';
 
 export const makeFakeMessage = () => ({

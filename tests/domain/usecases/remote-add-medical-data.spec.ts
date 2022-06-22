@@ -1,5 +1,5 @@
-import { RemoteAddMedicalData } from '@/data/usecases';
 import { UserNotFoundError } from '@/domain/errors';
+import { AddMedicalData } from '@/domain/usecases';
 import { fakeId } from '@/tests/shared/mocks';
 
 import {
@@ -9,9 +9,7 @@ import {
 
 const makeSut = () => {
   const addUserMedicalDataRepository = new AddUserMedicalDataRepositorySpy();
-  const remoteAddMedicalData = new RemoteAddMedicalData(
-    addUserMedicalDataRepository
-  );
+  const remoteAddMedicalData = new AddMedicalData(addUserMedicalDataRepository);
   return {
     remoteAddMedicalData,
     addUserMedicalDataRepository

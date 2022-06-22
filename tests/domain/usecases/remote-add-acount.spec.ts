@@ -1,7 +1,7 @@
 import faker from '@faker-js/faker';
 
-import { RemoteAddAccount } from '@/data/usecases/account';
 import { EmailInUseError, UnexpectedError } from '@/domain/errors';
+import { AddAccount } from '@/domain/usecases/account';
 import { throwError } from '@/tests/shared/mocks';
 
 import {
@@ -23,7 +23,7 @@ const makeSut = () => {
     new CheckAccountByEmailRepositorySpy();
   const addUserIdToExistentContactRepositorySpy =
     new AddUserIdToExistentContactRepositorySpy();
-  const remoteAddAccount = new RemoteAddAccount(
+  const remoteAddAccount = new AddAccount(
     addAccountRepositorySpy,
     checkAccountByEmailRepositorySpy,
     checkAccountPhoneNumberRepositorySpy,

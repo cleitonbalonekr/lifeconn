@@ -1,5 +1,5 @@
-import { RemoteSendContactsNotification } from '@/data/usecases';
 import { UnexpectedError, UserNotFoundError } from '@/domain/errors';
+import { SendContactsNotification } from '@/domain/usecases';
 import { randomId, throwError } from '@/tests/shared/mocks';
 
 import {
@@ -11,7 +11,7 @@ const makeSut = () => {
   const getUserContactsNotificationTokenSpy =
     new GetUserContactsNotificationTokenSpy();
   const sendPushNotificationSpy = new SendPushNotificationSpy();
-  const remoteSendContactsNotifications = new RemoteSendContactsNotification(
+  const remoteSendContactsNotifications = new SendContactsNotification(
     getUserContactsNotificationTokenSpy,
     sendPushNotificationSpy
   );

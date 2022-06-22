@@ -1,14 +1,14 @@
 /* eslint-disable max-classes-per-file */
 import faker from '@faker-js/faker';
 
-import { CheckAccountPhoneNumberRepository } from '@/data/protocols/account';
+import { AuthUser } from '@/domain/models';
+import { CheckAccountPhoneNumberRepository } from '@/domain/protocols/db/account';
 import {
   AddExistentContactRepository,
   AddContactRepository,
   VerifyContactExistToUserRepository,
   RemoteRemoveContactRepository
-} from '@/data/protocols/user';
-import { AuthUser } from '@/domain/models';
+} from '@/domain/protocols/db/user';
 import { randomId } from '@/tests/shared/mocks';
 
 import { getFakeAuthUser } from './auth-mock';

@@ -1,5 +1,5 @@
-import { RemoteCreateCall } from '@/data/usecases';
 import { CallAlreadyOpenError, UnexpectedError } from '@/domain/errors';
+import { CreateCall } from '@/domain/usecases';
 import { randomId, throwError } from '@/tests/shared/mocks';
 
 import {
@@ -16,7 +16,7 @@ const makeSut = () => {
     new VerifyCallAlreadyOpenRepositorySpy();
   const tokenGeneratorSpy = new TokenGeneratorSpy();
   const addCallEventRepositorySpy = new AddCallEventRepositorySpy();
-  const remoteCreateCall = new RemoteCreateCall(
+  const remoteCreateCall = new CreateCall(
     createCallRepositorySpy,
     verifyCallAlreadyOpenRepositorySpy,
     tokenGeneratorSpy,

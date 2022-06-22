@@ -1,19 +1,19 @@
 import faker from '@faker-js/faker';
 
-import { HttpStatusCode } from '@/data/protocols/http';
-import { RemoteLoadCallsBalance } from '@/data/usecases';
 import { UnexpectedError } from '@/domain/errors';
+import { HttpStatusCode } from '@/domain/protocols/http';
+import { LoadCallsBalance } from '@/domain/usecases';
 import { HttpClientSpy } from '@/tests/domain/mock';
 
 type SutTypes = {
-  sut: RemoteLoadCallsBalance;
+  sut: LoadCallsBalance;
   httpClientSpy: HttpClientSpy;
 };
 const mockRemoteLoadCallsBalanceResult = () => faker.datatype.number();
 
 const makeSut = (url = faker.internet.url()): SutTypes => {
   const httpClientSpy = new HttpClientSpy();
-  const sut = new RemoteLoadCallsBalance(url, httpClientSpy);
+  const sut = new LoadCallsBalance(url, httpClientSpy);
   return {
     sut,
     httpClientSpy

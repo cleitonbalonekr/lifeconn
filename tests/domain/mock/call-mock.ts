@@ -1,6 +1,8 @@
 /* eslint-disable max-classes-per-file */
 import faker from '@faker-js/faker';
 
+import { Call } from '@/domain/models/Call';
+import { CallEvent, EventStatus } from '@/domain/models/CallEvent';
 import {
   AddCallEventRepository,
   CreateCallRepository,
@@ -8,11 +10,9 @@ import {
   LoadContactsCallsRepository,
   VerifyCallAlreadyOpenRepository,
   CloseCallRepository
-} from '@/data/protocols/call';
-import { RemoveCallFilesRepository } from '@/data/protocols/fileStorage';
-import { TokenGenerator } from '@/data/protocols/hash/TokenGenerator';
-import { Call } from '@/domain/models/Call';
-import { CallEvent, EventStatus } from '@/domain/models/CallEvent';
+} from '@/domain/protocols/db//call';
+import { RemoveCallFilesRepository } from '@/domain/protocols/fileStorage';
+import { TokenGenerator } from '@/domain/protocols/hash/TokenGenerator';
 import { randomId } from '@/tests/shared/mocks';
 
 export const makeLocation = () => ({

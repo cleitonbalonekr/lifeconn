@@ -1,12 +1,12 @@
-import { RemoteLogoutUser } from '@/data/usecases';
 import { UnexpectedError } from '@/domain/errors';
+import { LogoutUser } from '@/domain/usecases';
 import { throwError } from '@/tests/shared/mocks';
 
 import { SignOutRepositorySpy } from '../mock/auth-mock';
 
 const makeSut = () => {
   const signOutRepositorySpy = new SignOutRepositorySpy();
-  const remoteLogoutUser = new RemoteLogoutUser(signOutRepositorySpy);
+  const remoteLogoutUser = new LogoutUser(signOutRepositorySpy);
   return {
     signOutRepositorySpy,
     remoteLogoutUser

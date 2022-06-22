@@ -1,6 +1,6 @@
-import { RemoteCreateMessage } from '@/data/usecases/';
 import { UnexpectedError } from '@/domain/errors';
 import { InvalidCallError } from '@/domain/errors/InvalidCallError';
+import { CreateMessage } from '@/domain/usecases/';
 import { randomId, throwError } from '@/tests/shared/mocks';
 
 import {
@@ -14,9 +14,7 @@ import {
 
 const makeSut = () => {
   const createMessageRepositorySpy = new CreateMessageRepositorySpy();
-  const remoteCreateMessage = new RemoteCreateMessage(
-    createMessageRepositorySpy
-  );
+  const remoteCreateMessage = new CreateMessage(createMessageRepositorySpy);
   return {
     remoteCreateMessage,
     createMessageRepositorySpy

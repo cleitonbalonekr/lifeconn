@@ -1,9 +1,9 @@
-import { RemoteCreateCallForAnotherPerson } from '@/data/usecases';
 import {
   CallAlreadyOpenError,
   UnexpectedError,
   UserNotFoundError
 } from '@/domain/errors';
+import { CreateCallForAnotherPerson } from '@/domain/usecases';
 import { randomId, throwError } from '@/tests/shared/mocks';
 
 import { GetUserByIdRepositorySpy } from '../mock';
@@ -28,7 +28,7 @@ const makeSut = () => {
   const addCallEventRepositorySpy = new AddCallEventRepositorySpy();
   const verifyCallAlreadyOpenRepositorySpy =
     new VerifyCallAlreadyOpenRepositorySpy();
-  const remoteCreateCallForAnotherPerson = new RemoteCreateCallForAnotherPerson(
+  const remoteCreateCallForAnotherPerson = new CreateCallForAnotherPerson(
     tokenGeneratorSpy,
     checkAccountPhoneNumberRepositorySpy,
     getUserByIdRepositorySpy,

@@ -3,13 +3,12 @@ import faker from '@faker-js/faker';
 
 import { MedicalData } from '@/domain/models';
 import { Contact } from '@/domain/models/Contact';
-
 import {
   GetUserInfoByAuthRepository,
   SignInWithEmailAndPasswordRepository,
   SendEmailToRecoveryPassword,
   SignOutRepository
-} from '../protocols/account';
+} from '@/domain/protocols/db/account';
 
 export const getFakeCredentials = () => ({
   email: faker.internet.email(),

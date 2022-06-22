@@ -1,5 +1,5 @@
-import { RemoteSaveNotificationToken } from '@/data/usecases';
 import { UnexpectedError, UserNotFoundError } from '@/domain/errors';
+import { SaveNotificationToken } from '@/domain/usecases';
 import { fakeId, throwError } from '@/tests/shared/mocks';
 
 import {
@@ -10,7 +10,7 @@ import {
 const makeSut = () => {
   const updateNotificationTokenRepository =
     new UpdateNotificationTokenRepositorySpy();
-  const remoteSaveNotificationToken = new RemoteSaveNotificationToken(
+  const remoteSaveNotificationToken = new SaveNotificationToken(
     updateNotificationTokenRepository
   );
   return {

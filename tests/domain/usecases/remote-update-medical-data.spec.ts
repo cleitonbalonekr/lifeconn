@@ -1,5 +1,5 @@
-import { RemoteUpdateMedicalData } from '@/data/usecases';
 import { MedicalDataNotFound } from '@/domain/errors';
+import { UpdateMedicalData } from '@/domain/usecases';
 import { fakeId } from '@/tests/shared/mocks';
 
 import {
@@ -10,7 +10,7 @@ import {
 const makeSut = () => {
   const updateUserMedicalDataRepository =
     new UpdateUserMedicalDataRepositorySpy();
-  const remoteUpdateMedicalData = new RemoteUpdateMedicalData(
+  const remoteUpdateMedicalData = new UpdateMedicalData(
     updateUserMedicalDataRepository
   );
   return {

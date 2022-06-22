@@ -1,5 +1,5 @@
-import { RemoteRemoveContact } from '@/data/usecases';
 import { UnexpectedError } from '@/domain/errors';
+import { RemoveContact } from '@/domain/usecases';
 import { fakeId, throwError } from '@/tests/shared/mocks';
 
 import {
@@ -10,7 +10,7 @@ import {
 const makeSut = () => {
   const remoteRemoveContactRepositorySpy =
     new RemoteRemoveContactRepositorySpy();
-  const remoteRemoveContact = new RemoteRemoveContact(
+  const remoteRemoveContact = new RemoveContact(
     remoteRemoveContactRepositorySpy
   );
   return {

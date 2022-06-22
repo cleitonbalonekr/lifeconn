@@ -1,7 +1,7 @@
 import faker from '@faker-js/faker';
 
-import { RemoteStoreFile } from '@/data/usecases/message/';
 import { MaxFilesExceedError, UnexpectedError } from '@/domain/errors';
+import { StoreFile } from '@/domain/usecases/message';
 import { randomId, throwError } from '@/tests/shared/mocks';
 
 import {
@@ -14,7 +14,7 @@ const makeSut = () => {
   const verifyFileLimitRepositorySpy = new VerifyFileLimitRepositorySpy();
   const uploadFileRepositorySpy = new UploadFileRepositorySpy();
   const saveCallFileUrlRepositorySpy = new SaveCallFileUrlRepositorySpy();
-  const sut = new RemoteStoreFile(
+  const sut = new StoreFile(
     verifyFileLimitRepositorySpy,
     uploadFileRepositorySpy,
     saveCallFileUrlRepositorySpy

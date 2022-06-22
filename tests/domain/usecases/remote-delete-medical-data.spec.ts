@@ -1,5 +1,5 @@
-import { RemoteDeleteMedicalData } from '@/data/usecases';
 import { MedicalDataNotFound } from '@/domain/errors';
+import { DeleteMedicalData } from '@/domain/usecases';
 import { fakeId } from '@/tests/shared/mocks';
 
 import {
@@ -10,7 +10,7 @@ import {
 const makeSut = () => {
   const deleteUserMedicalDataRepository =
     new DeleteUserMedicalDataRepositorySpy();
-  const remoteAddMedicalData = new RemoteDeleteMedicalData(
+  const remoteAddMedicalData = new DeleteMedicalData(
     deleteUserMedicalDataRepository
   );
   return {

@@ -5,7 +5,7 @@ import {
   HttpResponse,
   HttpStatusCode,
   HttpClient
-} from '@/data/protocols/http';
+} from '@/domain/protocols/http';
 
 const object = { keyA: 'valueA', keyB: 42 };
 export const mockHttpRequest = (): HttpRequest => ({
