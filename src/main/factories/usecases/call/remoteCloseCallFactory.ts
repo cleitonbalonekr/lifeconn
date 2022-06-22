@@ -1,4 +1,3 @@
-import { RemoteCloseCall } from '@/data/usecases';
 import { CloseCall } from '@/domain/usecases';
 import {
   FirebaseCallRepository,
@@ -11,7 +10,7 @@ export const makeRemoteCloseCall = (): CloseCall => {
   const firebaseCallEventRepository = new FirebaseCallEventRepository();
   const firebaseStoreRepository = new FirebaseStoreRepository();
 
-  return new RemoteCloseCall(
+  return new CloseCall(
     firebaseCallRepository,
     firebaseCallEventRepository,
     firebaseStoreRepository

@@ -1,4 +1,3 @@
-import { RemoteCreateCallForAnotherPerson } from '@/data/usecases';
 import { CreateCallForAnotherPerson } from '@/domain/usecases';
 import {
   FirebaseCallRepository,
@@ -16,7 +15,7 @@ export const makeRemoteCreateCallForAnotherPerson =
     const firebaseCallRepository = new FirebaseCallRepository();
     const firebaseCallEventRepository = new FirebaseCallEventRepository();
 
-    return new RemoteCreateCallForAnotherPerson(
+    return new CreateCallForAnotherPerson(
       nanoidTokenGenerator,
       firebaseAccountRepository,
       firebaseUserRepository,

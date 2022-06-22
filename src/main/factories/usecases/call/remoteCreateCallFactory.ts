@@ -1,4 +1,3 @@
-import { RemoteCreateCall } from '@/data/usecases';
 import { CreateCall } from '@/domain/usecases';
 import {
   FirebaseCallRepository,
@@ -11,7 +10,7 @@ export const makeRemoteCreateCall = (): CreateCall => {
   const nanoidTokenGenerator = new NanoidTokenGenerator();
   const firebaseCallEventRepository = new FirebaseCallEventRepository();
 
-  return new RemoteCreateCall(
+  return new CreateCall(
     firebaseCallRepository,
     firebaseCallRepository,
     nanoidTokenGenerator,

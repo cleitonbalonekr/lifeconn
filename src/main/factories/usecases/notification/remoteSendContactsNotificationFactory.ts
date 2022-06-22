@@ -1,4 +1,3 @@
-import { RemoteSendContactsNotification } from '@/data/usecases';
 import { SendContactsNotification } from '@/domain/usecases';
 import { FirebaseUserRepository } from '@/infra/firebase';
 import { ExpoPushNotification } from '@/infra/gatways/ExpoPushNotification';
@@ -9,7 +8,7 @@ export const makeRemoteSendContactsNotification =
     const firebaseUserRepository = new FirebaseUserRepository();
     const httpClient = new AxiosHttpClient();
     const expoPushNotification = new ExpoPushNotification(httpClient);
-    return new RemoteSendContactsNotification(
+    return new SendContactsNotification(
       firebaseUserRepository,
       expoPushNotification
     );

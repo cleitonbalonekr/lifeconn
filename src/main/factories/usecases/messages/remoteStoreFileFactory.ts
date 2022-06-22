@@ -1,4 +1,3 @@
-import { RemoteStoreFile } from '@/data/usecases';
 import { StoreFile } from '@/domain/usecases';
 import {
   FirebaseCallRepository,
@@ -10,7 +9,7 @@ export const makeRemoteStoreFile = (): StoreFile => {
   const firebaseMessageRepository = new FirebaseMessageRepository();
   const firebaseStoreRepository = new FirebaseStoreRepository();
   const firebaseCallRepository = new FirebaseCallRepository();
-  return new RemoteStoreFile(
+  return new StoreFile(
     firebaseMessageRepository,
     firebaseStoreRepository,
     firebaseCallRepository
