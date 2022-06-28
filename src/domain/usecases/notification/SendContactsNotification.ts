@@ -21,9 +21,11 @@ export class SendContactsNotification {
         throw new UserNotFoundError();
       }
       const { tokens, fullName } = response;
-      const send = await this.sendNotification.notify(tokens, fullName);
-      if (!send) {
-        throw new UnexpectedError();
+      if (tokens.length > 0) {
+        const send = await this.sendNotification.notify(tokens, fullName);
+        if (!send) {
+          throw new UnexpectedError();
+        }
       }
     } catch (error) {
       catchErrorVerification(error);
