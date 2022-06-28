@@ -6,19 +6,16 @@ import {
   AddCallEventRepositorySpy,
   CreateCallRepositorySpy,
   makeLocation,
-  TokenGeneratorSpy,
-  VerifyCallAlreadyOpenRepositorySpy
+  TokenGeneratorSpy
 } from '../mock/call-mock';
 
 const makeSut = () => {
   const createCallRepositorySpy = new CreateCallRepositorySpy();
-  const verifyCallAlreadyOpenRepositorySpy =
-    new VerifyCallAlreadyOpenRepositorySpy();
+
   const tokenGeneratorSpy = new TokenGeneratorSpy();
   const addCallEventRepositorySpy = new AddCallEventRepositorySpy();
   const remoteCreateCall = new CreateCall(
     createCallRepositorySpy,
-    verifyCallAlreadyOpenRepositorySpy,
     tokenGeneratorSpy,
     addCallEventRepositorySpy
   );
@@ -26,8 +23,7 @@ const makeSut = () => {
     remoteCreateCall,
     createCallRepositorySpy,
     tokenGeneratorSpy,
-    addCallEventRepositorySpy,
-    verifyCallAlreadyOpenRepositorySpy
+    addCallEventRepositorySpy
   };
 };
 
@@ -43,15 +39,7 @@ describe('RemoteCreateCall', () => {
     });
     await expect(promise).rejects.toThrow(new UnexpectedError());
   });
-  it('it throw CallAlreadyOpenError if there is a open call to the user', async () => {
-    const { remoteCreateCall, verifyCallAlreadyOpenRepositorySpy } = makeSut();
-    verifyCallAlreadyOpenRepositorySpy.response = true;
-    const promise = remoteCreateCall.add({
-      location: makeLocation(),
-      userId: randomId()
-    });
-    await expect(promise).rejects.toThrow(new CallAlreadyOpenError());
-  });
+
   it('it should call tokenGenerator', async () => {
     const { remoteCreateCall, tokenGeneratorSpy } = makeSut();
     await remoteCreateCall.add({

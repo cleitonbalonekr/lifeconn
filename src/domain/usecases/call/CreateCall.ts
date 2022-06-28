@@ -21,7 +21,6 @@ export type CreateCallResult = string;
 export class CreateCall {
   constructor(
     private readonly createCallRepository: CreateCallRepository,
-    private readonly verifyCallAlreadyOpenRepository: VerifyCallAlreadyOpenRepository,
     private readonly tokenGenerator: TokenGenerator,
     private readonly addCallEventRepository: AddCallEventRepository
   ) {}
@@ -33,11 +32,7 @@ export class CreateCall {
         ...params,
         token
       };
-      const isAlreadyOpenToUser =
-        await this.verifyCallAlreadyOpenRepository.hasCallOpen(payload.userId);
-      if (isAlreadyOpenToUser) {
-        throw new CallAlreadyOpenError();
-      }
+
       const call = await this.createCallRepository.create(payload);
       await this.addCallEventRepository.add({
         callId: call.id,
