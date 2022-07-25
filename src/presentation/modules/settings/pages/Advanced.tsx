@@ -72,9 +72,18 @@ const Advanced: React.FC = () => {
         </View>
         <View style={tailwind('bg-slate-300 p-2 mt-2 rounded-md')}>
           <Text style={tailwind('text-lg font-bold mt-2 mb-2')}>
+            Limitações do Monitoramento
+          </Text>
+          <Text style={tailwind('text-lg text-black')}>
+            O sistema de detecção de colisão só funciona com a aplicação aberta.
+            Dessa forma, para alerta-lo de quando deve abrir a aplicação, defina
+            um limite de velocidade. Ao atingir esse limite, você será
+            notificado para que abra a aplicação.
+          </Text>
+          <Text style={tailwind('text-lg font-bold mt-2 mb-2')}>
             Funcionamento Offline
           </Text>
-          <Text style={tailwind('text-sm text-green-600')}>
+          <Text style={tailwind('text-lg text-black')}>
             {`* Geolocalização poderá não funcionar corretamente.
 * Criação de eventos ficará indisponível.
 * Notificação de familiares ficará indisponível.
@@ -89,7 +98,7 @@ para a comunicação tradicional com as autoridades.`}
           <Text style={tailwind('text-lg font-bold mt-2 mb-2')}>
             Telefone de emergência
           </Text>
-          <Text style={tailwind('text-sm text-green-600')}>
+          <Text style={tailwind('text-sm text-black')}>
             {`Telefone configurado: ${CALL_NUMBER_EMERGENCY}`}
           </Text>
         </View>
@@ -97,10 +106,10 @@ para a comunicação tradicional com as autoridades.`}
           <Text style={tailwind('text-lg font-bold mt-2 mb-2')}>
             Log de execução - background
           </Text>
-          <Text style={tailwind('text-sm text-green-600')}>
+          <Text style={tailwind('text-sm text-black')}>
             {`Execução - ${logBackground}`}
           </Text>
-          <Text style={tailwind('text-sm text-green-600')}>
+          <Text style={tailwind('text-sm text-black')}>
             {`Última tarefa: ${logTask}`}
           </Text>
         </View>
@@ -108,7 +117,7 @@ para a comunicação tradicional com as autoridades.`}
           <Text style={tailwind('text-lg font-bold mt-2 mb-2')}>
             Log de execução - velocidade
           </Text>
-          <Text style={tailwind('text-sm text-green-600')}>
+          <Text style={tailwind('text-sm text-black')}>
             {`Útilma execução - ${logSpeed}`}
           </Text>
         </View>
@@ -116,7 +125,7 @@ para a comunicação tradicional com as autoridades.`}
           <Text style={tailwind('text-lg font-bold mt-2 mb-2')}>
             Log de execução - acelerômetro
           </Text>
-          <Text style={tailwind('text-sm text-green-600')}>
+          <Text style={tailwind('text-sm text-black')}>
             {`Útilma execução - ${logAccelerometer}`}
           </Text>
         </View>
