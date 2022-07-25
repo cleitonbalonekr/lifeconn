@@ -45,7 +45,7 @@ const OPTIONS_LIST = [
   {
     id: '6',
     icon: 'address-book',
-    label: 'Contatos',
+    label: 'Pessoas próximas',
     navigateTo: 'Contacts'
   }
 ];
