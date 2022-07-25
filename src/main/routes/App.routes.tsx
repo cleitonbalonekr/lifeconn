@@ -150,7 +150,7 @@ export function AppRoutes() {
       <Stack.Screen
         options={{
           headerShown: true,
-          title: 'Contatos'
+          title: 'Pessoas Próximas'
         }}
         name="Contacts"
         component={MakeContacts}
@@ -158,7 +158,7 @@ export function AppRoutes() {
       <Stack.Screen
         options={{
           headerShown: true,
-          title: 'Adicionar contato'
+          title: 'Adicionar pessoa Próxima'
         }}
         name="CreateContacts"
         component={MakeCreateContacts}
