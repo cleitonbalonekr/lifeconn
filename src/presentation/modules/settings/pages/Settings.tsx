@@ -111,6 +111,8 @@ const Settings: React.FC<Props> = ({
     navigation.navigate('Term');
   }
 
+  const isMedicalDataAdded = authUser.medicalData.length > 0;
+
   return (
     <Container scroll>
       <View style={tailwind('flex-1')}>
@@ -159,12 +161,16 @@ const Settings: React.FC<Props> = ({
           </View>
           <View style={tailwind('flex-1 mt-1')}>
             <ButtonOutline
-              label="Informações médicas"
+              label={
+                isMedicalDataAdded
+                  ? 'Informações médicas'
+                  : 'Cadastre suas informações médicas'
+              }
               type="primary"
               onPress={handleNavigateToMedicalInfo}
             >
               <Ionicons
-                name="heart-outline"
+                name={isMedicalDataAdded ? 'heart-outline' : 'warning'}
                 size={20}
                 style={tailwind('text-blue-600')}
               />
