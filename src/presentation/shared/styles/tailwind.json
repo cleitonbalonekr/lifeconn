@@ -146,11 +146,6 @@
 			"marginTop": 24
 		}
 	},
-	"mb-6": {
-		"style": {
-			"marginBottom": 24
-		}
-	},
 	"mt-12": {
 		"style": {
 			"marginTop": 48
@@ -741,6 +736,12 @@
 			"color": "rgb(239 68 68 / var(--tw-text-opacity))"
 		}
 	},
+	"text-orange-700": {
+		"style": {
+			"--tw-text-opacity": 1,
+			"color": "rgb(194 65 12 / var(--tw-text-opacity))"
+		}
+	},
 	"text-red-600": {
 		"style": {
 			"--tw-text-opacity": 1,
@@ -799,24 +800,6 @@
 		"style": {
 			"--tw-text-opacity": 1,
 			"color": "rgb(59 130 246 / var(--tw-text-opacity))"
-		}
-	},
-	"text-yellow-500": {
-		"style": {
-			"--tw-text-opacity": 1,
-			"color": "rgb(234 179 8 / var(--tw-text-opacity))"
-		}
-	},
-	"text-orange-500": {
-		"style": {
-			"--tw-text-opacity": 1,
-			"color": "rgb(249 115 22 / var(--tw-text-opacity))"
-		}
-	},
-	"text-orange-700": {
-		"style": {
-			"--tw-text-opacity": 1,
-			"color": "rgb(194 65 12 / var(--tw-text-opacity))"
 		}
 	},
 	"text-opacity-80": {

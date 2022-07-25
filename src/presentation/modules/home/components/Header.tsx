@@ -21,9 +21,16 @@ const Header: React.FC<Props> = ({ from = 'home' }) => {
   function handleNavigationToHome() {
     navigation.navigate('Home');
   }
+  function handleNavigationToSettings() {
+    navigation.navigate('Settings');
+  }
   function handleNavigationToHelpSomeoneElse() {
     navigation.navigate('HelpSomeoneElse');
   }
+
+  const isMedicalDataAdded = authUser.medicalData.length > 0;
+  const completedInfo = isMedicalDataAdded && authUser.fullName;
+
   return (
     <View style={tailwind('mt-12 mb-4 pb-1 overflow-hidden')}>
       <View
@@ -33,18 +40,27 @@ const Header: React.FC<Props> = ({ from = 'home' }) => {
         ]}
       >
         <View style={tailwind('items-center justify-center')}>
-          <View
-            style={tailwind(
-              'rounded-full bg-green-600 w-12 h-12 items-center justify-center'
-            )}
-          >
-            <Ionicons name="person-outline" size={20} />
-          </View>
+          {completedInfo ? (
+            <View
+              style={tailwind(
+                'rounded-full bg-green-600 w-12 h-12 items-center justify-center'
+              )}
+            >
+              <Ionicons name="person-outline" size={20} />
+            </View>
+          ) : (
+            <Ionicons
+              name="warning"
+              size={36}
+              style={tailwind('text-yellow-600')}
+              onPress={handleNavigationToSettings}
+            />
+          )}
           <Text
             numberOfLines={2}
             style={tailwind('text-xs mt-2 w-20 text-center font-ubuntu')}
           >
-            {authUser.fullName || 'Bem vindo(a)'}
+            {completedInfo ? authUser.fullName : 'Informações incompletas'}
           </Text>
         </View>
         <View style={tailwind('flex-row ')}>
