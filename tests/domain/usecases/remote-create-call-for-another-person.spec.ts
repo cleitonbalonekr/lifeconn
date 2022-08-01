@@ -1,8 +1,4 @@
-import {
-  CallAlreadyOpenError,
-  UnexpectedError,
-  UserNotFoundError
-} from '@/domain/errors';
+import { UnexpectedError, UserNotFoundError } from '@/domain/errors';
 import { CreateCallForAnotherPerson } from '@/domain/usecases';
 import { randomId, throwError } from '@/tests/shared/mocks';
 
@@ -62,31 +58,7 @@ describe('RemoteCreateCallForAnotherPerson', () => {
     );
     await expect(promise).rejects.toThrow(new UnexpectedError());
   });
-  it('it throw CallAlreadyOpenError if there is a open call to the user', async () => {
-    const {
-      remoteCreateCallForAnotherPerson,
-      verifyCallAlreadyOpenRepositorySpy,
-      checkAccountPhoneNumberRepositorySpy
-    } = makeSut();
-    const creatorId = randomId();
-    const victim = {
-      fullName: makeAddContactParams().nickname,
-      phoneNumber: makeAddContactParams().phoneNumber
-    };
-    verifyCallAlreadyOpenRepositorySpy.response = true;
-    checkAccountPhoneNumberRepositorySpy.response = {
-      phoneNumberInUse: true,
-      userId: randomId()
-    };
-    const promise = remoteCreateCallForAnotherPerson.add(
-      {
-        location: makeLocation(),
-        victim
-      },
-      creatorId
-    );
-    await expect(promise).rejects.toThrow(new CallAlreadyOpenError());
-  });
+
   it('it throw UserNotFoundError if helper is not found', async () => {
     const { remoteCreateCallForAnotherPerson, getUserByIdRepositorySpy } =
       makeSut();
