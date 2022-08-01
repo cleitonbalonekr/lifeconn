@@ -59,7 +59,7 @@ const DetailsNotification: React.FC<Props> = ({ closeCall }) => {
     try {
       loadingOverlayRef.current?.showLoading();
       await closeCall.close({
-        userId: user.id,
+        userId: authUser.id,
         callId: notification.id
       });
       showSuccess({ description: 'Chamado fechado com sucesso.' });
@@ -116,7 +116,7 @@ const DetailsNotification: React.FC<Props> = ({ closeCall }) => {
   }, []);
 
   const owner = useMemo(() => {
-    return authUser.id === user.id;
+    return authUser.id === user?.id || authUser.id === notification.helper?.id;
   }, [authUser, user]);
 
   return (
@@ -134,7 +134,7 @@ const DetailsNotification: React.FC<Props> = ({ closeCall }) => {
           numberOfLines={2}
           style={tailwind('text-lg  px-2 font-ubuntu w-40')}
         >
-          {user.fullName}
+          {user?.fullName || 'Desconhecido ajudado por mim'}
         </Text>
         <Text style={tailwind('text-center px-2 font-ubuntu-bold')}>
           STATUS {'\n'}
@@ -142,8 +142,8 @@ const DetailsNotification: React.FC<Props> = ({ closeCall }) => {
         </Text>
       </View>
       <View style={tailwind('flex-1 border-b border-gray-300')}>
-        <Input label="Email" editable value={user.email} />
-        <Input label="Telefone" editable value={user.phoneNumber} />
+        <Input label="Email" editable value={user?.email} />
+        <Input label="Telefone" editable value={user?.phoneNumber} />
         <View style={tailwind('flex-row flex-1 justify-around')}>
           <View style={tailwind('flex-1  mr-1')}>
             <Input label="Data de criação" editable value={formatDate()} />
@@ -182,7 +182,7 @@ const DetailsNotification: React.FC<Props> = ({ closeCall }) => {
       <View style={tailwind('flex-1 py-4')}>
         <Text style={tailwind('text-lg font-ubuntu')}>Informações médicas</Text>
         <FlatList
-          data={user.medicalData}
+          data={user?.medicalData}
           style={tailwind('mt-4')}
           contentContainerStyle={tailwind('flex-grow')}
           keyExtractor={(item) => String(item.id)}

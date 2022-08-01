@@ -17,54 +17,6 @@ import useFeedbackMessage from '@/presentation/shared/hooks/useFeedbackMessage';
 
 import NotificationEmpty from '../components/NotificationEmpty';
 
-const fakeNotificationData = [
-  {
-    id: '1',
-    victimName: 'Fulano',
-    date: new Date()
-  },
-  {
-    id: '2',
-    victimName: 'Fulano',
-    date: new Date()
-  },
-  {
-    id: '3',
-    victimName: 'Fulano',
-    date: new Date()
-  },
-  {
-    id: '4',
-    victimName: 'Fulano',
-    date: new Date()
-  },
-  {
-    id: '5',
-    victimName: 'Fulano',
-    date: new Date()
-  },
-  {
-    id: '6',
-    victimName: 'Fulano',
-    date: new Date()
-  },
-  {
-    id: '7',
-    victimName: 'Fulano',
-    date: new Date()
-  },
-  {
-    id: '8',
-    victimName: 'Fulano',
-    date: new Date()
-  },
-  {
-    id: '9',
-    victimName: 'Fulano',
-    date: new Date()
-  }
-];
-
 interface Props {
   loadCalls: LoadCalls;
 }
@@ -84,6 +36,7 @@ const Notifications: React.FC<Props> = ({ loadCalls }) => {
         userId: authUser.id,
         contacts: authUser.contacts
       });
+
       setNotifications(calls);
     } catch (error: any) {
       showError(error);
@@ -95,6 +48,28 @@ const Notifications: React.FC<Props> = ({ loadCalls }) => {
   function handleNavigationToDetails(item: Call) {
     const notification = JSON.parse(JSON.stringify(item));
     navigation.navigate('DetailsNotification', { notification });
+  }
+
+  function chooseIcon(item: Call) {
+    if (item.helper) {
+      return 'alert-circle';
+    }
+    if (item.userId && (item.userId as AuthUser).id === authUser.id) {
+      return 'person-circle-outline';
+    }
+
+    return 'people';
+  }
+
+  function chooseName(item: Call) {
+    const itemUser = item.userId as AuthUser;
+    if (item.helper) {
+      return itemUser
+        ? String(itemUser.fullName)
+        : 'Desconhecido ajudado por mim';
+    }
+    const name = itemUser.fullName || itemUser.email;
+    return String(name);
   }
 
   useEffect(() => {
@@ -113,18 +88,11 @@ const Notifications: React.FC<Props> = ({ loadCalls }) => {
         ListEmptyComponent={<NotificationEmpty />}
         renderItem={({ item }) => (
           <BaseListItem
-            itemName={
-              (item.userId as AuthUser).fullName ||
-              (item.userId as AuthUser).email
-            }
+            itemName={chooseName(item)}
             onPress={() => handleNavigationToDetails(item)}
           >
             <Ionicons
-              name={
-                (item.userId as AuthUser).id === authUser.id
-                  ? 'person-circle-outline'
-                  : 'alert-circle-outline'
-              }
+              name={chooseIcon(item)}
               style={tailwind('text-yellow-600')}
               size={32}
             />
