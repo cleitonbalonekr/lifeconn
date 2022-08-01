@@ -2,7 +2,7 @@ import 'dotenv/config';
 
 export default {
   expo: {
-    name: 'lifeconn',
+    name: 'Lifeconn',
     slug: 'lifeconn',
     version: '1.0.0',
     orientation: 'portrait',
@@ -21,6 +21,7 @@ export default {
     },
     android: {
       package: 'com.lifeconn.app',
+      versionCode: 1,
       googleServicesFile: './google-services.json',
       adaptiveIcon: {
         foregroundImage: './assets/adaptive-icon.png',
