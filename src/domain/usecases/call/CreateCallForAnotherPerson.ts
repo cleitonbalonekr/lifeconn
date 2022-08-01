@@ -64,15 +64,6 @@ export class CreateCallForAnotherPerson {
           payload.victimName = params.victim.fullName;
         }
       }
-      if (payload.userId) {
-        const isAlreadyOpenToUser =
-          await this.verifyCallAlreadyOpenRepository.hasCallOpen(
-            payload.userId
-          );
-        if (isAlreadyOpenToUser) {
-          throw new CallAlreadyOpenError();
-        }
-      }
       const call = await this.createCallRepository.create(payload);
       await this.addCallEventRepository.add({
         callId: call.id,

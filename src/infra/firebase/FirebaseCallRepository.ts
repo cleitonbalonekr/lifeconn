@@ -24,7 +24,8 @@ import {
   LoadContactsCallsRepository,
   VerifyCallAlreadyOpenRepository,
   CloseCallRepository,
-  SaveCallFileUrlRepository
+  SaveCallFileUrlRepository,
+  LoadUserHelperCallsRepository
 } from '@/domain/protocols/db/call';
 
 import { FirebaseUserUtils } from './FirebaseUserUtils';
@@ -37,7 +38,8 @@ export class FirebaseCallRepository
     LoadContactsCallsRepository,
     VerifyCallAlreadyOpenRepository,
     CloseCallRepository,
-    SaveCallFileUrlRepository
+    SaveCallFileUrlRepository,
+    LoadUserHelperCallsRepository
 {
   private callsCollection: CollectionReference;
 
@@ -46,6 +48,35 @@ export class FirebaseCallRepository
   constructor() {
     this.callsCollection = collection(FirestoreInstance, 'calls');
     this.firebaseUserUtils = new FirebaseUserUtils();
+  }
+
+  async listByCallsAsHelper(
+    userId: string
+  ): Promise<LoadUserHelperCallsRepository.Result> {
+    const callQuery = query(
+      this.callsCollection,
+      where('helper.id', '==', userId),
+      where('open', '==', true),
+      orderBy('createdAt', 'desc')
+    );
+
+    const calls = await getDocs(callQuery);
+
+    const formattedCalls = await Promise.all(
+      calls.docs.map(async (result) => {
+        const victimId = result.data().userId;
+        const user = victimId
+          ? await this.firebaseUserUtils.getUserToNotification(victimId)
+          : null;
+        return {
+          id: result.id,
+          ...result.data(),
+          userId: user || victimId,
+          createdAt: (result.data().createdAt as Timestamp).toDate()
+        };
+      })
+    );
+    return formattedCalls as Call[];
   }
 
   async addFileUrl(params: SaveCallFileUrlRepository.Params): Promise<void> {

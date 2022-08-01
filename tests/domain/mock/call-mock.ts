@@ -9,7 +9,8 @@ import {
   ListOpenCallsByUserRepository,
   LoadContactsCallsRepository,
   VerifyCallAlreadyOpenRepository,
-  CloseCallRepository
+  CloseCallRepository,
+  LoadUserHelperCallsRepository
 } from '@/domain/protocols/db//call';
 import { RemoveCallFilesRepository } from '@/domain/protocols/fileStorage';
 import { TokenGenerator } from '@/domain/protocols/hash/TokenGenerator';
@@ -54,6 +55,22 @@ export class TokenGeneratorSpy implements TokenGenerator {
   }
 }
 
+export class LoadUserHelperCallsRepositorySpy
+  implements LoadUserHelperCallsRepository
+{
+  public callCount = 0;
+
+  public params: LoadUserHelperCallsRepository.Params | undefined;
+
+  public response = [makeFakeCallData()];
+
+  async listByCallsAsHelper(
+    params: string
+  ): Promise<LoadUserHelperCallsRepository.Result> {
+    this.callCount += 1;
+    return this.response;
+  }
+}
 export class ListOpenCallsByUserRepositorySpy
   implements ListOpenCallsByUserRepository
 {

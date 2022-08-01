@@ -73,6 +73,43 @@ describe('FirebaseCallRepository', () => {
       expect(call).toHaveLength(0);
     });
   });
+  describe('listByCallsAsHelper', () => {
+    it('Should return a empty array when does not fount any call', async () => {
+      const firebaseCallRepository = makeSut();
+      const call = await firebaseCallRepository.listByCallsAsHelper(randomId());
+      expect(call).toHaveLength(0);
+    });
+    it('Should return all calls by userId', async () => {
+      const firebaseCallRepository = makeSut();
+      const userId = randomId();
+      const callData = {
+        ...makeFakeCallData(),
+        helper: {
+          id: userId
+        },
+        userId: randomId()
+      };
+      await makeCall(randomId(), callData);
+      const call = await firebaseCallRepository.listByCallsAsHelper(userId);
+      expect(call).toHaveLength(1);
+    });
+    it('Should not return a closed call', async () => {
+      const firebaseCallRepository = makeSut();
+      const userId = randomId();
+      const callData = {
+        ...makeFakeCallData(),
+        userId,
+        helper: {
+          id: userId
+        },
+        open: false
+      };
+      await makeCall(randomId(), callData);
+      const call = await firebaseCallRepository.listByCallsAsHelper(userId);
+      expect(call).toHaveLength(0);
+    });
+  });
+
   describe('listByContacts', () => {
     it('Should return a empty array when does not fount any call', async () => {
       const firebaseCallRepository = makeSut();

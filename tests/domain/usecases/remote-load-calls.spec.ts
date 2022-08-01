@@ -4,7 +4,8 @@ import { randomId, throwError } from '@/tests/shared/mocks';
 
 import {
   ListOpenCallsByUserRepositorySpy,
-  LoadContactsCallsRepositorySpy
+  LoadContactsCallsRepositorySpy,
+  LoadUserHelperCallsRepositorySpy
 } from '../mock/call-mock';
 import { makeFakeContact } from '../mock/contact-mock';
 
@@ -12,14 +13,18 @@ const makeSut = () => {
   const listOpenCallsByUserRepositorySpy =
     new ListOpenCallsByUserRepositorySpy();
   const loadContactsCallsRepositorySpy = new LoadContactsCallsRepositorySpy();
+  const loadUserHelperCallsRepositorySpy =
+    new LoadUserHelperCallsRepositorySpy();
   const remoteLoadCalls = new LoadCalls(
     listOpenCallsByUserRepositorySpy,
-    loadContactsCallsRepositorySpy
+    loadContactsCallsRepositorySpy,
+    loadUserHelperCallsRepositorySpy
   );
   return {
     remoteLoadCalls,
     listOpenCallsByUserRepositorySpy,
-    loadContactsCallsRepositorySpy
+    loadContactsCallsRepositorySpy,
+    loadUserHelperCallsRepositorySpy
   };
 };
 
@@ -45,7 +50,7 @@ describe('RemoteLoadCalls', () => {
     };
     const response = await remoteLoadCalls.load(params);
     expect(listOpenCallsByUserRepositorySpy.callCount).toBe(1);
-    expect(response).toHaveLength(2);
+    expect(response).toHaveLength(3);
   });
   it('Should call loadContactsCallsRepositorySpy', async () => {
     const { remoteLoadCalls, loadContactsCallsRepositorySpy } = makeSut();
