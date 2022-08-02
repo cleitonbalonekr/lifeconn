@@ -191,7 +191,7 @@ export function AppRoutes() {
       <Stack.Screen
         options={{
           headerShown: true,
-          title: 'Solicitar ajuda'
+          title: 'Solicitar socorro'
         }}
         name="Event"
         component={MakeEvent}
