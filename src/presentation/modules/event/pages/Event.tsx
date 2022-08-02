@@ -239,7 +239,7 @@ const Event: React.FC<Props> = ({
         </Text>
       </View>
 
-      <View style={tailwind('mb-3 flex-row')}>
+      <View style={tailwind('mt-3 mb-1 flex-row')}>
         <View style={tailwind('flex-1 mr-1')}>
           <Button
             label="Envia texto com áudio"
