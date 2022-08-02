@@ -195,7 +195,7 @@ const Settings: React.FC<Props> = ({
             onPress={handleNavigateToAdvanced}
           >
             <FontAwesome5 name="cog" size={20} />
-            <Text style={tailwind('text-sm font-ubuntu')}>Avançado</Text>
+            <Text style={tailwind('text-sm font-ubuntu')}>Detalhes</Text>
           </TouchableOpacity>
         </View>
 
