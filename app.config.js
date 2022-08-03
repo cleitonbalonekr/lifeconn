@@ -30,7 +30,8 @@ export default {
       permissions: [
         'ACCESS_FINE_LOCATION',
         'ACCESS_BACKGROUND_LOCATION',
-        'VIBRATE'
+        'VIBRATE',
+        'CAMERA'
       ]
     },
     web: {
