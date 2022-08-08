@@ -7,6 +7,7 @@ export default {
     version: '1.0.0',
     orientation: 'portrait',
     icon: './assets/icon.png',
+    userInterfaceStyle: 'light',
     splash: {
       image: './assets/splash.png',
       resizeMode: 'contain',
@@ -17,12 +18,14 @@ export default {
     },
     assetBundlePatterns: ['**/*'],
     ios: {
-      supportsTablet: true
+      supportsTablet: true,
+      userInterfaceStyle: 'dark'
     },
     android: {
       package: 'com.lifeconn.app',
       versionCode: 1,
       googleServicesFile: './google-services.json',
+      userInterfaceStyle: 'light',
       adaptiveIcon: {
         foregroundImage: './assets/adaptive-icon.png',
         backgroundColor: '#FFFFFF'
