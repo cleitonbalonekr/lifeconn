@@ -39,7 +39,10 @@ const MonitorImpact: React.FC<Props> = ({
   );
   const tailwind = useTailwind();
   const navigation = useNavigation();
-  const [location, setLocation] = useState<Call.Location | null>(null);
+  const [location, setLocation] = useState<Call.Location | null>({
+    latitude: -22.3701605,
+    longitude: -42.3102182
+  });
 
   Accelerometer.register(setStatusAccelerometer);
 

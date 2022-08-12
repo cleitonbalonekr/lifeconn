@@ -50,7 +50,10 @@ const Event: React.FC<Props> = ({
     useRef<ConfirmNoLocationModalRefProps>(null);
   const { showError, showSuccess, showWaiting, hide } = useFeedbackMessage();
   const [muteSpeech, setMuteSpeech] = useState(false);
-  const [location, setLocation] = useState<Call.Location | null>(null);
+  const [location, setLocation] = useState<Call.Location | null>({
+    latitude: -22.3701605,
+    longitude: -42.3102182
+  });
   const tailwind = useTailwind();
   const navigation = useNavigation();
 
