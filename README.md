@@ -30,8 +30,22 @@ Trabalho de conclusão de curso realizado junto ao Centro Federal de Educação 
 
  Acionar socorro rapidamente e fornecer informações precisas podem ser o diferencial para o desfecho de um acidente. Utilizar uma solução de software para essa finalidade pode não somente auxiliar a vítima, mas quem precisa prestar o atendimento de uma ocorrência. Este trabalho apresenta uma solução composta por um aplicativo e um sistema web para apoiar a prestação de socorro em caso de acidentes. Seus requisitos foram validados junto ao Corpo de Bombeiros de Nova Friburgo e suas funcionalidades foram comparadas com soluções do mercado, visando maximizar o número de funcionalidades relevantes para a prestação de ajuda. 
 
-##### Arquitetura
-A arquitetura da solução proposta utilizou conceitos da Arquitetura Limpa (Clean Architecture) (MARTIN, 2017). Essa arquitetura visa integrar arquiteturas como a Arquitetura Hexagonal (também conhecida como Ports and Adapters) e a Data, Context and Interation (DCI), em uma única ideia acionável. 
+##### Metodologias e Designs
+  - TDD
+  - Clean Architecture
+  - DDD
+  - Refactoring
+  - Modular Design
+  - Use Cases
+  
+##### Design Patterns
+  - Factory
+  - Adapter
+  - Composite
+  - Dependency Injection
+  - Composition Root
+  - Builder
+  - Chain of Responsibility
  
  ##### Funcionalidades
  - Coleta de informações acidente
