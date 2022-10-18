@@ -16,13 +16,13 @@
 
 
 <p align="center">
-  <img alt="App Demo" src=".github/demo/autenticação.png" width="40%">
-  <img alt="App Demo" src=".github/demo/acionamento-automatico.png" width="40%">
+  <img alt="App Demo" src=".github/demo/autenticação.png" width="48%">
+  <img alt="App Demo" src=".github/demo/acionamento-automatico.png" width="48%">
 </p>    
 
 <p align="center" >
-  <img alt="App Demo" width="40%" src=".github/demo/mensagens.png" >
-  <img alt="App Demo" width="40%" src=".github/demo/notificacao-monitoramento.png" >
+  <img alt="App Demo" width="48%" src=".github/demo/mensagens.png" >
+  <img alt="App Demo" width="48%" src=".github/demo/notificacao-monitoramento.png" >
 </p>  
 
 ## :dart: Projeto
