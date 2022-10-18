@@ -1,4 +1,3 @@
-// ContactNotFoundError
 import { ApplicationError } from './ApplicationError';
 
 export class ContactNotFoundError extends Error implements ApplicationError {

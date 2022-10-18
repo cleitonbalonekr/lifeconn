@@ -3,22 +3,35 @@ import {
   collection,
   CollectionReference,
   doc,
+  DocumentData,
   getDoc,
-  updateDoc
+  getDocs,
+  query,
+  QueryDocumentSnapshot,
+  QuerySnapshot,
+  updateDoc,
+  where
 } from 'firebase/firestore';
 
 import app, { FirestoreInstance } from '@/configs/firebase';
+import { AuthUser } from '@/domain/models';
 import {
   GetUserByIdRepository,
-  UpdateUserInfoRepository
-} from '@/data/protocols/user';
-import { AuthUser } from '@/domain/models';
-import { UpdateUserInfo } from '@/domain/usecases/UpdateUserInfo';
+  UpdateUserInfoRepository,
+  UpdateNotificationTokenRepository,
+  GetUserContactsNotificationToken
+} from '@/domain/protocols/db/user';
+import { UpdateUserInfoParams } from '@/domain/usecases';
 
 import { FirebaseUserUtils } from './FirebaseUserUtils';
+import { chunkArray } from './utils/chunkArray';
 
 export class FirebaseUserRepository
-  implements GetUserByIdRepository, UpdateUserInfoRepository
+  implements
+    GetUserByIdRepository,
+    UpdateUserInfoRepository,
+    UpdateNotificationTokenRepository,
+    GetUserContactsNotificationToken
 {
   private userCollection: CollectionReference;
 
@@ -29,8 +42,58 @@ export class FirebaseUserRepository
     this.userCollection = collection(FirestoreInstance, 'users');
   }
 
+  async getNotificationTokens(
+    userId: string
+  ): Promise<GetUserContactsNotificationToken.Result> {
+    const contacts = await this.firebaseUserUtils.getContactsByUserId(userId);
+
+    const contactsPhone = contacts
+      .filter((contact) => contact.hasAccount)
+      .map((contact) => contact.phoneNumber);
+
+    const chunkContacts = chunkArray(contactsPhone);
+
+    const snaps = [] as QueryDocumentSnapshot<DocumentData>[];
+    await Promise.all<QueryDocumentSnapshot<DocumentData>[]>(
+      chunkContacts.map(async (contactPhones: string[]) => {
+        const userContactQuery = query(
+          this.userCollection,
+          where('phoneNumber', 'in', contactPhones)
+        );
+        const snap = await getDocs(userContactQuery);
+        snaps.push(...snap.docs);
+      })
+    );
+
+    const tokens = snaps.map(
+      (contactDoc) => contactDoc.data().notificationToken
+    );
+    const userRef = doc(this.userCollection, userId);
+    const user = await getDoc(userRef);
+    return {
+      tokens,
+      fullName: user.data()?.fullName
+    };
+  }
+
+  async updateNotificationToken(
+    notificationToken: string,
+    userId: string
+  ): Promise<UpdateNotificationTokenRepository.Result> {
+    const userRef = doc(this.userCollection, userId);
+    const userDoc = await getDoc(userRef);
+    if (!userDoc.exists()) {
+      return null;
+    }
+    await updateDoc(userRef, {
+      notificationToken
+    });
+    const user = await this.firebaseUserUtils.getUserInfo(userId);
+    return user;
+  }
+
   async updateUser(
-    params: UpdateUserInfo.Params,
+    params: UpdateUserInfoParams,
     userId: string
   ): Promise<UpdateUserInfoRepository.Result> {
     const payload = { ...params };

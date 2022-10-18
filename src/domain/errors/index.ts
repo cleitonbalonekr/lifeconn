@@ -6,3 +6,7 @@ export * from './ApplicationError';
 export * from './MedicalDataNotFound';
 export * from './ContactAlreadyAddedError';
 export * from './ContactNotFoundError';
+export * from './InvalidContactError';
+export * from './CallAlreadyOpenError';
+export * from './InvalidCallError';
+export * from './MaxFilesExceedError';

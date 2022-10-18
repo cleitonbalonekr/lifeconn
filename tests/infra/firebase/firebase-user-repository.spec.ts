@@ -3,14 +3,21 @@ import { setDoc } from 'firebase/firestore';
 
 import { AuthInstance } from '@/configs/firebase';
 import { FirebaseUserRepository } from '@/infra/firebase/FirebaseUserRepository';
-import { fakeId } from '@/tests/shared/mocks';
+import { makeAddContactParams } from '@/tests/domain/mock/contact-mock';
+import { fakeId, randomId } from '@/tests/shared/mocks';
 import {
   cleanEmulators,
   closeFirebase,
   setupEmulators
 } from '@/tests/utils/firebase-emulator';
 
-import { fakeUseRegisterData, getUserDoc, makeUserUpdateInfo } from '../mock';
+import {
+  fakeUseRegisterData,
+  getUserDoc,
+  makeContact,
+  makeUser,
+  makeUserUpdateInfo
+} from '../mock';
 
 const makeSut = () => {
   return new FirebaseUserRepository();
@@ -97,6 +104,75 @@ describe('FirebaseUserRepository', () => {
       const authenticatedUser = auth.getAuth().currentUser;
 
       expect(authenticatedUser).toHaveProperty('email', response?.email);
+    });
+  });
+  describe('UpdateNotificationToken', () => {
+    it('should return NULL if does not find user', async () => {
+      const sut = makeSut();
+      const notificationToken = randomId();
+      const userId = randomId();
+      const response = await sut.updateNotificationToken(
+        notificationToken,
+        userId
+      );
+      expect(response).toBeNull();
+    });
+    it('should return update notificationToken', async () => {
+      const sut = makeSut();
+      const notificationToken = randomId();
+      const userId = randomId();
+      await makeUser(userId, { id: userId, authId: userId });
+      const response = await sut.updateNotificationToken(
+        notificationToken,
+        userId
+      );
+      expect(response).toHaveProperty('notificationToken', notificationToken);
+    });
+  });
+  describe('GetNotificationTokens', () => {
+    it('should return contacts notificationToken', async () => {
+      const sut = makeSut();
+
+      const userId = randomId();
+      const userInfo = makeUserUpdateInfo();
+      const contactId = randomId();
+      const contactId2 = randomId();
+
+      const contactParams = {
+        ...makeAddContactParams(),
+        hasAccount: true
+      };
+      const contactParams2 = {
+        ...makeAddContactParams(),
+        hasAccount: true
+      };
+
+      await makeUser(userId, {
+        id: userId,
+        authId: userId,
+        ...userInfo
+      });
+      // contacts
+      await makeUser(contactId, {
+        id: contactId,
+        authId: contactId,
+        phoneNumber: contactParams.phoneNumber,
+        notificationToken: randomId()
+      });
+      await makeUser(contactId2, {
+        id: contactId2,
+        authId: contactId2,
+        phoneNumber: contactParams2.phoneNumber,
+        notificationToken: randomId()
+      });
+
+      await makeContact(userId, contactParams.phoneNumber, contactParams);
+      await makeContact(userId, contactParams2.phoneNumber, contactParams2);
+
+      const response = await sut.getNotificationTokens(userId);
+
+      expect(response).toHaveProperty('fullName', userInfo.fullName);
+      expect(response?.tokens).toHaveLength(2);
     });
   });
 });

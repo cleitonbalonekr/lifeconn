@@ -45,7 +45,7 @@ const OPTIONS_LIST = [
   {
     id: '6',
     icon: 'address-book',
-    label: 'Contatos',
+    label: 'Pessoas próximas',
     navigateTo: 'Contacts'
   }
 ];
@@ -58,16 +58,16 @@ const Home: React.FC = () => {
   function handleNavigateTo(navigateTo: Routes) {
     navigation.navigate(navigateTo);
   }
+  function handleNavigateToEvent() {
+    navigation.navigate('Event', {
+      fromHelpSomeoneElse: false
+    });
+  }
 
-  navigation.navigate('Term');
   return (
     <Container>
       <Header />
-      <HelpButton
-        onPress={() => {
-          handleNavigateTo('Event' as Routes);
-        }}
-      />
+      <HelpButton onPress={handleNavigateToEvent} />
       <View style={tailwind('mt-2 flex-1')}>
         <View style={tailwind('border border-gray-300 my-4 ')} />
         <Text style={tailwind('text-center font-ubuntu-bold')}>Menu</Text>

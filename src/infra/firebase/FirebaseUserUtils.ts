@@ -62,6 +62,7 @@ export class FirebaseUserUtils {
       authId: user.data()?.authId,
       fullName: user.data()?.fullName,
       totalVoiceToken: user.data()?.totalVoiceToken,
+      notificationToken: user.data()?.notificationToken,
       impactActivation: user.data()?.impactActivation,
       email: user.data()?.email,
       phoneNumber: user.data()?.phoneNumber,
@@ -73,6 +74,24 @@ export class FirebaseUserUtils {
       ...userData,
       medicalData,
       contacts
+    };
+  }
+
+  public async getUserToNotification(userId: string) {
+    const userRef = doc(this.userCollection, userId);
+    const user = await getDoc(userRef);
+    const medicalData = await this.getMedicalDataByUserId(userId);
+
+    const userData = {
+      fullName: user.data()?.fullName,
+      email: user.data()?.email,
+      phoneNumber: user.data()?.phoneNumber
+    };
+
+    return {
+      id: user.id,
+      ...userData,
+      medicalData: medicalData.filter((medical) => !medical.onlyOrganization)
     };
   }
 

@@ -1,21 +1,20 @@
 import {
   collection,
   CollectionReference,
+  deleteDoc,
   doc,
   getDoc,
-  getDocs,
-  query,
-  setDoc,
-  where
+  setDoc
 } from 'firebase/firestore';
 
 import { FirestoreInstance } from '@/configs/firebase';
+import { AuthUser } from '@/domain/models';
 import {
   AddContactRepository,
   AddExistentContactRepository,
-  VerifyContactExistToUserRepository
-} from '@/data/protocols/user';
-import { AuthUser } from '@/domain/models';
+  VerifyContactExistToUserRepository,
+  RemoteRemoveContactRepository
+} from '@/domain/protocols/db/user/contact';
 
 import { FirebaseUserUtils } from './FirebaseUserUtils';
 
@@ -23,7 +22,8 @@ export class FirebaseContactRepository
   implements
     AddContactRepository,
     AddExistentContactRepository,
-    VerifyContactExistToUserRepository
+    VerifyContactExistToUserRepository,
+    RemoteRemoveContactRepository
 {
   private userCollection: CollectionReference;
 
@@ -32,6 +32,19 @@ export class FirebaseContactRepository
   constructor() {
     this.firebaseUserUtils = new FirebaseUserUtils();
     this.userCollection = collection(FirestoreInstance, 'users');
+  }
+
+  async removeContact(phoneNumber: string, userId: string): Promise<AuthUser> {
+    const contactRef = doc(
+      this.userCollection,
+      userId,
+      'contacts',
+      phoneNumber
+    );
+
+    await deleteDoc(contactRef);
+    const user = await this.firebaseUserUtils.getUserInfo(userId);
+    return user;
   }
 
   async contactAlreadyAddedToUser(

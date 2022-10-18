@@ -1,21 +1,47 @@
 import { Ionicons } from '@expo/vector-icons';
 import * as Linking from 'expo-linking';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Text, View } from 'react-native';
 import { useTailwind } from 'tailwind-rn';
 
+import { LoadCallsBalance } from '@/domain/usecases';
 import Container from '@/presentation/shared/components/Container';
 import Button from '@/presentation/shared/components/form/button';
 import ButtonLink from '@/presentation/shared/components/form/link';
+import useFeedbackMessage from '@/presentation/shared/hooks/useFeedbackMessage';
 
-const Donate: React.FC = () => {
+interface Props {
+  loadCallsBalance: LoadCallsBalance;
+}
+
+const Donate: React.FC<Props> = ({ loadCallsBalance }) => {
   const tailwind = useTailwind();
+  const { showError } = useFeedbackMessage();
+  const [balance, setBalance] = useState(0);
 
   function handleOpenYoutube() {
     const url = `https://www.youtube.com/watch?v=8NU3qpD1ChE`;
-
     Linking.openURL(url);
   }
+
+  function handleDonate() {
+    const url = `https://voice-app.zenvia.com/recarga/index.php?id=271107&public_key=d41d8cd98f00b204e9800998ecf8427e&src=api`;
+    Linking.openURL(url);
+  }
+
+  async function getBalance() {
+    try {
+      const result = await loadCallsBalance.load();
+
+      setBalance(result.dados.saldo);
+    } catch (error: any) {
+      showError(error);
+    }
+  }
+
+  useEffect(() => {
+    getBalance();
+  }, []);
 
   return (
     <Container scroll>
@@ -36,16 +62,48 @@ const Donate: React.FC = () => {
           label="Assista o video de criar token privado"
           onPress={handleOpenYoutube}
         />
-        <View style={tailwind('flex-1 mt-10')}>
-          <Text style={tailwind('text-lg text-center font-ubuntu')}>
+        <View style={tailwind('flex-1 my-3')}>
+          <Text
+            style={tailwind(
+              'border rounded-lg p-2 text-sm text-center font-ubuntu mb-2'
+            )}
+          >
+            Saldo / custo(por minuto):{'\n'}
+            <Text style={tailwind('text-lg text-green-600 font-ubuntu')}>
+              R$ {balance.toFixed(2)} / R$ 0.34 =
+              <Ionicons
+                name="ios-call-outline"
+                size={20}
+                style={tailwind('text-green-600')}
+              />{' '}
+              {Math.trunc(balance / 0.34)} ligações
+            </Text>
+          </Text>
+          <Text
+            style={tailwind(
+              'border rounded-lg p-2 text-lg text-center font-ubuntu'
+            )}
+          >
             Quantidade de ligações disponíveis:{'\n'}
             <Text style={tailwind('text-xl  text-green-600 font-ubuntu')}>
-              100
+              [
+              <Ionicons
+                name="ios-call-outline"
+                size={20}
+                style={tailwind('text-green-600')}
+              />{' '}
+              {Math.trunc(balance / 0.34)} ligações] ou [
+              <Ionicons
+                name="time-outline"
+                size={20}
+                style={tailwind('text-green-600')}
+              />{' '}
+              {Math.trunc(balance / 0.34)} minutos]
             </Text>
           </Text>
         </View>
         <View style={tailwind('flex-1')}>
-          <Button label="Doar">
+          <Button label="Doar" onPress={handleDonate}>
             <Ionicons
               name="heart-outline"
               size={20}

@@ -1,3 +1,4 @@
+import { useNavigation } from '@react-navigation/native';
 import React from 'react';
 import { Text, View } from 'react-native';
 import { useTailwind } from 'tailwind-rn/dist';
@@ -16,6 +17,7 @@ interface Props {
 
 const HelpSomeoneElse: React.FC<Props> = () => {
   const tailwind = useTailwind();
+  const navigation = useNavigation();
   const fullName = useInputState({
     name: 'fullName'
   });
@@ -23,11 +25,14 @@ const HelpSomeoneElse: React.FC<Props> = () => {
     name: 'phoneNumber'
   });
   function handleRequireHelp() {
-    // eslint-disable-next-line no-unused-vars
     const data = {
       phoneNumber: phoneNumber.value,
       fullName: fullName.value
     };
+    navigation.navigate('Event', {
+      fromHelpSomeoneElse: true,
+      victim: { ...data }
+    });
   }
   return (
     <Container>
@@ -35,11 +40,12 @@ const HelpSomeoneElse: React.FC<Props> = () => {
       <View style={tailwind('flex-1 mt-3 ')}>
         <Text
           style={tailwind(
-            'mb-2 text-center text-lg text-yellow-700 font-ubuntu'
+            'mb-2 text-justify text-lg text-yellow-700 font-ubuntu'
           )}
         >
-          Preencha o formulário com os dados da vítima se possível. Caso não
-          seja possível deixe-o em branco.
+          Verifique o celular da vítima, caso possível. Se ela for uma usuária
+          da aplicação, uma notificação com o nome e o telefone deverá ser
+          exibida. Caso contrário deixe o formulário em branco.
         </Text>
         <Input
           placeholder="Digite o nome da vítima"

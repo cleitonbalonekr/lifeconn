@@ -1,8 +1,8 @@
-import { Ionicons } from '@expo/vector-icons';
+import { Ionicons, FontAwesome5 } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import * as Linking from 'expo-linking';
 import React, { useState } from 'react';
-import { Switch, Text, View } from 'react-native';
+import { Switch, Text, TouchableOpacity, View } from 'react-native';
 import { useTailwind } from 'tailwind-rn/dist';
 
 import { LogoutUser, UpdateUserInfo } from '@/domain/usecases';
@@ -11,9 +11,11 @@ import Container from '@/presentation/shared/components/Container';
 import Button from '@/presentation/shared/components/form/button';
 import ButtonOutline from '@/presentation/shared/components/form/buttonOutline';
 import Input from '@/presentation/shared/components/form/input';
+import ButtonLink from '@/presentation/shared/components/form/link';
 import { useAuth } from '@/presentation/shared/context/auth';
 import useFeedbackMessage from '@/presentation/shared/hooks/useFeedbackMessage';
 import useInputState from '@/presentation/shared/hooks/useInputState';
+import { toggleRegisterBackgroundService } from '@/presentation/shared/services/backgroundServices';
 
 interface Props {
   validation: Validation;
@@ -27,6 +29,7 @@ const Settings: React.FC<Props> = ({
   logoutUser
 }) => {
   const { signOut, authUser, saveUserSate } = useAuth();
+  const tailwind = useTailwind();
   const [loading, setLoading] = useState(false);
   const { showSuccess, showError } = useFeedbackMessage();
   const navigation = useNavigation();
@@ -55,8 +58,6 @@ const Settings: React.FC<Props> = ({
     activeByAccelerometer.set(authUser.impactActivation);
   });
 
-  const tailwind = useTailwind();
-
   async function updateUserData() {
     try {
       setLoading(true);
@@ -79,6 +80,7 @@ const Settings: React.FC<Props> = ({
       } else {
         const updatedUser = await updateUserInfo.update(payload, authUser.id);
         saveUserSate(updatedUser);
+        toggleRegisterBackgroundService(!activeByAccelerometer.value);
         showSuccess({
           description: 'Dados atualizados com sucesso!'
         });
@@ -92,16 +94,24 @@ const Settings: React.FC<Props> = ({
 
   function handleOpenTotalVoice() {
     const url = `https://voice-app.zenvia.com/painel/login.php`;
-
     Linking.openURL(url);
   }
   function handleNavigateToMedicalInfo() {
     navigation.navigate('MedicalInfo');
   }
+  function handleNavigateToAdvanced() {
+    navigation.navigate('Advanced');
+  }
   function handleLogoutUser() {
     logoutUser.signOut();
     signOut();
   }
+
+  function handleNavigateToUseTerms() {
+    navigation.navigate('Term');
+  }
+
+  const isMedicalDataAdded = authUser.medicalData.length > 0;
 
   return (
     <Container scroll>
@@ -135,38 +145,60 @@ const Settings: React.FC<Props> = ({
           onChangeText={totalVoiceToken.set}
           error={totalVoiceToken.error}
         />
-        <ButtonOutline
-          label="Plataforma TotalVoice"
-          type="warning"
-          onPress={handleOpenTotalVoice}
-        >
-          <Ionicons name="link" size={20} style={tailwind('text-yellow-600')} />
-        </ButtonOutline>
-        <View style={tailwind('mt-2')}>
-          <ButtonOutline
-            label="Informações médicas"
-            type="primary"
-            onPress={handleNavigateToMedicalInfo}
-          >
-            <Ionicons
-              name="heart-outline"
-              size={20}
-              style={tailwind('text-blue-600')}
-            />
-          </ButtonOutline>
+        <View style={tailwind('my-3')}>
+          <View style={tailwind('flex-1 mb-1')}>
+            <ButtonOutline
+              label="Plataforma TotalVoice"
+              type="warning"
+              onPress={handleOpenTotalVoice}
+            >
+              <Ionicons
+                name="link"
+                size={20}
+                style={tailwind('text-yellow-600')}
+              />
+            </ButtonOutline>
+          </View>
+          <View style={tailwind('flex-1 mt-1')}>
+            <ButtonOutline
+              label={
+                isMedicalDataAdded
+                  ? 'Informações médicas'
+                  : 'Cadastre suas informações médicas'
+              }
+              type="primary"
+              onPress={handleNavigateToMedicalInfo}
+            >
+              <Ionicons
+                name={isMedicalDataAdded ? 'heart-outline' : 'warning'}
+                size={20}
+                style={tailwind('text-blue-600')}
+              />
+            </ButtonOutline>
+          </View>
         </View>
         <View
-          style={tailwind('flex-1 flex-row justify-start items-center mb-2')}
+          style={tailwind('flex-1 flex-row justify-between items-center my-3')}
         >
-          <Switch
-            value={activeByAccelerometer.value}
-            onValueChange={activeByAccelerometer.set}
-            style={tailwind(' mr-2')}
-          />
-          <Text style={tailwind('text-lg font-ubuntu')}>
-            Ativação por impacto
-          </Text>
+          <View style={tailwind('flex-1 flex-row items-center')}>
+            <Switch
+              value={activeByAccelerometer.value}
+              onValueChange={activeByAccelerometer.set}
+              style={tailwind(' mr-2')}
+            />
+            <Text style={tailwind('text-lg font-ubuntu')}>
+              Ativação por impacto
+            </Text>
+          </View>
+          <TouchableOpacity
+            style={tailwind('items-center')}
+            onPress={handleNavigateToAdvanced}
+          >
+            <FontAwesome5 name="cog" size={20} />
+            <Text style={tailwind('text-sm font-ubuntu')}>Detalhes</Text>
+          </TouchableOpacity>
         </View>
+
         <Button label="Salvar" onPress={updateUserData} loading={loading}>
           <Ionicons
             name="save-outline"
@@ -174,6 +206,9 @@ const Settings: React.FC<Props> = ({
             style={tailwind('text-white')}
           />
         </Button>
+      </View>
+      <View style={tailwind('mt-3 items-end')}>
+        <ButtonLink label="Termos de uso" onPress={handleNavigateToUseTerms} />
       </View>
       <View style={tailwind('mt-5 items-start')}>
         <Button label="Sair" type="danger" onPress={handleLogoutUser}>

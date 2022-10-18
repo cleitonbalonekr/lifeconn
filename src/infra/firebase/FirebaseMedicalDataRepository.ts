@@ -16,7 +16,7 @@ import {
   AddUserMedicalDataRepository,
   UpdateUserMedicalDataRepository,
   DeleteUserMedicalDataRepository
-} from '@/data/protocols/user';
+} from '@/domain/protocols/db/user';
 
 import { FirebaseUserUtils } from './FirebaseUserUtils';
 

@@ -50,9 +50,9 @@ const MedicalInfo: React.FC<Props> = ({
   const description = useInputState({
     name: 'description'
   });
-  const onlyOrganization = useInputState({
-    name: 'onlyOrganization',
-    initialValue: true
+  const allowContacts = useInputState({
+    name: 'allowContacts',
+    initialValue: false
   });
 
   const tailwind = useTailwind();
@@ -63,9 +63,8 @@ const MedicalInfo: React.FC<Props> = ({
       const payload = {
         title: title.value,
         description: description.value,
-        onlyOrganization: onlyOrganization.value || false
+        onlyOrganization: !allowContacts.value
       };
-
       const validate = await validation.validateForm(payload);
       const { valid, errors } = validate;
       if (!valid && errors) {
@@ -91,7 +90,7 @@ const MedicalInfo: React.FC<Props> = ({
         id: medicalDataId.value,
         title: title.value,
         description: description.value,
-        onlyOrganization: onlyOrganization.value || false
+        onlyOrganization: !allowContacts.value
       };
 
       const validate = await validation.validateForm(payload);
@@ -141,7 +140,7 @@ const MedicalInfo: React.FC<Props> = ({
     title.set(item.title);
     description.set(item.description);
     medicalDataId.set(item.id);
-    onlyOrganization.set(item.onlyOrganization);
+    allowContacts.set(!item.onlyOrganization);
   }
   function handleExitEditMode() {
     if (loading) return;
@@ -149,7 +148,7 @@ const MedicalInfo: React.FC<Props> = ({
     title.set('');
     description.set('');
     medicalDataId.set('');
-    onlyOrganization.set(false);
+    allowContacts.set(false);
   }
 
   return (
@@ -180,17 +179,23 @@ const MedicalInfo: React.FC<Props> = ({
         onChangeText={description.set}
         error={description.error}
       />
-      <View style={tailwind('flex-row justify-start items-center my-3')}>
+      <View style={tailwind('flex-row justify-start items-center mt-3 ')}>
         <Switch
-          value={onlyOrganization.value}
-          onValueChange={onlyOrganization.set}
+          value={allowContacts.value}
+          onValueChange={allowContacts.set}
           style={tailwind(' mr-2')}
         />
         <Text style={tailwind('text-sm font-ubuntu')}>
-          Visível somente para o corpo de bombeiros
+          Visíveis para pessoas próximas
         </Text>
       </View>
-      <View style={tailwind('mb-3')}>
+      <Text
+        style={tailwind('text-sm font-ubuntu text-yellow-700 text-justify')}
+      >
+        * Permiti que as pessoas que cadastrei vejam esses dados em uma situação
+        de socorro.
+      </Text>
+      <View style={tailwind('my-3')}>
         {isOnEditMode ? (
           <View style={tailwind('flex-row justify-between')}>
             <View style={tailwind('flex-1 mr-2')}>

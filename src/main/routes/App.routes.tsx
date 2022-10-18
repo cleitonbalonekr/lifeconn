@@ -3,14 +3,15 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import React from 'react';
 import { useTailwind } from 'tailwind-rn/dist';
 
+import { Call } from '@/domain/models/Call';
+import { MakeChat } from '@/main/factories/pages/chat';
 import {
   MakeContacts,
   MakeCreateContacts,
-  MakeSharedContact,
   MakeDetailsContact
 } from '@/main/factories/pages/contacts';
 import { MakeDonate } from '@/main/factories/pages/donate';
-import { MakeEvent } from '@/main/factories/pages/event';
+import { MakeEvent, MakeCreateEvent } from '@/main/factories/pages/event';
 import { MakeGuides } from '@/main/factories/pages/guides';
 import {
   MakeHome,
@@ -21,25 +22,44 @@ import {
   MakeNotifications,
   MakeDetailsNotification
 } from '@/main/factories/pages/notification';
-import { MakeSettings, MakeMedicalInfo } from '@/main/factories/pages/settings';
+import {
+  MakeSettings,
+  MakeMedicalInfo,
+  MakeMonitorImpact,
+  MakeAdvanced
+} from '@/main/factories/pages/settings';
 
 export type AppStackParamList = {
   Home: undefined;
   HelpSomeoneElse: undefined;
   Term: undefined;
   Settings: undefined;
+  Advanced: undefined;
   MedicalInfo: undefined;
+  MonitorImpact: undefined;
   Notifications: undefined;
-  DetailsNotification: undefined;
+  DetailsNotification: { notification: Call };
   Contacts: undefined;
   CreateContacts: undefined;
   SharedContact: undefined;
-  DetailsContact: undefined;
+  DetailsContact: { phoneNumber: string; nickname: string };
   Donate: undefined;
   Guides: undefined;
   DetailsFirstAid: undefined;
   DetailsBasicMechanics: undefined;
-  Event: undefined;
+  Event: {
+    fromHelpSomeoneElse: boolean;
+    victim?: {
+      fullName: string;
+      phoneNumber: string;
+    };
+  };
+  CreateEvent: {
+    token: string;
+  };
+  Chat: {
+    callId: string;
+  };
 };
 
 declare global {
@@ -91,10 +111,25 @@ export function AppRoutes() {
       <Stack.Screen
         options={{
           headerShown: true,
+          title: 'Avançado'
+        }}
+        name="Advanced"
+        component={MakeAdvanced}
+      />
+      <Stack.Screen
+        options={{
+          headerShown: true,
           title: 'Informações médicas'
         }}
         name="MedicalInfo"
         component={MakeMedicalInfo}
+      />
+      <Stack.Screen
+        options={{
+          headerShown: false
+        }}
+        name="MonitorImpact"
+        component={MakeMonitorImpact}
       />
       <Stack.Screen
         options={{
@@ -115,7 +150,7 @@ export function AppRoutes() {
       <Stack.Screen
         options={{
           headerShown: true,
-          title: 'Contatos'
+          title: 'Pessoas Próximas'
         }}
         name="Contacts"
         component={MakeContacts}
@@ -123,19 +158,12 @@ export function AppRoutes() {
       <Stack.Screen
         options={{
           headerShown: true,
-          title: 'Adicionar contato'
+          title: 'Adicionar pessoa Próxima'
         }}
         name="CreateContacts"
         component={MakeCreateContacts}
       />
-      <Stack.Screen
-        options={{
-          headerShown: true,
-          title: 'Compartilhar contato'
-        }}
-        name="SharedContact"
-        component={MakeSharedContact}
-      />
+
       <Stack.Screen
         options={{
           headerShown: true,
@@ -163,10 +191,25 @@ export function AppRoutes() {
       <Stack.Screen
         options={{
           headerShown: true,
-          title: 'Solicitar ajuda'
+          title: 'Solicitar socorro'
         }}
         name="Event"
         component={MakeEvent}
+      />
+      <Stack.Screen
+        options={{
+          headerShown: false
+        }}
+        name="CreateEvent"
+        component={MakeCreateEvent}
+      />
+      <Stack.Screen
+        options={{
+          headerShown: true,
+          title: 'Mensagens'
+        }}
+        name="Chat"
+        component={MakeChat}
       />
     </Stack.Navigator>
   );

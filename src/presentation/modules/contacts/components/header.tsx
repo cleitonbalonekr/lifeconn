@@ -5,8 +5,10 @@ import { Share, View } from 'react-native';
 import { useTailwind } from 'tailwind-rn';
 
 import Button from '@/presentation/shared/components/form/button';
+import { useAuth } from '@/presentation/shared/context/auth';
 
 const Header: React.FC = () => {
+  const { authUser } = useAuth();
   const tailwind = useTailwind();
   const navigation = useNavigation();
 
@@ -14,7 +16,7 @@ const Header: React.FC = () => {
     navigation.navigate('CreateContacts');
   }
   async function handleNavigationToSharedContact() {
-    const token = 'Olá me adicione no app Lifeconn. Meu número é 22 11111111';
+    const token = `Olá me adicione no app Lifeconn.\nMeu número é ${authUser.phoneNumber}`;
 
     await Share.share({
       message: token

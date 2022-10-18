@@ -4,72 +4,36 @@ import React from 'react';
 import { FlatList } from 'react-native';
 import { useTailwind } from 'tailwind-rn/dist';
 
+import { Contact } from '@/domain/models';
 import Header from '@/presentation/modules/contacts/components/header';
 import BaseListItem from '@/presentation/shared/components/BaseListItem';
 import Container from '@/presentation/shared/components/Container';
+import { useAuth } from '@/presentation/shared/context/auth';
 
 import EmptyContacts from '../components/EmptyContacts';
 
-const fakeContactData = [
-  {
-    id: '1',
-    contactName: 'Fulano'
-  },
-  {
-    id: '2',
-    contactName: 'Fulano'
-  },
-  {
-    id: '3',
-    contactName: 'Fulano'
-  },
-  {
-    id: '4',
-    contactName: 'Fulano'
-  },
-  {
-    id: '5',
-    contactName: 'Fulano'
-  },
-  {
-    id: '6',
-    contactName: 'Fulano'
-  },
-  {
-    id: '7',
-    contactName: 'Fulano'
-  },
-  {
-    id: '8',
-    contactName: 'Fulano'
-  },
-  {
-    id: '9',
-    contactName: 'Fulano'
-  }
-];
-
 const Contacts: React.FC = () => {
+  const { authUser } = useAuth();
   const tailwind = useTailwind();
   const navigation = useNavigation();
 
-  function handleNavigationToDetailContact() {
-    navigation.navigate('DetailsContact');
+  function handleNavigationToDetailContact({ phoneNumber, nickname }: Contact) {
+    navigation.navigate('DetailsContact', { phoneNumber, nickname });
   }
   return (
     <Container>
       <Header />
       <FlatList
         style={tailwind('mt-4 flex-1')}
-        contentContainerStyle={tailwind('justify-center flex-grow')}
+        contentContainerStyle={tailwind('flex-grow')}
         showsVerticalScrollIndicator={false}
-        data={fakeContactData}
+        data={authUser.contacts}
         keyExtractor={(item) => String(item.id)}
         ListEmptyComponent={<EmptyContacts />}
         renderItem={({ item }) => (
           <BaseListItem
-            itemName={item.contactName}
-            onPress={handleNavigationToDetailContact}
+            itemName={item.nickname}
+            onPress={() => handleNavigationToDetailContact(item)}
           >
             <Ionicons
               name="person-outline"
