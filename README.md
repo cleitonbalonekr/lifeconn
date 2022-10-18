@@ -39,6 +39,7 @@ A arquitetura da solução proposta utilizou conceitos da Arquitetura Limpa (Cle
  - Acionamento de socorro
  - Notificação de familiares
  - Guia de primeiros socorros e mecânica básica
+ - Chat real-time e envio de fotos para prestadores de socorros
 
 Para mais informações, leia a [monografia](.github/lifeconn-monografia.pdf).
 
