@@ -1,0 +1,62 @@
+{
+    "env": {
+        "browser": true,
+        "es2021": true
+    },
+    "extends": [
+        "plugin:react/recommended", 
+        "airbnb",
+       
+        "plugin:prettier/recommended"
+    ],
+    "parser": "@typescript-eslint/parser",
+    "parserOptions": {
+        "ecmaFeatures": {
+            "jsx": true
+        },
+        "ecmaVersion": 12,
+        "sourceType": "module"
+    },
+    "plugins": [
+        "react",
+        "eslint-plugin-import-helpers",
+        "@typescript-eslint",
+        "react-hooks",
+        "prettier"
+    ],
+    "rules": {
+        "prettier/prettier": "error",
+        "no-undef":"off",
+        "no-empty-function":"off",
+        "no-redeclare":"off",
+        "no-unused-vars":"off",
+        "react/jsx-no-bind":"off",
+        "react/require-default-props":"off",
+        "react/jsx-props-no-spreading":"off",
+        "react/react-in-jsx-scope":"off",
+        "react/style-prop-object":"off",
+        "no-underscore-dangle": "off",
+        "class-methods-use-this": "off",
+        "import/no-unresolved": "off",
+        "import/prefer-default-export": "off",
+        "react/jsx-one-expression-per-line": "off",
+        "no-use-before-define": "off",
+        "react/jsx-filename-extension": "off",
+        "no-useless-constructor": "off",
+        "@typescript-eslint/explicit-module-boundary-types": "off",
+        "import/extensions":"off",
+        "react/prop-types":"off",
+        "import-helpers/order-imports": [
+            "warn",
+            {
+              "newlinesBetween": "always",
+              "groups": ["module", "/^@\//", ["parent", "sibling", "index"]],
+              "alphabetize": {
+                "order": "asc",
+                "ignoreCase": true
+              }
+            }
+          ]
+
+    }
+}
