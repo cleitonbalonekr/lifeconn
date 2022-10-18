@@ -44,11 +44,12 @@ A arquitetura da solução proposta utilizou conceitos da Arquitetura Limpa (Cle
 Para mais informações, leia a [monografia](.github/lifeconn-monografia.pdf).
 
 ## :mag: Tecnologias
+-  [Typescript](https://www.typescriptlang.org/)
 -  [Expo](https://expo.io/)
 -  [React-Native](https://facebook.github.io/react-native/)
--  [Firebase](https://facebook.github.io/react-native/)
--  [Docker](https://facebook.github.io/react-native/)
--  [Tailwind](https://facebook.github.io/react-native/)
+-  [Firebase](https://firebase.google.com/?hl=pt)
+-  [Docker](https://www.docker.com/)
+-  [Tailwind](https://tailwindcss.com/)
 
 ## :information_source: Como Usar
 
